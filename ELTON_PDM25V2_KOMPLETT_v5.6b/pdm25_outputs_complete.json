@@ -1,0 +1,2281 @@
+{
+  "_description": "PDM25 V2 — Komplett konfiguration: outputs, inputs, metadata",
+  "_source": "ELTON_PDM25V2_KABELMARKNING_v5.8.md",
+  "_date": "2026-03-06",
+  "_version": "7.2",
+  "_verified_against": "PDM15/25/35 Instruction Manual v1.0 + HP Academy/forum best practices",
+  "vehicle": {
+    "make": "VW",
+    "model": "LT31",
+    "year": 1976,
+    "registration": "JSN 398",
+    "engine_code": "CH",
+    "cylinders": 4,
+    "displacement_cc": 2000,
+    "ignition_type": "points",
+    "history": "Original säkringscentral skadad (smälta hållare, trasiga lödningar). Provisoriska reparationer av tidigare ägare. Hela elsystemet ombyggt 2026."
+  },
+  "pdm": {
+    "manufacturer": "Hardwire Electronics",
+    "model": "PDM25 V2",
+    "size_mm": "200x160x54",
+    "weight_g": 690,
+    "operating_temp_C": "-55 to +90",
+    "operating_voltage_V": "4-32",
+    "quiescent_current_mA": "4-5",
+    "controller_current_mA": 210,
+    "connectors": {
+      "count": 4,
+      "type": "Deutsch DT 12-pin",
+      "labels": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ]
+    },
+    "total_outputs": 25,
+    "hs_ls_outputs": "O1-O4",
+    "hs_only_outputs": "O5-O25",
+    "max_per_channel_A": 20,
+    "peak_per_channel_A": 80,
+    "pin_limited_A_at_125C": 13,
+    "combined_max_A": 120,
+    "total_inputs": 16,
+    "input_voltage_range_V": "0-28",
+    "input_adc_bits": 12,
+    "input_resolution_V": 0.007,
+    "input_internal_pulldown_kohm": 40,
+    "input_internal_pullup_kohm": 200,
+    "fiveV_output_pin": "C10",
+    "fiveV_max_mA": 100,
+    "pwm_max_hz": 1000,
+    "can_standard": "CAN 2.0A/B",
+    "can_speed_range_kbps": "50-1000",
+    "can_termination": "software controlled 120 ohm",
+    "flash_logging_MB": 128,
+    "logging_rate_hz": "1-50"
+  },
+  "power_architecture": {
+    "main_power": {
+      "label": "PDM.PWR.BAT+",
+      "from": "Startmotor kl.30",
+      "to": "PDM M8-stud",
+      "mm2": 32,
+      "colour": "ro",
+      "colour_description": "röd",
+      "torque_Nm_max": 8,
+      "tape_colour": "yellow"
+    },
+    "controller_power": {
+      "label": "PDM.PWR.CTRL",
+      "from": "Startmotor kl.30",
+      "to": "PDM pin C3",
+      "mm2": 4,
+      "colour": "ro",
+      "colour_description": "röd",
+      "tape_colour": "yellow",
+      "note": "C3 MÅSTE vara kopplad till batteri (ej tändningslås) — PDM behöver always-on ström"
+    },
+    "chassis_ground": {
+      "label": "PDM.GND.CHASSIS",
+      "pin": "C7",
+      "mm2": 10,
+      "colour": "br",
+      "colour_description": "brun",
+      "earth_point": 12,
+      "tape_colour": "black"
+    },
+    "ignition_detect": {
+      "label": "PDM.IN.IGNITION",
+      "from": "Tändningslås terminal 15",
+      "to": "I16 (C1)",
+      "mm2": 2.5,
+      "colour": "sw/ge",
+      "colour_description": "svart/gul"
+    },
+    "start_detect": {
+      "label": "PDM.IN.START",
+      "from": "Tändningslås terminal 50",
+      "to": "I15 (C2)",
+      "mm2": 2.5,
+      "colour": "sw/ws",
+      "colour_description": "svart/vit"
+    },
+    "quiescent_draw_A": 2.5,
+    "quiescent_note": "4-5mA PDM + RPi (~2A) + radio minne (~50mA)",
+    "global_cutoff_V": 10
+  },
+  "engine_direct_cables": [
+    {
+      "label": "PDM.ENG.BAT→START",
+      "mm2": 35,
+      "colour": "ro",
+      "colour_description": "röd",
+      "from": "Batteri + via frånskiljare",
+      "to": "Startmotor terminal 30",
+      "tape_colour": "yellow"
+    },
+    {
+      "label": "PDM.ENG.GEN.B+",
+      "mm2": 6,
+      "colour": "ro",
+      "colour_description": "röd",
+      "from": "Generator B+",
+      "to": "Batteri +",
+      "tape_colour": "yellow"
+    },
+    {
+      "label": "PDM.ENG.COIL.N6",
+      "mm2": 1,
+      "colour": "ws/li",
+      "colour_description": "vit/lila",
+      "from": "N6 seriemotstånd",
+      "to": "Tändspole kl.15",
+      "tape_colour": "green",
+      "note": "Motorsignalkabel — märks med grön tejp (INST), ej gul"
+    },
+    {
+      "label": "PDM.ENG.COIL.T1",
+      "mm2": null,
+      "colour": null,
+      "from": "Tändspole kl.1",
+      "to": "Fördelare",
+      "tape_colour": "green",
+      "note": "Motorsignalkabel — märks med grön tejp (INST), ej gul"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "O1",
+      "pdm_name": "BUSBAR",
+      "pin": "C6",
+      "connector": "C",
+      "type": "HS/LS",
+      "configured_as": "HS",
+      "trip_mode": "Normal",
+      "low_fuse_A": 0,
+      "high_fuse_A": 3,
+      "peak_fuse_A": null,
+      "peak_time_s": null,
+      "stay_on_s": 0,
+      "turn_on_delay_s": 0,
+      "clear_s": 2,
+      "retries": 3,
+      "soft_start": false,
+      "soft_start_s": null,
+      "pwm": false,
+      "function": "Always True",
+      "function_description": "Alltid på. Matar signalbusbar för switch-inputs och torkarmotor parkkrets.",
+      "requires_ignition": false,
+      "cable": {
+        "label": "PDM.OUT.BUSBAR",
+        "tape_colour": "yellow",
+        "mm2": 0.75,
+        "vw_colour_code": null,
+        "vw_colour_description": null
+      },
+      "loads": [
+        {
+          "id": "BUSBAR",
+          "description": "Signalbusbar (terminalblock)",
+          "terminal": null
+        }
+      ],
+      "notes": "Matar switch-inputs (~10mA) + torkarmotor parkkrets (~1–2A vid parkering). Justerad från 1.0A till 3.0A för parkström."
+    },
+    {
+      "id": "O2",
+      "pdm_name": "WIPER FST",
+      "pin": "C5",
+      "connector": "C",
+      "type": "HS/LS",
+      "configured_as": "HS",
+      "trip_mode": "Normal",
+      "low_fuse_A": 0,
+      "high_fuse_A": 7,
+      "peak_fuse_A": 12,
+      "peak_time_s": 1,
+      "stay_on_s": 0,
+      "turn_on_delay_s": 0,
+      "clear_s": 2,
+      "retries": 2,
+      "soft_start": true,
+      "soft_start_s": 1,
+      "pwm": false,
+      "function": "I9 Status AND Timer2 Equals False",
+      "function_description": "Torkarmotor snabb hastighet. Aktiv när E22 är i FAST-position.",
+      "requires_ignition": false,
+      "cable": {
+        "label": "PDM.OUT.WIPER.FST",
+        "tape_colour": "yellow",
+        "mm2": 2.5,
+        "vw_colour_code": "sw/gr",
+        "vw_colour_description": "grå"
+      },
+      "loads": [
+        {
+          "id": "V",
+          "description": "Torkarmotor",
+          "terminal": "53b"
+        }
+      ],
+      "notes": "E22 i FAST-position kopplar busbar 12V till I9 (A11). Soft Start 1s skyddar motorn vid kallstart."
+    },
+    {
+      "id": "O3",
+      "pdm_name": "IGN COIL",
+      "pin": "C4",
+      "connector": "C",
+      "type": "HS/LS",
+      "configured_as": "HS",
+      "trip_mode": "Normal",
+      "low_fuse_A": 0,
+      "high_fuse_A": 5,
+      "peak_fuse_A": null,
+      "peak_time_s": null,
+      "stay_on_s": 0,
+      "turn_on_delay_s": 0,
+      "clear_s": 2,
+      "retries": 3,
+      "soft_start": false,
+      "soft_start_s": null,
+      "pwm": false,
+      "function": "GF1 AND Timer2 Equals False",
+      "function_description": "Tändspole ström via ballastmotstånd. PÅ när tändning är PÅ.",
+      "requires_ignition": true,
+      "cable": {
+        "label": "PDM.OUT.IGNITION",
+        "tape_colour": "yellow",
+        "mm2": 1.5,
+        "vw_colour_code": "sw/li",
+        "vw_colour_description": "svart/lila"
+      },
+      "loads": [
+        {
+          "id": "N6",
+          "description": "Seriemotstånd (ballast) ingång",
+          "terminal": "input"
+        }
+      ],
+      "notes": "O3 → N6 seriemotstånd → tändspole kl.15. Intern kabel i motorrum: N6 → spole (ws/li 1.0mm²). High Fuse 5A skyddar kretsen."
+    },
+    {
+      "id": "O4",
+      "pdm_name": "BRAKE",
+      "pin": "D7",
+      "connector": "D",
+      "type": "HS/LS",
+      "configured_as": "HS",
+      "trip_mode": "Instant",
+      "low_fuse_A": 0.05,
+      "high_fuse_A": 3,
+      "peak_fuse_A": 5,
+      "peak_time_s": 0.1,
+      "stay_on_s": 0,
+      "turn_on_delay_s": 0,
+      "clear_s": 1,
+      "retries": 3,
+      "soft_start": false,
+      "soft_start_s": null,
+      "pwm": false,
+      "function": "I4 Status AND Timer2 Equals False",
+      "function_description": "Bromsljus. Instant trip — säkerhetskritiskt. Fungerar utan tändning.",
+      "requires_ignition": false,
+      "cable": {
+        "label": "PDM.OUT.BRAKE",
+        "tape_colour": "yellow",
+        "mm2": 2,
+        "vw_colour_code": "sw/ro",
+        "vw_colour_description": "svart/röd"
+      },
+      "loads": [
+        {
+          "id": "M9",
+          "description": "Bromsljus vänster",
+          "terminal": null
+        },
+        {
+          "id": "M10",
+          "description": "Bromsljus höger",
+          "terminal": null
+        }
+      ],
+      "notes": "Instant trip — säkerhetskritiskt. MÅSTE konfigureras som HS i Configurator (ej LS). I4 matas direkt från batteri via bromsljusbrytare (fungerar utan tändning)."
+    },
+    {
+      "id": "O5",
+      "pdm_name": "FUEL",
+      "pin": "D8",
+      "connector": "D",
+      "type": "HS",
+      "configured_as": "HS",
+      "trip_mode": "Normal",
+      "low_fuse_A": 0,
+      "high_fuse_A": 8,
+      "peak_fuse_A": 12,
+      "peak_time_s": 3,
+      "stay_on_s": 2,
+      "turn_on_delay_s": 0,
+      "clear_s": 3,
+      "retries": 2,
+      "soft_start": true,
+      "soft_start_s": 1,
+      "pwm": false,
+      "function": "GF1 AND Timer2 Equals False",
+      "function_description": "Bränslepump. PÅ när tändning PÅ. Stay On 2s för enkel omstart.",
+      "requires_ignition": true,
+      "cable": {
+        "label": "PDM.OUT.FUEL",
+        "tape_colour": "yellow",
+        "mm2": 1.5,
+        "vw_colour_code": "sw",
+        "vw_colour_description": "svart"
+      },
+      "loads": [
+        {
+          "id": "G6",
+          "description": "Bränslepump",
+          "terminal": null
+        }
+      ],
+      "notes": "Stay On 2s — pumpen kör 2s efter tändning av för enkel omstart. RPi övervakar oljetryck (F1 → GPIO). Om motor stannar med tändning kvar skickar RPi CAN-kommando som stänger O5 → förhindrar bränslesvämning och brandrisk (B2 stall-skydd)."
+    },
+    {
+      "id": "O6",
+      "pdm_name": "PARK",
+      "pin": "D9",
+      "connector": "D",
+      "type": "HS",
+      "configured_as": "HS",
+      "trip_mode": "Normal",
+      "low_fuse_A": 0.05,
+      "high_fuse_A": 2,
+      "peak_fuse_A": 5,
+      "peak_time_s": 0.1,
+      "stay_on_s": 0,
+      "turn_on_delay_s": 0,
+      "clear_s": 2,
+      "retries": 2,
+      "soft_start": false,
+      "soft_start_s": null,
+      "pwm": false,
+      "function": "I7 Status AND Timer2 Equals False",
+      "function_description": "Parkljus (positionsljus). Fungerar UTAN tändning. D9 matar terminal-splitter → M1 M3 (fram) + M2 M4 (bak) + X nummerplåt.",
+      "requires_ignition": false,
+      "cable": {
+        "pin": "D9",
+        "label": "PDM.OUT.PARK",
+        "tape_colour": "yellow",
+        "mm2": 1.5,
+        "vw_colour_code": "gr",
+        "vw_colour_description": "grå",
+        "destination": "Terminal-splitter → M1 M3 M2 M4 X"
+      },
+      "loads": [
+        {
+          "id": "M1",
+          "description": "Sidopositionsljus vänster fram"
+        },
+        {
+          "id": "M3",
+          "description": "Sidopositionsljus höger fram"
+        },
+        {
+          "id": "M2",
+          "description": "Bakljus höger"
+        },
+        {
+          "id": "M4",
+          "description": "Bakljus vänster"
+        },
+        {
+          "id": "X",
+          "description": "Nummerplåtsbelysning"
+        }
+      ],
+      "notes": "Single-pin D9. En kabel till terminal-splitter/fördelningspunkt i bagageutrymmet → M1+M3 (fram via fönsterlist) + M2+M4 (bak) + X (nummerplåt). Enklare än dual-pin — alla positionsljus är symmetriska och kan gå på samma säkring. ~2.1A total. Fungerar utan tändning (I7 via signalbusbar O1)."
+    },
+    {
+      "id": "O7",
+      "pdm_name": "HIBEAM R",
+      "pin": "D6",
+      "connector": "D",
+      "type": "HS",
+      "configured_as": "HS",
+      "trip_mode": "Normal",
+      "low_fuse_A": 0,
+      "high_fuse_A": 5,
+      "peak_fuse_A": 10,
+      "peak_time_s": 0.1,
+      "stay_on_s": 0,
+      "turn_on_delay_s": 0,
+      "clear_s": 2,
+      "retries": 3,
+      "soft_start": false,
+      "soft_start_s": null,
+      "pwm": false,
+      "function": "O15 AND I2 AND Timer2 Equals False",
+      "function_description": "Helljus höger. Kräver att halvljus höger (O15) är aktivt OCH helljusspak (I2) är latchad.",
+      "requires_ignition": true,
+      "cable": {
+        "label": "PDM.OUT.HIGHBEAM-R",
+        "tape_colour": "yellow",
+        "mm2": 2.5,
+        "vw_colour_code": "ws",
+        "vw_colour_description": "vit"
+      },
+      "loads": [
+        {
+          "id": "L2",
+          "description": "Strålkastare höger — helljus",
+          "terminal": "56a"
+        }
+      ],
+      "notes": "Individuellt skyddad med 6A elektronisk säkring. I2 latchar vid spakdrag → helljus på/av. Halvljus måste vara aktivt (O15) för att helljus ska tändas. Terminal 56a = helljusfilament i H4-lampa (korrigerat från 56b)."
+    },
+    {
+      "id": "O8",
+      "pdm_name": "RESERVE 8",
+      "pin": "D5",
+      "connector": "D",
+      "type": "HS",
+      "configured_as": "HS",
+      "trip_mode": "Normal",
+      "low_fuse_A": 0,
+      "high_fuse_A": 10,
+      "peak_fuse_A": null,
+      "peak_time_s": null,
+      "stay_on_s": null,
+      "turn_on_delay_s": null,
+      "clear_s": 2,
+      "retries": 1,
+      "soft_start": false,
+      "soft_start_s": null,
+      "pwm": false,
+      "function": null,
+      "function_description": "Ledig utgång.",
+      "requires_ignition": false,
+      "cable": null,
+      "loads": [],
+      "notes": "Ledig. Kan användas för framtida tillägg (t.ex. dimljus, arbetsbelysning)."
+    },
+    {
+      "id": "O9",
+      "pdm_name": "RESERVE 9",
+      "pin": "D4",
+      "connector": "D",
+      "type": "HS",
+      "configured_as": "HS",
+      "trip_mode": "Normal",
+      "low_fuse_A": 0,
+      "high_fuse_A": 10,
+      "peak_fuse_A": null,
+      "peak_time_s": null,
+      "stay_on_s": null,
+      "turn_on_delay_s": null,
+      "clear_s": 2,
+      "retries": 1,
+      "soft_start": false,
+      "soft_start_s": null,
+      "pwm": false,
+      "function": null,
+      "function_description": "Ledig utgång.",
+      "requires_ignition": false,
+      "cable": null,
+      "loads": [],
+      "notes": "Ledig. Kan användas för framtida tillägg."
+    },
+    {
+      "id": "O10",
+      "pdm_name": "WIPER SLO",
+      "pin": "B7",
+      "connector": "B",
+      "type": "HS",
+      "configured_as": "HS",
+      "trip_mode": "Normal",
+      "low_fuse_A": 0,
+      "high_fuse_A": 7,
+      "peak_fuse_A": 12,
+      "peak_time_s": 1,
+      "stay_on_s": 0,
+      "turn_on_delay_s": 0,
+      "clear_s": 2,
+      "retries": 2,
+      "soft_start": true,
+      "soft_start_s": 1,
+      "pwm": false,
+      "function": "I10 Status AND Timer2 Equals False",
+      "function_description": "Torkarmotor långsam hastighet. Aktiv när E22 i SLOW-position.",
+      "requires_ignition": false,
+      "cable": {
+        "label": "PDM.OUT.WIPER.SLO",
+        "tape_colour": "yellow",
+        "mm2": 2.5,
+        "vw_colour_code": "gn",
+        "vw_colour_description": "grön"
+      },
+      "loads": [
+        {
+          "id": "V",
+          "description": "Torkarmotor",
+          "terminal": "53"
+        }
+      ],
+      "notes": "E22 i SLOW-position kopplar busbar 12V till I10 (A2). Soft Start 1s. Parkkrets hanteras separat via busbar + extern jumper 31b→53."
+    },
+    {
+      "id": "O11",
+      "pdm_name": "BLOWER",
+      "pin": "B8",
+      "connector": "B",
+      "type": "HS",
+      "configured_as": "HS",
+      "trip_mode": "Normal",
+      "low_fuse_A": 0,
+      "high_fuse_A": 9,
+      "peak_fuse_A": 16,
+      "peak_time_s": 4,
+      "stay_on_s": 30,
+      "turn_on_delay_s": 0,
+      "clear_s": 3,
+      "retries": 2,
+      "soft_start": true,
+      "soft_start_s": 1,
+      "pwm": true,
+      "pwm_mapping": {
+        "source": "I1 Voltage",
+        "table": [
+          {
+            "voltage_V": 0,
+            "duty_pct": 0
+          },
+          {
+            "voltage_V": 1,
+            "duty_pct": 0
+          },
+          {
+            "voltage_V": 2,
+            "duty_pct": 0
+          },
+          {
+            "voltage_V": 3,
+            "duty_pct": 0
+          },
+          {
+            "voltage_V": 4,
+            "duty_pct": 0
+          },
+          {
+            "voltage_V": 5,
+            "duty_pct": 0
+          },
+          {
+            "voltage_V": 6,
+            "duty_pct": 40
+          },
+          {
+            "voltage_V": 8,
+            "duty_pct": 40
+          },
+          {
+            "voltage_V": 10,
+            "duty_pct": 70
+          },
+          {
+            "voltage_V": 11,
+            "duty_pct": 70
+          },
+          {
+            "voltage_V": 12,
+            "duty_pct": 100
+          }
+        ]
+      },
+      "function": "GF1 AND I1>1V AND Timer2 Equals False",
+      "function_description": "Kupéfläkt. PWM-styrd via analog I1 från E9 fläktvred. 3 hastigheter. Stay On 30s blåser ut restvärme.",
+      "requires_ignition": true,
+      "cable": {
+        "label": "PDM.OUT.BLOWER",
+        "tape_colour": "yellow",
+        "mm2": 2.5,
+        "vw_colour_code": "sw/ge",
+        "vw_colour_description": "svart/gul"
+      },
+      "loads": [
+        {
+          "id": "V2",
+          "description": "Kupéfläkt",
+          "terminal": null
+        }
+      ],
+      "notes": "Ersätter original N23 seriemotstånd med PDM PWM. 0–5V=AV, ~6V=steg 1 (40%), ~10V=steg 2 (70%), ~12V=steg 3 (100%). Stay On 30s kör vidare efter tändning av."
+    },
+    {
+      "id": "O12",
+      "pdm_name": "WASHER",
+      "pin": "B9",
+      "connector": "B",
+      "type": "HS",
+      "configured_as": "HS",
+      "trip_mode": "Normal",
+      "low_fuse_A": 0,
+      "high_fuse_A": 5,
+      "peak_fuse_A": 8,
+      "peak_time_s": 2,
+      "stay_on_s": 0,
+      "turn_on_delay_s": 0,
+      "clear_s": 2,
+      "retries": 2,
+      "soft_start": false,
+      "soft_start_s": null,
+      "pwm": false,
+      "function": "I8 Status AND Timer2 Equals False",
+      "function_description": "Spolarpump. Aktiv när spolarspak dras (I8).",
+      "requires_ignition": false,
+      "cable": {
+        "label": "PDM.OUT.WASHER",
+        "tape_colour": "yellow",
+        "mm2": 1.5,
+        "vw_colour_code": "gn/ro",
+        "vw_colour_description": "grön/röd"
+      },
+      "loads": [
+        {
+          "id": "V5",
+          "description": "Spolarpump",
+          "terminal": null
+        }
+      ],
+      "notes": "I8 matas via signalbusbar (O1, always-on) → spolning fungerar utan tändning. Peak 8A/2s hanterar spolarpumpens startström. Stay On 0s — pumpen stannar omedelbart när spaken släpps."
+    },
+    {
+      "id": "O13",
+      "pdm_name": "HORN",
+      "pin": "B6",
+      "connector": "B",
+      "type": "HS",
+      "configured_as": "HS",
+      "trip_mode": "Normal",
+      "low_fuse_A": 0,
+      "high_fuse_A": 6,
+      "peak_fuse_A": 8,
+      "peak_time_s": 0.5,
+      "stay_on_s": 0,
+      "turn_on_delay_s": 0,
+      "clear_s": 1,
+      "retries": 3,
+      "soft_start": false,
+      "soft_start_s": null,
+      "pwm": false,
+      "function": "I12 Status AND Timer2 Equals False",
+      "function_description": "Signalhorn. I12 är Active Low — hornknapp drar till GND via slip ring.",
+      "requires_ignition": false,
+      "cable": {
+        "label": "PDM.OUT.HORN",
+        "tape_colour": "yellow",
+        "mm2": 2,
+        "vw_colour_code": "sw/ge",
+        "vw_colour_description": "svart/gul"
+      },
+      "loads": [
+        {
+          "id": "H1",
+          "description": "Signalhorn",
+          "terminal": null
+        }
+      ],
+      "notes": "I12 Active Low med extern 10kΩ pull-up till busbar (monterad nära PDM A1). Kabelbrott = tyst (fail-safe). Peak Fuse 8A/0.5s hanterar initialström."
+    },
+    {
+      "id": "O14",
+      "pdm_name": "LOWBEAM L",
+      "pin": "B5",
+      "connector": "B",
+      "type": "HS",
+      "configured_as": "HS",
+      "trip_mode": "Normal",
+      "low_fuse_A": 0.5,
+      "high_fuse_A": 5,
+      "peak_fuse_A": 10,
+      "peak_time_s": 0.1,
+      "stay_on_s": 0,
+      "turn_on_delay_s": 3,
+      "clear_s": 2,
+      "retries": 3,
+      "soft_start": false,
+      "soft_start_s": null,
+      "pwm": false,
+      "function": "GF1 AND Timer2 Equals False",
+      "function_description": "Halvljus vänster. 3s fördröjning efter tändning (ersätter J59 X-kontaktrelä).",
+      "requires_ignition": true,
+      "cable": {
+        "label": "PDM.OUT.LOWBEAM-L",
+        "tape_colour": "yellow",
+        "mm2": 2.5,
+        "vw_colour_code": "ge/sw",
+        "vw_colour_description": "gul/svart"
+      },
+      "loads": [
+        {
+          "id": "L1",
+          "description": "Strålkastare vänster — halvljus",
+          "terminal": "56b"
+        }
+      ],
+      "notes": "Individuellt skyddad med 6A elektronisk säkring. Turn On Delay 3s ersätter original J59 X-kontaktrelä — skyddar generator vid start. Terminal 56b = halvljusfilament i H4-lampa (korrigerat från 56a). Fungerar som DRL i Sverige."
+    },
+    {
+      "id": "O15",
+      "pdm_name": "LOWBEAM R",
+      "pin": "B4",
+      "connector": "B",
+      "type": "HS",
+      "configured_as": "HS",
+      "trip_mode": "Normal",
+      "low_fuse_A": 0.5,
+      "high_fuse_A": 5,
+      "peak_fuse_A": 10,
+      "peak_time_s": 0.1,
+      "stay_on_s": 0,
+      "turn_on_delay_s": 3,
+      "clear_s": 2,
+      "retries": 3,
+      "soft_start": false,
+      "soft_start_s": null,
+      "pwm": false,
+      "function": "GF1 AND Timer2 Equals False",
+      "function_description": "Halvljus höger. 3s fördröjning efter tändning (ersätter J59 X-kontaktrelä).",
+      "requires_ignition": true,
+      "cable": {
+        "label": "PDM.OUT.LOWBEAM-R",
+        "tape_colour": "yellow",
+        "mm2": 2.5,
+        "vw_colour_code": "ge",
+        "vw_colour_description": "gul"
+      },
+      "loads": [
+        {
+          "id": "L2",
+          "description": "Strålkastare höger — halvljus",
+          "terminal": "56b"
+        }
+      ],
+      "notes": "Individuellt skyddad med 6A elektronisk säkring. Turn On Delay 3s ersätter original J59 X-kontaktrelä. Terminal 56b = halvljusfilament i H4-lampa (korrigerat från 56a)."
+    },
+    {
+      "id": "O16",
+      "pdm_name": "HIBEAM L",
+      "pin": "D12",
+      "connector": "D",
+      "type": "HS",
+      "configured_as": "HS",
+      "trip_mode": "Normal",
+      "low_fuse_A": 0,
+      "high_fuse_A": 5,
+      "peak_fuse_A": 10,
+      "peak_time_s": 0.1,
+      "stay_on_s": 0,
+      "turn_on_delay_s": 0,
+      "clear_s": 2,
+      "retries": 3,
+      "soft_start": false,
+      "soft_start_s": null,
+      "pwm": false,
+      "function": "O14 AND I2 AND Timer2 Equals False",
+      "function_description": "Helljus vänster. Kräver att halvljus vänster (O14) är aktivt OCH helljusspak (I2) är latchad.",
+      "requires_ignition": true,
+      "cable": {
+        "label": "PDM.OUT.HIGHBEAM-L",
+        "tape_colour": "yellow",
+        "mm2": 2.5,
+        "vw_colour_code": "ws/sw",
+        "vw_colour_description": "vit/svart"
+      },
+      "loads": [
+        {
+          "id": "L1",
+          "description": "Strålkastare vänster — helljus",
+          "terminal": "56a"
+        }
+      ],
+      "notes": "Individuellt skyddad med 6A elektronisk säkring. I2 latchar vid spakdrag → helljus på/av. Terminal 56a = helljusfilament i H4-lampa (korrigerat från 56b)."
+    },
+    {
+      "id": "O17",
+      "pdm_name": "RESERVE17",
+      "pin": "D1",
+      "connector": "D",
+      "type": "HS",
+      "configured_as": "HS",
+      "trip_mode": "Normal",
+      "low_fuse_A": 0,
+      "high_fuse_A": 10,
+      "peak_fuse_A": null,
+      "peak_time_s": null,
+      "stay_on_s": null,
+      "turn_on_delay_s": null,
+      "clear_s": 2,
+      "retries": 1,
+      "soft_start": false,
+      "soft_start_s": null,
+      "pwm": false,
+      "function": null,
+      "function_description": "Ledig utgång.",
+      "requires_ignition": false,
+      "cable": null,
+      "loads": [],
+      "notes": "Ledig. Kan användas för framtida tillägg."
+    },
+    {
+      "id": "O18",
+      "pdm_name": "RADIO MEM",
+      "pin": "B12",
+      "connector": "B",
+      "type": "HS",
+      "configured_as": "HS",
+      "trip_mode": "Instant",
+      "low_fuse_A": 0,
+      "high_fuse_A": 1,
+      "peak_fuse_A": null,
+      "peak_time_s": null,
+      "stay_on_s": 0,
+      "turn_on_delay_s": 0,
+      "clear_s": 2,
+      "retries": 3,
+      "soft_start": false,
+      "soft_start_s": null,
+      "pwm": false,
+      "function": "Timer2 Equals False",
+      "function_description": "Radio permanent minne. Alltid på för att bevara kanalval och klocka.",
+      "requires_ignition": false,
+      "cable": {
+        "label": "PDM.OUT.RADIO.MEM",
+        "tape_colour": "yellow",
+        "mm2": 1,
+        "vw_colour_code": null,
+        "vw_colour_description": null
+      },
+      "loads": [
+        {
+          "id": "RADIO",
+          "description": "Radio permanent minne",
+          "terminal": "memory"
+        }
+      ],
+      "notes": "Always On. Låg ström (~50mA). Bidrar till vilostrom (totalt med RPi ≈ 2.5A)."
+    },
+    {
+      "id": "O19",
+      "pdm_name": "REVERSE",
+      "pin": "B1",
+      "connector": "B",
+      "type": "HS",
+      "configured_as": "HS",
+      "trip_mode": "Normal",
+      "low_fuse_A": 0.05,
+      "high_fuse_A": 3,
+      "peak_fuse_A": 5,
+      "peak_time_s": 0.1,
+      "stay_on_s": 0,
+      "turn_on_delay_s": 0,
+      "clear_s": 2,
+      "retries": 2,
+      "soft_start": false,
+      "soft_start_s": null,
+      "pwm": false,
+      "function": "I14 Status AND Timer2 Equals False",
+      "function_description": "Backljus. Aktiv när backväxel är ilagd (I14 från växellådsbrytare).",
+      "requires_ignition": false,
+      "cable": {
+        "label": "PDM.OUT.REVERSE",
+        "tape_colour": "yellow",
+        "mm2": 2,
+        "vw_colour_code": "sw/bl",
+        "vw_colour_description": "svart/blå"
+      },
+      "loads": [
+        {
+          "id": "M16",
+          "description": "Backljus vänster",
+          "terminal": null
+        },
+        {
+          "id": "M17",
+          "description": "Backljus höger",
+          "terminal": null
+        }
+      ],
+      "notes": "I14 matas direkt från tändning via växellådsbrytare."
+    },
+    {
+      "id": "O20",
+      "pdm_name": "RADIO ACC",
+      "pin": "D11",
+      "connector": "D",
+      "type": "HS",
+      "configured_as": "HS",
+      "trip_mode": "Instant",
+      "low_fuse_A": 0,
+      "high_fuse_A": 3,
+      "peak_fuse_A": null,
+      "peak_time_s": null,
+      "stay_on_s": 0,
+      "turn_on_delay_s": 0,
+      "clear_s": 2,
+      "retries": 2,
+      "soft_start": false,
+      "soft_start_s": null,
+      "pwm": false,
+      "function": "GF1 AND Timer2 Equals False",
+      "function_description": "Radio ACC-ström. PÅ med tändning.",
+      "requires_ignition": true,
+      "cable": {
+        "label": "PDM.OUT.RADIO.ACC",
+        "tape_colour": "yellow",
+        "mm2": 1.5,
+        "vw_colour_code": null,
+        "vw_colour_description": null
+      },
+      "loads": [
+        {
+          "id": "RADIO",
+          "description": "Radio ACC (huvudström)",
+          "terminal": "ACC"
+        }
+      ],
+      "notes": "Matar radions ACC-ingång (huvudström/volym). Stängs av med tändning — radio tystnar automatiskt. Separerat från O18 (radioens minneshållning) som alltid är på."
+    },
+    {
+      "id": "O21",
+      "pdm_name": "RPI",
+      "pin": "D2",
+      "connector": "D",
+      "type": "HS",
+      "configured_as": "HS",
+      "trip_mode": "Instant",
+      "low_fuse_A": 0,
+      "high_fuse_A": 5,
+      "peak_fuse_A": null,
+      "peak_time_s": null,
+      "stay_on_s": 0,
+      "turn_on_delay_s": 0.5,
+      "clear_s": 5,
+      "retries": 3,
+      "soft_start": true,
+      "soft_start_s": 2,
+      "pwm": false,
+      "function": "Always True",
+      "function_description": "Raspberry Pi 5 + CAN HAT. Alltid på.",
+      "requires_ignition": false,
+      "cable": {
+        "label": "PDM.OUT.RPI",
+        "tape_colour": "yellow",
+        "mm2": 2,
+        "vw_colour_code": null,
+        "vw_colour_description": null
+      },
+      "loads": [
+        {
+          "id": "RPI",
+          "description": "Raspberry Pi 5 + CAN HAT",
+          "terminal": null
+        }
+      ],
+      "notes": "Always On. Soft Start 2s skyddar vid inkoppling. RPi kommunicerar med PDM via CAN (250 kbps). Bidrar till vilostrom (~2.5A med radio-minne)."
+    },
+    {
+      "id": "O22",
+      "pdm_name": "USB 12V",
+      "pin": "B11",
+      "connector": "B",
+      "type": "HS",
+      "configured_as": "HS",
+      "trip_mode": "Instant",
+      "low_fuse_A": 0,
+      "high_fuse_A": 3,
+      "peak_fuse_A": null,
+      "peak_time_s": null,
+      "stay_on_s": 0,
+      "turn_on_delay_s": 0,
+      "clear_s": 2,
+      "retries": 2,
+      "soft_start": false,
+      "soft_start_s": null,
+      "pwm": false,
+      "function": "GF1 AND Timer2 Equals False",
+      "function_description": "12V USB-uttag. PÅ med tändning.",
+      "requires_ignition": true,
+      "cable": {
+        "label": "PDM.OUT.USB12V",
+        "tape_colour": "yellow",
+        "mm2": 1.5,
+        "vw_colour_code": null,
+        "vw_colour_description": null
+      },
+      "loads": [
+        {
+          "id": "USB",
+          "description": "12V USB-uttag",
+          "terminal": null
+        }
+      ],
+      "notes": "B11 (ej D1 som i v5.5). Korrigerad pinout."
+    },
+    {
+      "id": "O23",
+      "pdm_name": "STARTER",
+      "pin": "B2",
+      "connector": "B",
+      "type": "HS",
+      "configured_as": "HS",
+      "trip_mode": "Normal",
+      "low_fuse_A": 0,
+      "high_fuse_A": 2,
+      "peak_fuse_A": null,
+      "peak_time_s": null,
+      "stay_on_s": 0,
+      "turn_on_delay_s": 0,
+      "clear_s": 5,
+      "retries": 0,
+      "soft_start": false,
+      "soft_start_s": null,
+      "pwm": false,
+      "function": "GF1 AND I15 Status AND Timer2 Equals False",
+      "function_description": "Startrelä. Kräver tändning PÅ OCH startknapp nedtryckt (kl.50). Stay On = 0s — stannar omedelbart.",
+      "requires_ignition": true,
+      "cable": {
+        "label": "PDM.OUT.STARTER",
+        "tape_colour": "yellow",
+        "mm2": 2.5,
+        "vw_colour_code": "ro/sw",
+        "vw_colour_description": "röd/svart"
+      },
+      "loads": [
+        {
+          "id": "STARTER_RELAY",
+          "description": "Startrelä",
+          "terminal": "50"
+        }
+      ],
+      "notes": "Stay On = 0s (EJ 10s — det var farligt i v5.6!). Retries = 0 — ingen automatisk återförsök. RPi övervakar oljetryck (F1 → GPIO). Om oljetryck detekteras (motor igång) skickar RPi CAN-kommando som disablar O23 → skyddar kuggkrans mot ingrepp i roterande motor (B5 interlock)."
+    },
+    {
+      "id": "O24",
+      "pdm_name": "TURN R",
+      "pin_primary": "D3",
+      "pin_parallel": "D10",
+      "connector": "D",
+      "type": "HS",
+      "configured_as": "HS",
+      "dual_pin": true,
+      "trip_mode": "Normal",
+      "low_fuse_A": 0.05,
+      "high_fuse_A": 2,
+      "peak_fuse_A": 5,
+      "peak_time_s": 0.1,
+      "stay_on_s": 0,
+      "turn_on_delay_s": 0,
+      "clear_s": 2,
+      "retries": 2,
+      "soft_start": false,
+      "soft_start_s": null,
+      "pwm": false,
+      "function": "I6 OR I3 OR Timer2 AND Timer1",
+      "function_description": "Höger blinkers. Dual-pin: D3 matar M7 (fram höger), D10 matar M8 (bak höger). Speglar O25 TURN L-arkitekturen exakt.",
+      "requires_ignition": false,
+      "cables": [
+        {
+          "pin": "D3",
+          "label": "PDM.OUT.TURN-R-F",
+          "tape_colour": "yellow",
+          "mm2": 1.5,
+          "vw_colour_code": "sw/gn",
+          "vw_colour_description": "svart/grön",
+          "destination": "M7 blinkers höger fram"
+        },
+        {
+          "pin": "D10",
+          "label": "PDM.OUT.TURN-R-R",
+          "tape_colour": "yellow",
+          "mm2": 1.5,
+          "vw_colour_code": "sw/gn",
+          "vw_colour_description": "svart/grön",
+          "destination": "M8 blinkers höger bak"
+        }
+      ],
+      "loads": [
+        {
+          "id": "M7",
+          "description": "Blinkers höger fram",
+          "pin_source": "D3"
+        },
+        {
+          "id": "M8",
+          "description": "Blinkers höger bak",
+          "pin_source": "D10"
+        }
+      ],
+      "notes": "Dual-pin output (D3+D10). D3 dras framåt till M7, D10 dras bakåt till M8 — separata kablar, separat strömmätning per lampa. Speglar O25 TURN L-arkitekturen exakt. Timer1 = Pulse Train 400/400ms = 1.25 Hz. I3 hazard aktiverar båda sidor (O25+O24) samtidigt. Peak 10A/0.5s hanterar glödlampe-inrushing."
+    },
+    {
+      "id": "O25",
+      "pdm_name": "TURN L",
+      "pin_primary": "B3",
+      "pin_parallel": "B10",
+      "connector": "B",
+      "type": "HS",
+      "configured_as": "HS",
+      "dual_pin": true,
+      "trip_mode": "Normal",
+      "low_fuse_A": 0.05,
+      "high_fuse_A": 2,
+      "peak_fuse_A": 5,
+      "peak_time_s": 0.1,
+      "stay_on_s": 0,
+      "turn_on_delay_s": 0,
+      "clear_s": 2,
+      "retries": 2,
+      "soft_start": false,
+      "soft_start_s": null,
+      "pwm": false,
+      "function": "I5 OR I3 OR Timer2 AND Timer1",
+      "function_description": "Vänster blinkers. Dual-pin: B3 matar fram, B10 matar bak. Timer1 skapar blinkfrekvens.",
+      "requires_ignition": false,
+      "cables": [
+        {
+          "pin": "B3",
+          "label": "PDM.OUT.TURN-L-F",
+          "tape_colour": "yellow",
+          "mm2": 1.5,
+          "vw_colour_code": "sw/ws",
+          "vw_colour_description": "svart/vit",
+          "destination": "M5 blink V fram"
+        },
+        {
+          "pin": "B10",
+          "label": "PDM.OUT.TURN-L-R",
+          "tape_colour": "yellow",
+          "mm2": 1.5,
+          "vw_colour_code": "sw/ws",
+          "vw_colour_description": "svart/vit",
+          "destination": "M6 blink V bak"
+        }
+      ],
+      "loads": [
+        {
+          "id": "M5",
+          "description": "Blinkers vänster fram",
+          "pin_source": "B3"
+        },
+        {
+          "id": "M6",
+          "description": "Blinkers vänster bak",
+          "pin_source": "B10"
+        }
+      ],
+      "notes": "Dual-pin output (B3+B10). B3 dras framåt, B10 dras bakåt. Timer1 = Pulse Train 400/400ms ≈ 1.25 Hz. I3 hazard aktiverar båda sidor (O25+O24) samtidigt."
+    }
+  ],
+  "inputs": [
+    {
+      "id": "I1",
+      "pdm_name": "BLOWER",
+      "pin": "A7",
+      "connector": "A",
+      "mode": "Analog",
+      "active": null,
+      "threshold_V": null,
+      "hysteresis_V": null,
+      "delay_s": 0,
+      "ema_filter": 5,
+      "power_source": "direct",
+      "cable": {
+        "label": "PDM.IN.BLOWER",
+        "tape_colour": "blue",
+        "mm2": null,
+        "vw_colour_code": "sw/ge",
+        "vw_colour_description": "svart/gul"
+      },
+      "source_component": "E9",
+      "source_description": "Fläktomkopplare (4.7k+4.7k spänningsdelare)",
+      "drives_output": "O11",
+      "notes": "Analog spänning 0-12V styr PWM-duty på O11. OFF=~2V, steg 1=~6V, steg 2=~10V, steg 3=~12V."
+    },
+    {
+      "id": "I2",
+      "pdm_name": "HIBEAM",
+      "pin": "A6",
+      "connector": "A",
+      "mode": "Latching",
+      "active": "High",
+      "threshold_V": 6,
+      "hysteresis_V": 1,
+      "delay_s": 0,
+      "ema_filter": 0,
+      "power_source": "direct",
+      "cable": {
+        "label": "PDM.IN.HIGHBEAM",
+        "tape_colour": "blue",
+        "mm2": null,
+        "vw_colour_code": "ge",
+        "vw_colour_description": "gul"
+      },
+      "source_component": "E4",
+      "source_description": "Helljusspak (kl.56b)",
+      "drives_output": "O16, O7",
+      "notes": "Latching — ett spakdrag togglar helljus PÅ/AV. Används i O16 (O14 AND I2) och O7 (O15 AND I2)."
+    },
+    {
+      "id": "I3",
+      "pdm_name": "HAZARD",
+      "pin": "A8",
+      "connector": "A",
+      "mode": "Latching",
+      "active": "High",
+      "threshold_V": 6,
+      "hysteresis_V": 1,
+      "delay_s": 0,
+      "ema_filter": 0,
+      "power_source": "busbar",
+      "busbar_position": 3,
+      "cable": {
+        "label": "PDM.IN.HAZARD",
+        "tape_colour": "blue",
+        "mm2": null,
+        "vw_colour_code": null,
+        "vw_colour_description": null
+      },
+      "source_component": "HAZARD_BTN",
+      "source_description": "Varningsblinkersknapp",
+      "drives_output": "O25, O24",
+      "notes": "Latching — tryck en gång PÅ, igen AV. Aktiverar båda sidor (O25 AND I3, O24 AND I3)."
+    },
+    {
+      "id": "I4",
+      "pdm_name": "BRAKE",
+      "pin": "A5",
+      "connector": "A",
+      "mode": "Momentary",
+      "active": "High",
+      "threshold_V": 6,
+      "hysteresis_V": 1,
+      "delay_s": 0,
+      "ema_filter": 0,
+      "power_source": "direct_battery",
+      "cable": {
+        "label": "PDM.IN.BRAKE",
+        "tape_colour": "blue",
+        "mm2": null,
+        "vw_colour_code": "sw/ro",
+        "vw_colour_description": "svart/röd"
+      },
+      "source_component": "F",
+      "source_description": "Bromsljusbrytare (batteri → switch → I4)",
+      "drives_output": "O4",
+      "notes": "Direkt från batteri via bromsljusbrytare — funkar UTAN tändning. Säkerhetskritiskt."
+    },
+    {
+      "id": "I5",
+      "pdm_name": "TURN L",
+      "pin": "A9",
+      "connector": "A",
+      "mode": "Momentary",
+      "active": "High",
+      "threshold_V": 6,
+      "hysteresis_V": 1,
+      "delay_s": 0,
+      "ema_filter": 0,
+      "power_source": "busbar",
+      "busbar_position": 2,
+      "cable": {
+        "label": "PDM.IN.TURN-L",
+        "tape_colour": "blue",
+        "mm2": null,
+        "vw_colour_code": "sw/ws",
+        "vw_colour_description": "svart/vit"
+      },
+      "source_component": "E2",
+      "source_description": "Blinkerspak vänster",
+      "drives_output": "O25",
+      "notes": "VW-spakens mekaniska lås håller i position — Momentary räcker."
+    },
+    {
+      "id": "I6",
+      "pdm_name": "TURN R",
+      "pin": "A4",
+      "connector": "A",
+      "mode": "Momentary",
+      "active": "High",
+      "threshold_V": 6,
+      "hysteresis_V": 1,
+      "delay_s": 0,
+      "ema_filter": 0,
+      "power_source": "busbar",
+      "busbar_position": 2,
+      "cable": {
+        "label": "PDM.IN.TURN-R",
+        "tape_colour": "blue",
+        "mm2": null,
+        "vw_colour_code": "gr",
+        "vw_colour_description": "grå"
+      },
+      "source_component": "E2",
+      "source_description": "Blinkerspak höger",
+      "drives_output": "O24",
+      "notes": "VW-spakens mekaniska lås håller i position — Momentary räcker."
+    },
+    {
+      "id": "I7",
+      "pdm_name": "PARK",
+      "pin": "A10",
+      "connector": "A",
+      "mode": "Momentary",
+      "active": "High",
+      "threshold_V": 6,
+      "hysteresis_V": 1,
+      "delay_s": 0,
+      "ema_filter": 0,
+      "power_source": "busbar",
+      "busbar_position": 4,
+      "cable": {
+        "label": "PDM.IN.PARK",
+        "tape_colour": "blue",
+        "mm2": null,
+        "vw_colour_code": null,
+        "vw_colour_description": null
+      },
+      "source_component": "PARK_SW",
+      "source_description": "Parkljusswitch",
+      "drives_output": "O6",
+      "notes": "Via busbar (O1 always-on) → parkljus fungerar utan tändning. Terminal 58 equivalent."
+    },
+    {
+      "id": "I8",
+      "pdm_name": "WASHER",
+      "pin": "A3",
+      "connector": "A",
+      "mode": "Momentary",
+      "active": "High",
+      "threshold_V": 6,
+      "hysteresis_V": 1,
+      "delay_s": 0,
+      "ema_filter": 0,
+      "power_source": "busbar",
+      "busbar_position": 5,
+      "cable": {
+        "label": "PDM.IN.WASHER",
+        "tape_colour": "blue",
+        "mm2": null,
+        "vw_colour_code": "gn/ro",
+        "vw_colour_description": "grön/röd"
+      },
+      "source_component": "E22",
+      "source_description": "Höger spak (dra mot sig)",
+      "drives_output": "O12",
+      "notes": null
+    },
+    {
+      "id": "I9",
+      "pdm_name": "WIPER FST",
+      "pin": "A11",
+      "connector": "A",
+      "mode": "Momentary",
+      "active": "High",
+      "threshold_V": 6,
+      "hysteresis_V": 1,
+      "delay_s": 0,
+      "ema_filter": 0,
+      "power_source": "busbar",
+      "busbar_position": 6,
+      "cable": {
+        "label": "PDM.IN.WIPER.FST",
+        "tape_colour": "blue",
+        "mm2": null,
+        "vw_colour_code": "sw/gr",
+        "vw_colour_description": "grå"
+      },
+      "source_component": "E22",
+      "source_description": "Torkaromkopplare kl.53b (snabb)",
+      "drives_output": "O2",
+      "notes": "E22 switch har mekanisk interlock — bara en position åt gången (SLOW/FAST/OFF)."
+    },
+    {
+      "id": "I10",
+      "pdm_name": "WIPER SLO",
+      "pin": "A2",
+      "connector": "A",
+      "mode": "Momentary",
+      "active": "High",
+      "threshold_V": 6,
+      "hysteresis_V": 1,
+      "delay_s": 0,
+      "ema_filter": 0,
+      "power_source": "busbar",
+      "busbar_position": 7,
+      "cable": {
+        "label": "PDM.IN.WIPER.SLO",
+        "tape_colour": "blue",
+        "mm2": null,
+        "vw_colour_code": "gn",
+        "vw_colour_description": "grön"
+      },
+      "source_component": "E22",
+      "source_description": "Torkaromkopplare kl.53 (långsam)",
+      "drives_output": "O10",
+      "notes": null
+    },
+    {
+      "id": "I11",
+      "pdm_name": "COOLANT",
+      "pin": "A12",
+      "connector": "A",
+      "mode": "Analog",
+      "active": null,
+      "threshold_V": null,
+      "hysteresis_V": null,
+      "delay_s": 0,
+      "ema_filter": 10,
+      "power_source": "5V_sensor",
+      "external_pullup": {
+        "resistance_ohm": 1000,
+        "to_pin": "C10",
+        "current_draw_mA": 5
+      },
+      "cable": {
+        "label": "PDM.IN.COOLANT",
+        "tape_colour": "blue",
+        "mm2": null,
+        "vw_colour_code": "gn",
+        "vw_colour_description": "grön"
+      },
+      "source_component": "G2",
+      "source_description": "Kylvätsketemp NTC-givare",
+      "drives_output": null,
+      "notes": "NTC — resistans sjunker med temperatur. 1kΩ pull-up till C10 5V. Data skickas via CAN till RPi för visning/loggning."
+    },
+    {
+      "id": "I12",
+      "pdm_name": "HORN",
+      "pin": "A1",
+      "connector": "A",
+      "mode": "Momentary",
+      "active": "Low",
+      "threshold_V": 6,
+      "hysteresis_V": 1,
+      "delay_s": 0,
+      "ema_filter": 0,
+      "power_source": "active_low",
+      "external_pullup": {
+        "resistance_ohm": 10000,
+        "to": "Signal busbar 12V (O1)",
+        "location": "Monterad nära PDM A1",
+        "current_draw_mA": 1.2
+      },
+      "cable": {
+        "label": "PDM.IN.HORN",
+        "tape_colour": "blue",
+        "mm2": null,
+        "vw_colour_code": "br/bl",
+        "vw_colour_description": "brun/blå"
+      },
+      "source_component": "H1_BTN",
+      "source_description": "Hornknapp via slip ring till GND",
+      "drives_output": "O13",
+      "fail_safe": "Cable broken → 12V (pull-up) → horn OFF (safe)",
+      "notes": "Active Low: intryckt = 0V (GND) → O13 ON. Ej intryckt = 12V (pull-up) → O13 OFF. Kabelbrott = tyst = säkert."
+    },
+    {
+      "id": "I13",
+      "pdm_name": "FUEL LVL",
+      "pin": "C11",
+      "connector": "C",
+      "mode": "Analog",
+      "active": null,
+      "threshold_V": null,
+      "hysteresis_V": null,
+      "delay_s": 0,
+      "ema_filter": 10,
+      "power_source": "5V_sensor",
+      "external_pullup": {
+        "resistance_ohm": 100,
+        "to_pin": "C10",
+        "current_draw_mA": 50
+      },
+      "cable": {
+        "label": "PDM.IN.FUEL.LVL",
+        "tape_colour": "blue",
+        "mm2": null,
+        "vw_colour_code": "li/sw",
+        "vw_colour_description": "lila/svart"
+      },
+      "source_component": "G",
+      "source_description": "Bränslegivare (tanksändare)",
+      "drives_output": null,
+      "notes": "100Ω pull-up till C10 5V. Drar 50mA. Total 5V-last: 55mA av 100mA max. Data via CAN till RPi."
+    },
+    {
+      "id": "I14",
+      "pdm_name": "REVERSE",
+      "pin": "C12",
+      "connector": "C",
+      "mode": "Momentary",
+      "active": "High",
+      "threshold_V": 6,
+      "hysteresis_V": 1,
+      "delay_s": 0,
+      "ema_filter": 0,
+      "power_source": "direct_ignition",
+      "cable": {
+        "label": "PDM.IN.REVERSE",
+        "tape_colour": "blue",
+        "mm2": null,
+        "vw_colour_code": "sw/bl",
+        "vw_colour_description": "svart/blå"
+      },
+      "source_component": "F4",
+      "source_description": "Backväxelkontakt i växellåda",
+      "drives_output": "O19",
+      "notes": "Direkt från tändning via växellådsbrytare. Kräver tändning PÅ (fysiskt, ej PDM-logik)."
+    },
+    {
+      "id": "I15",
+      "pdm_name": "START",
+      "pin": "C2",
+      "connector": "C",
+      "mode": "Momentary",
+      "active": "High",
+      "threshold_V": 6,
+      "hysteresis_V": 1,
+      "delay_s": 0,
+      "ema_filter": 0,
+      "power_source": "direct_ignition_switch",
+      "cable": {
+        "label": "PDM.IN.START",
+        "tape_colour": "blue",
+        "mm2": 2.5,
+        "vw_colour_code": "sw/ws",
+        "vw_colour_description": "svart/vit"
+      },
+      "source_component": "IGN_SWITCH",
+      "source_description": "Tändningslås terminal 50 (startläge, momentärt)",
+      "drives_output": "O23",
+      "notes": "Momentärt — spänning bara medan nyckeln hålls i startposition. Används i O23: GF1 AND I15 Status."
+    },
+    {
+      "id": "I16",
+      "pdm_name": "IGNITION",
+      "pin": "C1",
+      "connector": "C",
+      "mode": "Momentary",
+      "active": "High",
+      "threshold_V": 6,
+      "hysteresis_V": 1,
+      "delay_s": 0,
+      "ema_filter": 0,
+      "power_source": "direct_ignition_switch",
+      "cable": {
+        "label": "PDM.IN.IGNITION",
+        "tape_colour": "blue",
+        "mm2": 2.5,
+        "vw_colour_code": "sw/ge",
+        "vw_colour_description": "svart/gul"
+      },
+      "source_component": "IGN_SWITCH",
+      "source_description": "Tändningslås terminal 15",
+      "drives_output": "GF1 → O3, O5, O11, O14, O15, O20, O22, O23",
+      "notes": "Central input. GF1 (I16 Status = True) används av alla tändningsberoende outputs."
+    }
+  ],
+  "timers": [
+    {
+      "id": "Timer1",
+      "pdm_name": "BLINK TMR",
+      "mode": "Pulse Train",
+      "on_time_ms": 400,
+      "off_time_ms": 400,
+      "period_ms": 800,
+      "frequency_hz": 1.25,
+      "enabled": true,
+      "used_by": [
+        "O25",
+        "O24"
+      ],
+      "notes": "Blinkfrekvens. EJ PWM på output — Timer AND:as med input-status i output-funktionen."
+    },
+    {
+      "id": "Timer2",
+      "pdm_name": "CRASH TMR",
+      "mode": "Duration",
+      "duration_ms": 600000,
+      "on_time_ms": 600000,
+      "off_time_ms": 0,
+      "enabled": true,
+      "start_condition": "GF2 Equals True",
+      "reset_on_end": true,
+      "used_by": [
+        "O24",
+        "O25",
+        "ALL_EXCEPT_TURN"
+      ],
+      "notes": "Crash-latch timer. Startas av GF2 (crash-detektion). Varar 10 min. Hazard blinkar under denna tid, övriga outputs stängs av. Reset On End = true → återställs automatiskt."
+    }
+  ],
+  "generic_functions": [
+    {
+      "id": "GF1",
+      "pdm_name": "IGN ON",
+      "function": "I16 Status = True",
+      "description": "Tändning PÅ-detektor. True när I16 (tändningslås kl.15) är aktiv.",
+      "used_by": [
+        "O3",
+        "O5",
+        "O11",
+        "O14",
+        "O15",
+        "O16",
+        "O7",
+        "O20",
+        "O22",
+        "O23"
+      ]
+    },
+    {
+      "id": "GF2",
+      "pdm_name": "CRASH DET",
+      "function": "MC1>40",
+      "description": "Crash-detektion via G-force magnitude (MC1). Triggar när MC1 > 40 m/s² (≈4g). Vid vila MC1≈9.81 (gravitation). Använder Sqrt(AccX²+AccY²+AccZ²).",
+      "used_by": [
+        "Timer2"
+      ]
+    }
+  ],
+  "can_bus": {
+    "speed_kbps": 250,
+    "pdm_termination": "software_enabled_120ohm",
+    "external_termination_required": "RPi-sidan (om CAN HAT ej har inbyggd 120Ω)",
+    "cables": [
+      {
+        "label": "PDM.CAN.H",
+        "pin": "C8",
+        "mm2": 0.75,
+        "type": "tvinnad",
+        "colour": "ws",
+        "colour_description": "vit",
+        "tape_colour": "blue"
+      },
+      {
+        "label": "PDM.CAN.L",
+        "pin": "C9",
+        "mm2": 0.75,
+        "type": "tvinnad",
+        "colour": "sw",
+        "colour_description": "svart",
+        "tape_colour": "blue"
+      }
+    ],
+    "stream_frames": [
+      {
+        "frame_id": "0x100",
+        "data": "Output-strömmar (mA)",
+        "rate_hz": 10
+      },
+      {
+        "frame_id": "0x101",
+        "data": "Input-spänningar (mV)",
+        "rate_hz": 10
+      },
+      {
+        "frame_id": "0x102",
+        "data": "Batterispänning, PCB-temp",
+        "rate_hz": 2
+      },
+      {
+        "frame_id": "0x103",
+        "data": "Output-status (on/off/trip)",
+        "rate_hz": 10
+      },
+      {
+        "frame_id": "0x104",
+        "data": "IMU acceleration (X,Y,Z)",
+        "rate_hz": 10
+      }
+    ],
+    "warnings": [
+      "Kontrollera RPi CAN HAT — många har inbyggd 120Ω jumper aktiverad som standard",
+      "Om HAT har inbyggd terminering: montera INGEN extern 120Ω",
+      "3 parallella 120Ω = 40Ω → CAN-fel",
+      "Mät 60Ω (±5Ω) mellan CAN-H och CAN-L med bussen avstängd"
+    ]
+  },
+  "signal_busbar": {
+    "source_output": "O1",
+    "source_pin": "C6",
+    "fuse_A": 3,
+    "always_on": true,
+    "cable_mm2": 0.75,
+    "positions": 9,
+    "assignment": {
+      "1": "Reserve",
+      "2": "I5/I6 (Turn L/R via stalk)",
+      "3": "I3 (Hazard — Latching)",
+      "4": "I7 (Park lights)",
+      "5": "I8 (Washer)",
+      "6": "I9 (Wiper fast, t.53b)",
+      "7": "I10 (Wiper slow, t.53)",
+      "8": "10kΩ → I12 (Horn Active Low)",
+      "9": "Reserve"
+    },
+    "not_via_busbar": [
+      "I1",
+      "I2",
+      "I4",
+      "I11",
+      "I13",
+      "I14",
+      "I15",
+      "I16"
+    ]
+  },
+  "grounds": {
+    "system": [
+      {
+        "label": "GND.BAT",
+        "mm2": 25,
+        "colour": "br",
+        "from": "Batteri −",
+        "to": "Chassi framdel",
+        "earth_point": 1,
+        "tape_colour": "black"
+      },
+      {
+        "label": "GND.ENGINE",
+        "mm2": 16,
+        "colour": "br",
+        "from": "Motorblock",
+        "to": "Chassi",
+        "earth_point": 3,
+        "tape_colour": "black"
+      }
+    ],
+    "rear_bus": {
+      "main": {
+        "label": "GND.REAR.BUS",
+        "mm2": 4,
+        "colour": "br",
+        "from": "Jordplint",
+        "to": "Chassi bak M8",
+        "earth_point": 15,
+        "tape_colour": "black"
+      },
+      "branches": [
+        {
+          "label": "GND.REAR.BRAKE-L",
+          "mm2": 1.5,
+          "from": "M9",
+          "tape_colour": "black"
+        },
+        {
+          "label": "GND.REAR.BRAKE-R",
+          "mm2": 1.5,
+          "from": "M10",
+          "tape_colour": "black"
+        },
+        {
+          "label": "GND.REAR.REV-L",
+          "mm2": 1.5,
+          "from": "M16",
+          "tape_colour": "black"
+        },
+        {
+          "label": "GND.REAR.REV-R",
+          "mm2": 1.5,
+          "from": "M17",
+          "tape_colour": "black"
+        },
+        {
+          "label": "GND.REAR.PARK-L",
+          "mm2": 1,
+          "from": "M4",
+          "tape_colour": "black"
+        },
+        {
+          "label": "GND.REAR.PARK-R",
+          "mm2": 1,
+          "from": "M2",
+          "tape_colour": "black"
+        },
+        {
+          "label": "GND.REAR.TURN-L",
+          "mm2": 1,
+          "from": "M6",
+          "tape_colour": "black"
+        },
+        {
+          "label": "GND.REAR.TURN-R",
+          "mm2": 1,
+          "from": "M8",
+          "tape_colour": "black"
+        }
+      ]
+    }
+  },
+  "sensors_and_indicators": [
+    {
+      "label": "INST.SENS.FUEL",
+      "component": "G",
+      "function": "Bränslegivare",
+      "colour": "li/sw",
+      "connection": "→ I13 via 100Ω PU",
+      "tape_colour": "green"
+    },
+    {
+      "label": "INST.SENS.FUEL.GND",
+      "component": "G",
+      "function": "Bränslegivare jord",
+      "colour": "br",
+      "connection": "→ Chassijord",
+      "tape_colour": "green"
+    },
+    {
+      "label": "INST.SENS.COOLANT",
+      "component": "G2",
+      "function": "Kyltemp NTC",
+      "colour": "gn",
+      "connection": "→ I11 via 1kΩ PU",
+      "tape_colour": "green"
+    },
+    {
+      "label": "INST.SENS.OIL",
+      "component": "F1",
+      "function": "Oljetrycksgivare",
+      "colour": "bl/gn",
+      "connection": "→ RPi GPIO",
+      "tape_colour": "green"
+    },
+    {
+      "label": "INST.SENS.COOL.LVL",
+      "component": "F66",
+      "function": "Kylvätskenivå",
+      "colour": "li/sw",
+      "connection": "→ RPi GPIO",
+      "tape_colour": "green"
+    },
+    {
+      "label": "INST.SENS.COOL.LVL.GND",
+      "component": "F66",
+      "function": "Kylnivå jord",
+      "colour": "br",
+      "connection": "→ Chassijord",
+      "tape_colour": "green"
+    },
+    {
+      "label": "INST.LAMP.HIGHBEAM",
+      "component": "K1",
+      "function": "Helljuslampa (blå)",
+      "colour": "ws/bl",
+      "connection": null,
+      "tape_colour": "green"
+    },
+    {
+      "label": "INST.LAMP.OIL",
+      "component": "K3",
+      "function": "Oljetryckslampa (röd)",
+      "colour": "bl/gn",
+      "connection": null,
+      "tape_colour": "green"
+    },
+    {
+      "label": "INST.LAMP.TURN",
+      "component": "K5",
+      "function": "Blinkerslampa (grön)",
+      "colour": "sw/bl",
+      "connection": null,
+      "tape_colour": "green"
+    },
+    {
+      "label": "INST.LAMP.COOLANT",
+      "component": "K28",
+      "function": "Kylvätskelampa (röd)",
+      "colour": "bl/ro",
+      "connection": null,
+      "tape_colour": "green"
+    },
+    {
+      "label": "INST.LIC.PLATE",
+      "component": "X",
+      "function": "Nummerplåtsbelysning",
+      "colour": "gr",
+      "connection": null,
+      "tape_colour": "green"
+    },
+    {
+      "label": "INST.LIC.PLATE.GND",
+      "component": "X",
+      "function": "Nummerplåt jord",
+      "colour": "br",
+      "connection": null,
+      "tape_colour": "green"
+    },
+    {
+      "label": "PDM.ENG.COIL.T1",
+      "component": "N",
+      "function": "Tändspole kl.1 → fördelare",
+      "colour": null,
+      "connection": "Motorsignalkabel",
+      "tape_colour": "green"
+    },
+    {
+      "label": "PDM.ENG.COIL.N6",
+      "component": "N6",
+      "function": "Seriemotstånd → tändspole kl.15",
+      "colour": "ws/li",
+      "connection": "Motorsignalkabel",
+      "tape_colour": "green"
+    }
+  ],
+  "removed_from_original": [
+    {
+      "original": "Säkringscentral",
+      "replaced_by": "PDM25 V2"
+    },
+    {
+      "original": "J2 Varningsblinkersrelä",
+      "replaced_by": "PDM Timer 1 (Pulse Train) + AND-logik"
+    },
+    {
+      "original": "J31 Torkarintervallrelä",
+      "replaced_by": "PDM firmware"
+    },
+    {
+      "original": "J59 X-kontaktrelä",
+      "replaced_by": "PDM Turn On Delay 3s (O14/O15)"
+    },
+    {
+      "original": "K2 Laddningslampa",
+      "replaced_by": "Digital via CAN → RPi"
+    },
+    {
+      "original": "N23 Fläkt seriemotstånd",
+      "replaced_by": "PDM PWM 11-punktstabell (O11)"
+    },
+    {
+      "original": "Dörrkontakter",
+      "replaced_by": "Ej monterade"
+    },
+    {
+      "original": "Instrumentbelysning",
+      "replaced_by": "Ej monterad"
+    },
+    {
+      "original": "Bakrutedefroster",
+      "replaced_by": "Ej monterad"
+    },
+    {
+      "original": "Kupébelysning",
+      "replaced_by": "Ej monterad"
+    },
+    {
+      "original": "Dimljus",
+      "replaced_by": "Aldrig monterat"
+    }
+  ],
+  "label_tape_system": {
+    "yellow": {
+      "prefix": "PDM.OUT / PDM.ENG / PDM.PWR",
+      "meaning": "PDM Outputs + strömkablar",
+      "width_mm": "12 (≥2.0mm²), 9 (tunnare)"
+    },
+    "blue": {
+      "prefix": "PDM.IN / PDM.CAN",
+      "meaning": "PDM Inputs + CAN-buss",
+      "width_mm": "12 (≥2.0mm²), 9 (tunnare)"
+    },
+    "black": {
+      "prefix": "GND",
+      "meaning": "Jordkablar",
+      "width_mm": "12 (≥2.0mm²), 9 (tunnare)"
+    },
+    "green": {
+      "prefix": "INST",
+      "meaning": "Givare, kontrollampor, motorsignaler",
+      "width_mm": "12 (≥2.0mm²), 9 (tunnare)"
+    },
+    "rule": "Märk BÅDA ändar med samma etikett. Krympslang som skydd."
+  },
+  "vw_colour_codes": {
+    "ro": {
+      "colour": "Röd",
+      "typical_use": "Batteriström (terminal 30)"
+    },
+    "sw": {
+      "colour": "Svart",
+      "typical_use": "Diverse, ofta med delfärg"
+    },
+    "ws": {
+      "colour": "Vit",
+      "typical_use": "Helljus, halvljus"
+    },
+    "ge": {
+      "colour": "Gul",
+      "typical_use": "Halvljus (kl.56a), helljus (kl.56b)"
+    },
+    "gn": {
+      "colour": "Grön",
+      "typical_use": "Torkare (kl.53), kyltemp"
+    },
+    "gr": {
+      "colour": "Grå",
+      "typical_use": "Parkljus, nummerplåt"
+    },
+    "bl": {
+      "colour": "Blå",
+      "typical_use": "Generator D+"
+    },
+    "br": {
+      "colour": "Brun",
+      "typical_use": "Jord"
+    },
+    "li": {
+      "colour": "Lila",
+      "typical_use": "Bränslegivare, tändsystem"
+    }
+  },
+  "general_settings": {
+    "can_bus_speed_kbps": 250,
+    "can_termination_enabled": true,
+    "reset_function": "CAN-kommando (via RPi) eller strömcykel",
+    "global_cutoff_battery_V": 10,
+    "global_cutoff_enabled": true,
+    "global_cutoff_function": "BatteryVoltage<10",
+    "global_reset_enabled": true,
+    "global_reset_function": "I16 Status",
+    "password_set": false,
+    "hazard_on_crash": true,
+    "crash_detection_notes": "GF2 detekterar crash via MC1 G-force magnitude (>40 m/s² ≈ 4g). Timer2 latchar 10min. Under Timer2: O24/O25 blinkar hazard, övriga outputs stängs av via GC + per-output logic."
+  },
+  "maths_channels": [
+    {
+      "id": "MC1",
+      "pdm_name": "G-FORCE",
+      "equation": "Sqrt(AccX*AccX + AccY*AccY + AccZ*AccZ)",
+      "description": "G-force magnitude. Vid vila ≈9.81 (gravitation). Används av GF2 CRASH DET.",
+      "variable_key": 700,
+      "input_vars": {
+        "AccX": 61,
+        "AccY": 62,
+        "AccZ": 63
+      }
+    }
+  ],
+  "counters": [
+    {
+      "id": "Counter1",
+      "pdm_name": "ENGINE HR",
+      "description": "Motortimmar. Räknar upp när tändning PÅ (GF1=True). 1 count ≈ 1s.",
+      "inc_condition": "GF1 Equals True",
+      "inc_variable1": 730,
+      "inc_condition_code": 10,
+      "inc_var_or_const": 0,
+      "inc_variable2": 1
+    },
+    {
+      "id": "Counter2",
+      "pdm_name": "START CNT",
+      "description": "Motorstarter. Räknar upp vid varje tryckning på startknapp (I15 Status).",
+      "inc_condition": "I15 Status Equals True",
+      "inc_variable1": 632,
+      "inc_condition_code": 10,
+      "inc_var_or_const": 0,
+      "inc_variable2": 1
+    }
+  ],
+  "logging_groups": [
+    {
+      "id": "LG1",
+      "pdm_name": "CRASH LOG",
+      "description": "Kraschtlogg vid 50Hz. Loggar accelerometer + G-force + batterispänning.",
+      "trigger_period_ms": 20,
+      "trigger_const_var": 0,
+      "variables": [61, 62, 63, 700, 6],
+      "variable_names": ["AccX", "AccY", "AccZ", "MC1 G-force", "BatteryVoltage"]
+    },
+    {
+      "id": "LG2",
+      "pdm_name": "SYS LOG",
+      "description": "Systemlogg vid 1Hz. Loggar batterispänning, totalström, utgångsströmmar.",
+      "trigger_period_ms": 1000,
+      "trigger_const_var": 0,
+      "variables": [6, 5, 70, 77, 84, 91, 98],
+      "variable_names": ["BatteryVoltage", "TotalCurrent", "O1 Current", "O2 Current", "O3 Current", "O4 Current", "O5 Current"]
+    }
+  ],
+  "sensor_calibrations": [
+    {
+      "id": "SC1",
+      "pdm_name": "COOLANT T",
+      "description": "Kylvätsketemperatur via I11 (NTC-givare). Approximativ kurva, behöver kalibreras med verklig sensor.",
+      "input_pin": "I11",
+      "input_voltage_key": 610,
+      "raw_voltage": [0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.5, 1.8, 2.1, 2.4, 2.7, 3.0, 3.3, 3.6, 3.9, 4.2, 4.5, 4.8, 5.0, 5.2],
+      "calibrated_values": [120, 110, 100, 95, 90, 85, 80, 75, 70, 60, 50, 40, 30, 20, 10, 0, -10, -20, -30, -40],
+      "units": "°C"
+    },
+    {
+      "id": "SC2",
+      "pdm_name": "FUEL LVL",
+      "description": "Bränslenivå via I13 (VW LT 10-180Ω sändare). VW LT31 tank ≈90 liter.",
+      "input_pin": "I13",
+      "input_voltage_key": 620,
+      "raw_voltage": [0.5, 0.7, 0.9, 1.1, 1.3, 1.5, 1.7, 1.9, 2.1, 2.3, 2.5, 2.7, 2.9, 3.1, 3.3, 3.5, 3.7, 3.9, 4.1, 4.3],
+      "calibrated_values": [0, 3, 6, 10, 14, 18, 22, 27, 32, 37, 42, 47, 52, 57, 62, 67, 72, 77, 82, 90],
+      "units": "liters"
+    }
+  ],
+  "summary": {
+    "outputs": {
+      "total": 25,
+      "active": 22,
+      "spare": 3,
+      "spare_ids": [
+        "O8",
+        "O9",
+        "O17"
+      ],
+      "dual_pin": [
+        "O24",
+        "O25"
+      ],
+      "hs_ls": [
+        "O1",
+        "O2",
+        "O3",
+        "O4"
+      ],
+      "always_on": [
+        "O1",
+        "O18",
+        "O21"
+      ],
+      "ignition_required": [
+        "O3",
+        "O5",
+        "O11",
+        "O14",
+        "O15",
+        "O16",
+        "O7",
+        "O20",
+        "O22",
+        "O23"
+      ]
+    },
+    "inputs": {
+      "total": 16,
+      "assigned": 16,
+      "spare": 0,
+      "analog": [
+        "I1",
+        "I11",
+        "I13"
+      ],
+      "latching": [
+        "I2",
+        "I3"
+      ],
+      "momentary_high": [
+        "I4",
+        "I5",
+        "I6",
+        "I7",
+        "I8",
+        "I9",
+        "I10",
+        "I14",
+        "I15",
+        "I16"
+      ],
+      "momentary_low": [
+        "I12"
+      ],
+      "busbar_fed": [
+        "I3",
+        "I5",
+        "I6",
+        "I7",
+        "I8",
+        "I9",
+        "I10"
+      ],
+      "direct_fed": [
+        "I1",
+        "I2",
+        "I4",
+        "I11",
+        "I12",
+        "I13",
+        "I14",
+        "I15",
+        "I16"
+      ]
+    },
+    "cables": {
+      "yellow_tape": 29,
+      "blue_tape": 18,
+      "black_tape": 11,
+      "green_tape": 14,
+      "total_cables": 72,
+      "total_labels": 144
+    },
+    "resources": {
+      "timers_used": 1,
+      "timers_available": 29,
+      "generic_functions_used": 1,
+      "can_inputs_used": 0,
+      "can_inputs_available": 100
+    },
+    "fiveV_budget": {
+      "coolant_sensor_mA": 5,
+      "fuel_sensor_mA": 50,
+      "total_mA": 55,
+      "max_mA": 100,
+      "margin_pct": 45
+    },
+    "headlight_outputs": {
+      "lowbeam_left": "O14",
+      "lowbeam_right": "O15",
+      "highbeam_left": "O16",
+      "highbeam_right": "O7",
+      "design_rule": "Halv- och helljus ska ALLTID vara på individuella utgångar med egna säkringar. Får ALDRIG kombineras."
+    }
+  },
+  "_notes_led": "Alla belysningsutgangar konfigurerade for LED-lampor (inga glodlampor)",
+
+  "can_stream": {
+    "_description": "CAN Output Stream — skickar realtidsdata till RPi dashboard via CAN bus",
+    "enabled": true,
+    "can_channel": "1",
+    "base_ext_id": 4096,
+    "frames": [
+      { "index": 0, "name": "Date",             "enabled": true,  "send_rate_hz": 1,  "notes": "Datum/tid — RPi synkar klocka" },
+      { "index": 1, "name": "PDM Stats 1",      "enabled": true,  "send_rate_hz": 10, "notes": "Batteri, 5V rail, on-time" },
+      { "index": 2, "name": "PDM Stats 2",      "enabled": true,  "send_rate_hz": 5,  "notes": "Temperaturer + totalström" },
+      { "index": 3, "name": "IMU Acceleration",  "enabled": true,  "send_rate_hz": 50, "notes": "AccX/Y/Z — crash detection + RPi logg" },
+      { "index": 4, "name": "IMU Rotation",      "enabled": true,  "send_rate_hz": 10, "notes": "Vinkel X/Y/Z — lutningssensor" },
+      { "index": 5, "name": "IMU Gyroscope",     "enabled": false, "send_rate_hz": 10, "notes": "Rotationshastighet — inte nödvändig" },
+      { "index": 6, "name": "Output 1 HS",  "enabled": true, "send_rate_hz": 10, "notes": "BUSBAR — ström/spänning" },
+      { "index": 7, "name": "Output 2 HS",  "enabled": true, "send_rate_hz": 2,  "notes": "WIPER FST" },
+      { "index": 8, "name": "Output 3 HS",  "enabled": true, "send_rate_hz": 2,  "notes": "IGN COIL" },
+      { "index": 9, "name": "Output 4 HS",  "enabled": true, "send_rate_hz": 2,  "notes": "BRAKE" },
+      { "index": 10, "name": "Output 5 HS", "enabled": true, "send_rate_hz": 2,  "notes": "FUEL" },
+      { "index": 11, "name": "Output 6 HS", "enabled": true, "send_rate_hz": 2,  "notes": "PARK" },
+      { "index": 16, "name": "Output 11 HS", "enabled": true, "send_rate_hz": 2, "notes": "BLOWER — PWM status" },
+      { "index": 19, "name": "Output 14 HS", "enabled": true, "send_rate_hz": 2, "notes": "LOWBEAM L" },
+      { "index": 20, "name": "Output 15 HS", "enabled": true, "send_rate_hz": 2, "notes": "LOWBEAM R" },
+      { "index": 26, "name": "Output 21 HS", "enabled": true, "send_rate_hz": 2, "notes": "RPI power" },
+      { "index": 28, "name": "Output 23 HS", "enabled": true, "send_rate_hz": 5, "notes": "STARTER — övervaka startström" },
+      { "index": 29, "name": "Output 24 HS", "enabled": true, "send_rate_hz": 5, "notes": "TURN R" },
+      { "index": 30, "name": "Output 25 HS", "enabled": true, "send_rate_hz": 5, "notes": "TURN L" }
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+flowchart LR
+    GF1["GF1 IGN ON\n(I16 Status)"]
+
+    subgraph LOW_BEAM["💡 Halvljus (Low Beam)"]
+        O14["O14 LOWBEAM-L\nB5, 6A, 3s delay"]
+        O15["O15 LOWBEAM-R\nB4, 6A, 3s delay"]
+        note_delay["⏱ 3s Turn-On Delay\n= Ersätter J59 X-kontaktrelä"]
+    end
+
+    subgraph HIGH_BEAM["💡💡 Helljus (High Beam)"]
+        O16["O16 HIBEAM-L\nD12, 6A"]
+        O7["O7 HIBEAM-R\nD6, 6A"]
+    end
+
+    subgraph STALK["Rattstång"]
+        E4["E4 Helljusspak\n(I2 Latching)"]
+    end
+
+    GF1 -->|"Funktion"| O14 & O15
+    O14 -->|"2.5mm² ge/sw\nPDM.OUT.LOWBEAM-L"| L1_LB["L1 Strålkastare V\nkl.56a"]
+    O15 -->|"2.5mm² ge\nPDM.OUT.LOWBEAM-R"| L2_LB["L2 Strålkastare H\nkl.56a"]
+
+    E4 -->|"1.5mm² ge\nPDM.IN.HIGHBEAM"| I2["PDM I2 (A6)\nHIBEAM\nLatching"]
+
+    O14 -->|"O14 Status AND I2 Status"| O16
+    O15 -->|"O15 Status AND I2 Status"| O7
+    I2 --> O16 & O7
+
+    O16 -->|"2.5mm² ws/sw\nPDM.OUT.HIGHBEAM-L"| L1_HB["L1 Strålkastare V\nkl.56b"]
+    O7 -->|"2.5mm² ws\nPDM.OUT.HIGHBEAM-R"| L2_HB["L2 Strålkastare H\nkl.56b"]
+
+    L1_LB & L2_LB & L1_HB & L2_HB --> GND["⏚ Chassijord"]
+
+    style LOW_BEAM fill:#1a2e1a,stroke:#c9a144,color:#f2ede6
+    style HIGH_BEAM fill:#2e2a1a,stroke:#c9a144,color:#f2ede6
+    style STALK fill:#16213e,stroke:#5c6bc0,color:#f2ede6

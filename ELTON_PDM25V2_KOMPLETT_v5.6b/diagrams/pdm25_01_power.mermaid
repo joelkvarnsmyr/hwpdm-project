@@ -1,0 +1,44 @@
+flowchart LR
+    BAT["🔋 Batteri 12V"]
+    S_ISO["🔲 Batterifrånskiljare"]
+    GEN["⚡ Generator"]
+
+    BAT -->|"35mm² ro"| S_ISO
+    GEN -->|"6mm² ro\nPDM.ENG.GEN.B+"| BAT
+
+    S_ISO -->|"35mm² ro"| STARTER_30["Startmotor kl.30\n(fördelningspunkt)"]
+
+    STARTER_30 -->|"32mm² ro\nPDM.PWR.BAT+"| STUD
+
+    subgraph PDM_POWER["PDM25 V2 Strömförsörjning"]
+        STUD["M8-stud\n120A max (8Nm!)"]
+        C3["C3 Controller\n4–5mA quiescent"]
+        C7["C7 Chassijord\n10mm² br"]
+        CUTOFF["Global Cut-Off\n< 10.0V → alla outputs AV"]
+    end
+
+    STARTER_30 -->|"4mm² ro\nPDM.PWR.CTRL"| C3
+    C7 -->|"10mm² br"| GND12["Chassi punkt 12"]
+
+    STUD --> OUTPUTS["Alla PDM Outputs\nO1–O25\n(max 120A kombinerat)"]
+
+    BAT -->|"25mm² br"| GND1["Chassi punkt 1"]
+    ENGINE["Motorblock"] -->|"16mm² br"| GND3["Chassi punkt 3"]
+
+    CUTOFF -.->|"Skyddar batteri"| STUD
+
+    subgraph ALWAYS_ON["Always-On Outputs"]
+        O1["O1 BUSBAR 3A\n→ Signalbusbar"]
+        O18["O18 RADIO MEM 1A\n→ Radio minne"]
+        O21["O21 RPI 5A\n→ Raspberry Pi 5\n(2s soft start)"]
+    end
+
+    STUD --> O1 & O18 & O21
+
+    subgraph NOTE["📝 Routing-motivering"]
+        N1["Samma princip som original-VW LT:\nBatteri → Frånskiljare → Startmotor kl.30\n→ vidare till elcentral (PDM)\n\nFördel: Bara en tjock kabel på batteriet.\nStartmotorn kl.30 fungerar som\nfördelningspunkt."]
+    end
+
+    style PDM_POWER fill:#1a1a2e,stroke:#c9a144,color:#f2ede6
+    style ALWAYS_ON fill:#1a2e1a,stroke:#4caf50,color:#f2ede6
+    style NOTE fill:#1a1a2e,stroke:#555,color:#aaa

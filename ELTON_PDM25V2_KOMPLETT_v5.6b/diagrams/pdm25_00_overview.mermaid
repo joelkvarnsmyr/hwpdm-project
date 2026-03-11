@@ -1,0 +1,76 @@
+flowchart TD
+    subgraph POWER["⚡ Strömförsörjning"]
+        BAT["🔋 Batteri 12V"]
+        S_ISO["🔲 Batterifrånskiljare"]
+        BAT -->|"35mm² ro"| S_ISO
+        S_ISO -->|"32mm² ro\nPDM.PWR.BAT+"| STUD["PDM M8-stud\n(8Nm max)"]
+        S_ISO -->|"4mm² ro\nPDM.PWR.CTRL"| C3["PDM C3\n(Controller power)"]
+    end
+
+    subgraph IGNITION["🔑 Tändningslås S7"]
+        S7_30["kl.30 Always on"]
+        S7_15["kl.15 Run (pos II)"]
+        S7_50["kl.50 Start (momentärt)"]
+    end
+
+    S7_15 -->|"2.5mm² sw/ge\nPDM.IN.IGNITION"| I16["PDM I16\n(C1) IGNITION"]
+    S7_50 -->|"2.5mm² sw/ws\nPDM.IN.START"| I15["PDM I15\n(C2) START"]
+
+    subgraph GF["⚙️ Logic"]
+        GF1["GF1: IGN ON\n= I16 Status"]
+        T1["Timer1: BLINK TMR\nPulse Train 400/400ms"]
+    end
+    I16 --> GF1
+
+    subgraph GROUND["⏚ Jordpunkter"]
+        GND1["Chassi punkt 1\n(Batteri−, 25mm²)"]
+        GND3["Chassi punkt 3\n(Motor, 16mm²)"]
+        GND12["Chassi punkt 12\n(PDM C7, 10mm²)"]
+        GND15["Chassi punkt 15\n(Bakre jordbus)"]
+    end
+
+    BAT -->|"25mm² br"| GND1
+    ENGINE -->|"16mm² br"| GND3
+    PDM_C7["PDM C7"] -->|"10mm² br"| GND12
+    GEN["Generator B+"] -->|"6mm² ro"| BAT
+
+    subgraph OUTPUTS_ALWAYS["🔴 Always On Outputs"]
+        O1["O1 BUSBAR\n(C6, 3A)"]
+        O18["O18 RADIO MEM\n(B12, 1A)"]
+        O21["O21 RPI\n(D2, 5A, 2s soft)"]
+    end
+
+    subgraph OUTPUTS_IGN["🟡 Ignition-on Outputs (GF1)"]
+        O3["O3 IGN COIL\n(C4, 5A)"]
+        O11["O11 BLOWER\n(B8, 9A, PWM)"]
+        O14["O14 LOWBEAM-L\n(B5, 6A, 3s delay)"]
+        O15["O15 LOWBEAM-R\n(B4, 6A, 3s delay)"]
+        O20["O20 RADIO ACC\n(D11, 3A)"]
+        O22["O22 USB 12V\n(B11, 3A)"]
+        O25["O25 FUEL PUMP\n(B3, 8A)"]
+    end
+
+    subgraph OUTPUTS_CMD["🟢 Command Outputs"]
+        O2["O2 WIPER FST\n(C5, 7A)"]
+        O4["O4 BRAKE\n(D7, 5A, Instant)"]
+        O5["O5 TURN-L\n(D8, 3A)"]
+        O6["O6 TURN-R\n(D9, 3A)"]
+        O7["O7 PARK\n(D6, 3A)"]
+        O10["O10 WIPER SLO\n(B7, 7A)"]
+        O12["O12 WASHER\n(B9, 5A)"]
+        O13["O13 HORN\n(B6, 6A)"]
+        O16["O16 HIBEAM-L\n(D12, 6A)"]
+        O19["O19 REVERSE\n(B1, 5A)"]
+        O23["O23 STARTER\n(B2, 2A)"]
+        O24["O24 HIBEAM-R\n(D3, 6A)"]
+    end
+
+    GF1 --> O3 & O11 & O14 & O15 & O20 & O22 & O25
+
+    style POWER fill:#1a1a2e,stroke:#c9a144,color:#f2ede6
+    style IGNITION fill:#16213e,stroke:#c9a144,color:#f2ede6
+    style GF fill:#0f3460,stroke:#c9a144,color:#f2ede6
+    style GROUND fill:#1a1a1a,stroke:#555,color:#888
+    style OUTPUTS_ALWAYS fill:#1a2e1a,stroke:#4caf50,color:#f2ede6
+    style OUTPUTS_IGN fill:#2e2a1a,stroke:#c9a144,color:#f2ede6
+    style OUTPUTS_CMD fill:#1a1a2e,stroke:#5c6bc0,color:#f2ede6

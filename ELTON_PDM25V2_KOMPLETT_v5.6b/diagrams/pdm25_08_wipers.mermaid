@@ -1,0 +1,39 @@
+flowchart TD
+    subgraph BUSBAR_SRC["Signalbusbar O1 (Always-On, 3A)"]
+        BUSBAR["📶 Signalbusbar 12V"]
+    end
+
+    subgraph STALK["E22 Torkarspak (rattstång)"]
+        E22_SLO["kl.53 — Slow"]
+        E22_FST["kl.53b — Fast"]
+        E22_WASH["Washer — Dra tillbaka"]
+        E22_OFF["OFF — Park trigger → 53a"]
+    end
+
+    BUSBAR --> E22_SLO & E22_FST & E22_WASH & E22_OFF
+
+    E22_SLO -->|"0.75mm² gn\nPDM.IN.WIPER.SLO"| I10["PDM I10 (A2)\nWIPER SLO"]
+    E22_FST -->|"0.75mm² sw/gr\nPDM.IN.WIPER.FST"| I9["PDM I9 (A11)\nWIPER FST"]
+    E22_WASH -->|"0.75mm² gn/ro\nPDM.IN.WASHER"| I8["PDM I8 (A3)\nWASHER"]
+
+    I10 -->|"I10 Status"| O10["O10 WIPER SLO\n(B7, 7A, Peak 12A/3s, 1s soft)"]
+    I9 -->|"I9 Status"| O2["O2 WIPER FST\n(C5, 7A, Peak 12A/3s, 1s soft)"]
+    I8 -->|"I8 Status"| O12["O12 WASHER\n(B9, 5A, Peak 8A/2s)"]
+
+    O10 -->|"2.5mm² gn\nPDM.OUT.WIPER.SLO"| V_53["Torkarmotor V\nkl.53 (Slow)"]
+    O2 -->|"2.5mm² sw/gr\nPDM.OUT.WIPER.FST"| V_53B["Torkarmotor V\nkl.53b (Fast)"]
+    O12 -->|"1.5mm² gn/ro\nPDM.OUT.WASHER"| V5["V5 Spolarpump"]
+
+    subgraph PARK_CIRCUIT["🅿 Parkkrets (intern kamswitch)"]
+        E22_OFF -->|"12V → kl.53a"| V_53A["Torkarmotor\nkl.53a (parkkontakt)"]
+        V_53A -->|"via kamswitch\n(sluten om ej i park)"| V_31B["Torkarmotor\nkl.31b"]
+        V_31B -->|"1.5mm² br\nPDM.OUT.WIPER.PARK\nExtern jumper!"| V_53_PARK["Torkarmotor\nkl.53 (Slow winding)"]
+        V_53_PARK -->|"Motor kör till park\nKamswitch öppnar → stopp"| PARK_DONE["Bladen i parkläge ✅"]
+    end
+
+    V_31B -->|"kl.31 GND"| GND_WIPER["⏚ Motor chassijord"]
+
+    NOTE["⚠️ Parkkretsen kräver extern jumper\n31b → 53 vid motorns kontaktdon\nAnvänd 1.5mm² kabel"]
+
+    style PARK_CIRCUIT fill:#0f3460,stroke:#c9a144,color:#f2ede6
+    style NOTE fill:#2e2a1a,stroke:#c9a144,color:#f2ede6

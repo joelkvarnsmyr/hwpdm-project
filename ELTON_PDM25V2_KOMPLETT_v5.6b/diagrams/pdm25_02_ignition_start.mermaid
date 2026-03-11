@@ -1,0 +1,30 @@
+flowchart TD
+    subgraph IGN_SW["🔑 Tändningslås S7"]
+        S7_30["kl.30 — Batteri (alltid spänning)"]
+        S7_15["kl.15 — Run (nyckel pos II)"]
+        S7_50["kl.50 — Start (momentärt, pos III)"]
+        S7_30 -.->|"internt"| S7_15 & S7_50
+    end
+
+    S7_15 -->|"2.5mm² sw/ge\nPDM.IN.IGNITION"| I16["PDM I16 (C1)\nIGNITION\nMomentary, 6V"]
+    S7_50 -->|"2.5mm² sw/ws\nPDM.IN.START"| I15["PDM I15 (C2)\nSTART\nMomentary, 6V"]
+
+    I16 --> GF1["GF1: IGN ON\nI16 Status = True\nAnvänds av: O3, O11, O14, O15, O20, O22, O23, O25"]
+
+    I15 --> O23_LOGIC["O23 Funktion:\nGF1 AND I15 Status"]
+    GF1 --> O23_LOGIC
+    O23_LOGIC -->|"2.5mm² ro/sw\nPDM.OUT.STARTER"| O23["PDM O23 (B2)\n2A fuse\nStay On=0s\nRetries=0"]
+    O23 -->|"trigger kl.50"| RELAY["Startrelä\n(kl.50)"]
+
+    RELAY -->|"kl.50 → startmotor\nsolenoid"| STARTER["Startmotor B\n(solenoid)"]
+    BAT["🔋 Batteri"] -->|"16mm² ro\nPDM.ENG.BAT→START"| STARTER_30["Startmotor\nkl.30 (huvud+)"]
+
+    subgraph INTERLOCK["⚠️ B5 — Starterinterlock (RPi CAN)"]
+        F1["F1 Oljetrycksgivare\n→ RPi GPIO"]
+        RPI["Raspberry Pi 5"]
+        CAN_DISABLE["CAN-kommando:\ndisabla O23\nnär F1 = HIGH\n(motor igång)"]
+        F1 --> RPI --> CAN_DISABLE -.->|"CAN → PDM"| O23
+    end
+
+    style IGN_SW fill:#16213e,stroke:#c9a144,color:#f2ede6
+    style INTERLOCK fill:#2e1a1a,stroke:#ef5350,color:#f2ede6

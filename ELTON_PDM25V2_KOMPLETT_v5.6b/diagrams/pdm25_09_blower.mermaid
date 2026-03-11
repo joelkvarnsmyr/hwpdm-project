@@ -1,0 +1,40 @@
+flowchart TD
+    GF1["GF1 IGN ON\n(I16 Status = True)"]
+
+    subgraph DIVIDER["Spänningsdelare — E9 Fläktvred → I1"]
+        E9["E9 Fläktvred\n(4-lägen: AV, 1, 2, 3)"]
+        R1["R1 = 4.7kΩ\n(E9 till +12V busbar)"]
+        R2["R2 = 4.7kΩ\n(E9 till PDM I1)"]
+        I1["PDM I1 (A7)\nBLOWER\nAnalog 0–12V\nEMA = 5"]
+
+        BUSBAR_12V["📶 Signalbusbar +12V"] --> R1 --> E9
+        E9 --> R2 --> I1
+        I1 -.->|"PDM 40kΩ pull-down\nPDM 200kΩ pull-up"| GND["⏚ PDM internt"]
+    end
+
+    subgraph VOLTAGE_TABLE["Spänningstabell per läge"]
+        AV["AV (öppen krets)\n≈ 2V (PD dominerar)\n→ < 6V tröskel → 0% PWM"]
+        L1["Läge 1 ≈ 6V\n→ 40% PWM"]
+        L2["Läge 2 ≈ 10V\n→ 70% PWM"]
+        L3["Läge 3 ≈ 12V\n→ 100% PWM"]
+    end
+
+    GF1 -->|"GF1 AND I1 > 1V"| O11_LOGIC["O11 Funktion:\nGF1 AND I1 > 1V\nPWM via Analog map"]
+
+    subgraph PWM_MAP["O11 PWM-mappning (Analog Input → Duty Cycle)"]
+        MAP1["I1 < 1V → 0%"]
+        MAP2["I1 = 6V → 40%"]
+        MAP3["I1 = 10V → 70%"]
+        MAP4["I1 = 12V → 100%"]
+    end
+
+    O11_LOGIC --> O11["O11 BLOWER\n(B8, 9A, Peak 16A/4s)\n30s Stay-On after GF1 off\n1s Soft Start"]
+    O11 -->|"2.5mm² sw/ge\nPDM.OUT.BLOWER"| V2["V2 Fläktmotor\n(kupé)"]
+    V2 --> GND_FAN["⏚ Chassijord"]
+
+    NOTE["⚠️ Exakta spänningar beroende på\nE9 inre motstånd — verifiera\nmed voltmeter vid installation!"]
+
+    style DIVIDER fill:#0f3460,stroke:#c9a144,color:#f2ede6
+    style VOLTAGE_TABLE fill:#1a1a2e,stroke:#5c6bc0,color:#f2ede6
+    style PWM_MAP fill:#1a2e1a,stroke:#4caf50,color:#f2ede6
+    style NOTE fill:#2e2a1a,stroke:#c9a144,color:#f2ede6

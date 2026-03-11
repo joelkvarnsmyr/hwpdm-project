@@ -1,0 +1,35 @@
+flowchart TD
+    subgraph BUSBAR_SRC["Signalbusbar O1 (Always-On, 3A)"]
+        BUSBAR["📶 Signalbusbar 12V"]
+    end
+
+    subgraph PULL_UP["10kΩ Pull-Up (Active Low)"]
+        R10K["10kΩ resistor\n(monterad nära PDM A1)\n1/4W"]
+        I12["PDM I12 (A1)\nHORN\nMomentary Active LOW\n6V threshold"]
+    end
+
+    BUSBAR --> R10K --> I12
+
+    subgraph HORN_BTN_CIRCUIT["Hornknapp (via rattstångens slip ring)"]
+        HORN_BTN["Hornknapp\n(i rattcentrum)"]
+        SLIP_RING["Slip ring\n(rattstång)"]
+        HORN_BTN --> SLIP_RING
+    end
+
+    SLIP_RING -->|"1.0mm² br/bl"| I12_LINE["Kabel till PDM I12\n(delas med pull-up)"]
+    I12_LINE --> I12
+    SLIP_RING -->|"Knapp nedtryckt\n→ GND"| GND_CHR["⏚ Chassijord"]
+
+    I12 -->|"I12 Status\n(LOW = ON)"| O13["O13 HORN\n(B6, 6A)\nPeak Fuse 8A / 0.5s"]
+    O13 -->|"2.0mm² sw/ge\nPDM.OUT.HORN"| H1["H1 Signalhorn"]
+    H1 --> GND_HORN["⏚ Chassijord"]
+
+    subgraph STATES["Tillståndstabell"]
+        S1["Knapp ej nedtryckt\nI12 = 12V (pull-up HIGH)\nO13 = AV"]
+        S2["Knapp nedtryckt\nI12 = 0V (GND LOW)\nO13 = PÅ"]
+        S3["Kabelbrott\nI12 = 12V (pull-up HIGH)\nO13 = AV (fail-safe!)"]
+    end
+
+    style PULL_UP fill:#0f3460,stroke:#c9a144,color:#f2ede6
+    style STATES fill:#1a1a2e,stroke:#5c6bc0,color:#f2ede6
+    style S3 fill:#1a2e1a,stroke:#4caf50,color:#f2ede6

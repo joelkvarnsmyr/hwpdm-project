@@ -1,0 +1,61 @@
+flowchart TD
+    subgraph POWER_PATH["⚡ Kraftkrets Startmotor (alltid spänning)"]
+        BAT["🔋 Batteri +12V\n(direkt, 32mm² kabel)"]
+        STARTER_30["Startmotor kl.30\n(ström in)"]
+        STARTER_MAIN["⚙️ Startmotor B\n(VW LT 1976 CH)"]
+
+        BAT -->|"16mm² ro\nP091\n(direkt, ej via PDM!)"| STARTER_30
+        STARTER_30 --> STARTER_MAIN --> GND_ST["⏚ Motorblock GND"]
+    end
+
+    subgraph RELAY_PATH["⚡ Startrelä (kraftsida)"]
+        BAT_RELAY["🔋 Batteri +12V"]
+        RELAY_30["Startrelä\nkl.30 (ström in)"]
+        RELAY_87["Startrelä\nkl.87 (ström ut)"]
+        SOLENOID["Startmotor kl.50\n(solenoid)"]
+
+        BAT_RELAY -->|"16mm² ro\nP092"| RELAY_30
+        RELAY_30 --- RELAY_87
+        RELAY_87 -->|"16mm² ro\nP093"| SOLENOID
+        SOLENOID --> STARTER_MAIN
+    end
+
+    subgraph CTRL_PATH["🔑 Styrkrets (via PDM)"]
+        GF1["GF1 IGN ON\n(I16 Status = True)"]
+        I16["PDM I16 (C1)\nIGNITION\n(kl.15 från tändningslås)"]
+        I15["PDM I15 (C2)\nSTART\n(kl.50 från tändningslås)\nMomentary Active High"]
+        O23["O23 STARTER\n(B2, 2A)\nStay-On = 0s\nRetries = 0\nFunktion: GF1 AND I15 Status"]
+        RELAY_85["Startrelä\nkl.85 (spole +)"]
+        RELAY_86["Startrelä\nkl.86 (spole −)\n⏚ Chassi/motorblock"]
+
+        I16 -->|"GF1 = True"| GF1
+        GF1 -->|"AND"| O23
+        I15 -->|"AND"| O23
+        O23 -->|"1.5mm² ro/sw\nP090\nPDM.OUT.STARTER"| RELAY_85
+        RELAY_85 --- RELAY_86
+        RELAY_86 -->|"1.5mm² br\nP094"| GND_RELAY["⏚ Chassi GND"]
+    end
+
+    subgraph RPi_INTERLOCK["🔒 RPi CAN Motorskydd (B5)"]
+        F1["F1 Oljetrycksbrytare"]
+        RPI_GPIO["RPi GPIO IN"]
+        RPI_CAN_DIS["RPi → CAN bus\nDisable O23 cmd"]
+
+        F1 -->|"GPIO HIGH = motor igång\n(tryck OK)"| RPI_GPIO
+        RPI_GPIO -->|"Motor igång →\nkoppla bort startsignal"| RPI_CAN_DIS
+        RPI_CAN_DIS -->|"CAN disable O23\n(förhindrar överstartning)"| O23
+    end
+
+    subgraph STARTER_TERMINALS["Startmotorns anslutningar"]
+        T30["kl.30 = Batteriström IN\n(16mm², alltid hot)"]
+        T50["kl.50 = Solenoid trigger\n(16mm², via startrelä)"]
+        T31["kl.31 = GND\n(motorblock)"]
+    end
+
+    NOTE["✅ Stay-On=0s: PDM kopplar bara\nutan håller INTE kvar signalen\n→ Förhindrar att motorn kör vidare!\n\n⚡ PDM → relä spole: 1.5mm² (~0.5A)\n⚡ Batteri → relä → solenoid: 16mm² (30-60A)"]
+
+    style POWER_PATH fill:#2e1a1a,stroke:#ef5350,color:#f2ede6
+    style RELAY_PATH fill:#2e1a2e,stroke:#a855f7,color:#f2ede6
+    style CTRL_PATH fill:#1a2e1a,stroke:#4caf50,color:#f2ede6
+    style RPi_INTERLOCK fill:#0f3460,stroke:#c9a144,color:#f2ede6
+    style NOTE fill:#1a2e1a,stroke:#4caf50,color:#f2ede6

@@ -1,0 +1,49 @@
+flowchart TD
+    subgraph C10_5V["📡 PDM 5V Referens (C10)"]
+        C10["PDM C10\n5V Referens\nMax 100mA total"]
+    end
+
+    subgraph COOLANT_TEMP["🌡 G2 Kylvätsketemperatur (I11)"]
+        G2["G2 NTC Kyltemp\n(negativ temperaturkoeff)"]
+        R_COOL["1kΩ pull-up\n→ 5mA @ 5V\n(mot C10)"]
+        I11["PDM I11 (A12)\nCOOLANT TEMP\nAnalog 0–5V\nEMA = 10"]
+
+        C10 -->|"5V ref"| R_COOL --> G2_INPUT["Delade noden"]
+        G2 -->|"NTC-motstånd\nvarierar med temp"| G2_INPUT
+        G2_INPUT --> I11
+        G2 --> GND_G2["⏚ Chassijord"]
+    end
+
+    subgraph FUEL_LEVEL["⛽ G Bränslenivå (I13)"]
+        G_SENDER["G Tanksändare\n(rörlig arm + motstånd\ncirca 10–180Ω)"]
+        R_FUEL["100Ω pull-up\n→ 50mA @ 5V\n(mot C10)"]
+        I13["PDM I13 (C11)\nFUEL LEVEL\nAnalog 0–5V\nEMA = 10"]
+
+        C10 -->|"5V ref"| R_FUEL --> G_INPUT["Delade noden"]
+        G_SENDER -->|"variabelt motstånd"| G_INPUT
+        G_INPUT --> I13
+        G_SENDER --> GND_G["⏚ Chassijord (tank)"]
+    end
+
+    subgraph RPi_SENSORS["🖥 Sensorer → Raspberry Pi GPIO (ej PDM)"]
+        F1["F1 Oljetrycksbrytare\n(NC = tryck OK, öppnar = lågt tryck)"]
+        F66["F66 Kylvätskenivåbrytare\n(NC = nivå OK)"]
+        RPI_IO["RPi GPIO Input\n(3.3V logic med pull-up)"]
+
+        F1 -->|"0.75mm² bl/gn\nPDM.SENSOR.OIL"| RPI_IO
+        F66 -->|"0.75mm² li/sw\nPDM.SENSOR.COOLANTLVL"| RPI_IO
+        F1 & F66 --> GND_SW["⏚ Chassijord"]
+    end
+
+    subgraph BUDGET["💰 5V Budget (C10)"]
+        BUD1["G2 pull-up 1kΩ = 5mA"]
+        BUD2["G fuel sender 100Ω = 50mA"]
+        BUD3["Total = 55mA / 100mA MAX\n→ OK, marginal 45mA kvar"]
+    end
+
+    NOTE_EMA["EMA = Exponential Moving Average\nfiltrerar brusiga sensorsignaler\nEMA=10 = mjuk respons\nEMA=5 = snabbare"]
+
+    style C10_5V fill:#0f3460,stroke:#c9a144,color:#f2ede6
+    style RPi_SENSORS fill:#1a1a2e,stroke:#5c6bc0,color:#f2ede6
+    style BUDGET fill:#1a2e1a,stroke:#4caf50,color:#f2ede6
+    style NOTE_EMA fill:#2e2a1a,stroke:#c9a144,color:#f2ede6

@@ -1,0 +1,42 @@
+flowchart TD
+    GF1["GF1 IGN ON\n(I16 Status = True)"]
+
+    subgraph IGNITION_COIL["🔥 Tändningsspole (Kret K4)"]
+        O3["O3 IGN COIL\n(C4, 5A, HS-läge)"]
+        N6["N6 Ballastmotstånd\n(seriemotstånd)"]
+        COIL["N Tändningsspole\nkl.15 = matning\nkl.1 = avbrottssignal"]
+        DIST["Fördelaren\n(kl.1 → primärkretsbrytare)"]
+
+        GF1 -->|"Funktion GF1"| O3
+        O3 -->|"1.5mm² sw/li\nPDM.OUT.IGNITION\n(gul tejp)"| N6
+        N6 -->|"1.0mm² ws/li\nPDM.ENG.COIL.N6\n(grön tejp)"| COIL_15["Spole kl.15"]
+        COIL -->|"kl.1 primärström"| COIL_1["Spole kl.1"]
+        COIL_1 -->|"1.0mm² gn\nPDM.ENG.COIL.T1\n(grön tejp)"| DIST
+        COIL -->|"kl.31 GND"| GND_COIL["⏚ Chassijord"]
+    end
+
+    subgraph FUEL_PUMP["⛽ Bränslepump (Krets B2)"]
+        O25["O25 FUEL PUMP\n(B3+B10*, 8A, Peak 12A/3s)\n2s Start Delay\n1s Soft Start"]
+        G6["G6 Bränslepump\n(i tanken)"]
+
+        GF1 -->|"Funktion GF1"| O25
+        O25 -->|"1.5mm² sw\nPDM.OUT.FUELPUMP\n*B10 = parallell pin"| G6
+        G6 --> GND_FUEL["⏚ Chassijord"]
+    end
+
+    subgraph RPi_INTERLOCK["🔒 RPi CAN Oljeskydd (B2)"]
+        F1["F1 Oljetrycksbrytare\n(NC = tryck OK)"]
+        RPI_GPIO["RPi GPIO IN\n(F1 status)"]
+        RPI_CAN["RPi → CAN bus\nDisable O25 cmd"]
+
+        F1 -->|"0.75mm² bl/gn\nPDM.SENSOR.OIL"| RPI_GPIO
+        RPI_GPIO -->|"GPIO LOW = oljetryck förlorat\nIgnition PÅ"| RPI_CAN
+        RPI_CAN -->|"CAN disable\nO25 fuel pump"| O25
+    end
+
+    NOTE_TAPE["📌 Tejpmärkning:\nGul tejp = PDM outputkabel\nGrön tejp = motorsignalkabel\n(EJ PDM output)"]
+
+    style IGNITION_COIL fill:#2e1a1a,stroke:#ef5350,color:#f2ede6
+    style FUEL_PUMP fill:#1a2e1a,stroke:#4caf50,color:#f2ede6
+    style RPi_INTERLOCK fill:#0f3460,stroke:#c9a144,color:#f2ede6
+    style NOTE_TAPE fill:#1a1a2e,stroke:#5c6bc0,color:#f2ede6

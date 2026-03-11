@@ -1,0 +1,36 @@
+flowchart TD
+    subgraph BUSBAR_SRC["Signalbusbar O1 (Always-On)"]
+        BUSBAR["📶 Signalbusbar 12V"]
+    end
+
+    subgraph TIMER["⏱ Timer 1 — BLINK TMR"]
+        T1["Pulse Train\nON 400ms / OFF 400ms\n≈ 1.25 Hz"]
+    end
+
+    subgraph INPUTS["Inputs (via Busbar)"]
+        I5["I5 TURN L\n(A9, Momentary)"]
+        I6["I6 TURN R\n(A4, Momentary)"]
+        I3["I3 HAZARD\n(A8, Latching)"]
+    end
+
+    BUSBAR --> I5 & I6 & I3
+
+    T1 -->|"AND"| O5_LOGIC["O5 Funktion:\nT1 AND (I5 OR I3)"]
+    I5 -->|"OR"| O5_LOGIC
+    I3 -->|"OR"| O5_LOGIC & O6_LOGIC
+
+    T1 -->|"AND"| O6_LOGIC["O6 Funktion:\nT1 AND (I6 OR I3)"]
+    I6 -->|"OR"| O6_LOGIC
+
+    O5_LOGIC --> O5["O5 TURN-L\n(D8, 3A)"]
+    O6_LOGIC --> O6["O6 TURN-R\n(D9, 3A)"]
+
+    O5 -->|"1.5mm² sw/ws\nPDM.OUT.TURN-L"| TURN_L["M5 Blinkers V fram\n+ M6 Blinkers V bak"]
+    O6 -->|"1.5mm² sw/gn\nPDM.OUT.TURN-R"| TURN_R["M7 Blinkers H fram\n+ M8 Blinkers H bak"]
+
+    TURN_L & TURN_R --> GND_REAR["⏚ Jordsamlingsplint bak"]
+
+    NOTE["✅ Blinkers via Timer + AND\nEJ via PWM på output\nVariationsblinkersknapp I3 aktiverar BÅDA sidor"]
+
+    style TIMER fill:#0f3460,stroke:#c9a144,color:#f2ede6
+    style NOTE fill:#1a2e1a,stroke:#4caf50,color:#f2ede6

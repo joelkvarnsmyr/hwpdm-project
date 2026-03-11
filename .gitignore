@@ -1,0 +1,6 @@
+node_modules/
+app.asar.new
+unpacked-app/
+Builds/
+*.log
+.DS_Store

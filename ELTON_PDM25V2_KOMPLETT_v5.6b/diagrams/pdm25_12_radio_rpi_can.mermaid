@@ -1,0 +1,55 @@
+flowchart TD
+    GF1["GF1 IGN ON\n(I16 Status = True)"]
+    ALWAYS["Always True\n(alltid på)"]
+
+    subgraph RADIO["📻 Radio / Stereo"]
+        O18["O18 RADIO MEM\n(B12, 1A)\nAlways True\n= Terminal 30 (minne)"]
+        O20["O20 RADIO ACC\n(D11, 3A)\nGF1\n= Terminal 15 (acc)"]
+        RADIO_UNIT["Radioapparat\nkl.B+ = O18 (minne)\nkl.ACC = O20 (radio PÅ)\nkl.GND = chassi"]
+
+        ALWAYS -->|"Funktion"| O18
+        GF1 -->|"Funktion"| O20
+        O18 -->|"1.0mm² sw\nPDM.OUT.RADIO.MEM"| RADIO_UNIT
+        O20 -->|"1.5mm² sw\nPDM.OUT.RADIO.ACC"| RADIO_UNIT
+        RADIO_UNIT --> GND_RADIO["⏚ Chassijord"]
+    end
+
+    subgraph RPI["🖥 Raspberry Pi 5 + CAN HAT"]
+        O21["O21 RPI PWR\n(D2, 5A)\nAlways True\n5s Turn-On Delay\n2s Soft Start"]
+        O22["O22 USB 12V\n(B11, 3A)\nGF1\n(USB-laddare / display)"]
+        DC_DC["DC-DC 12V→5V\n(3A min, 5A rek)\nStabil spänning till RPi"]
+        RPI_UNIT["Raspberry Pi 5\n(2.5mm USB-C)"]
+        CAN_HAT["CAN HAT\n(Waveshare/PiCAN2)\n120Ω term. kontrollera!"]
+
+        ALWAYS -->|"Funktion"| O21
+        GF1 -->|"Funktion"| O22
+        O21 -->|"2.0mm² sw\nPDM.OUT.RPI"| DC_DC
+        DC_DC -->|"5V stabil"| RPI_UNIT
+        RPI_UNIT --- CAN_HAT
+        O22 -->|"1.5mm² sw\nPDM.OUT.USB12V"| USB_OUT["USB 12V uttag"]
+    end
+
+    subgraph CAN_BUS["🔗 CAN Bus — PDM25 ↔ RPi"]
+        PDM_CANH["PDM CAN-H (C8)"]
+        PDM_CANL["PDM CAN-L (C9)"]
+        RPI_CANH["RPi CAN-H (HAT)"]
+        RPI_CANL["RPi CAN-L (HAT)"]
+
+        PDM_CANH -->|"0.75mm² ws\nPDM.CAN.H\n(tvinnad par)"| RPI_CANH
+        PDM_CANL -->|"0.75mm² sw\nPDM.CAN.L"| RPI_CANL
+    end
+
+    subgraph CAN_TERM["⚠️ CAN-terminering (B4)"]
+        PDM_TERM["PDM: 120Ω aktiverat\n(mjukvaruval i Configurator)"]
+        HAT_TERM["HAT: Kolla jumper!\nMånga HATs har\nINBYGGD 120Ω aktivt!"]
+        CORRECT["✅ Korrekt: PDM 120Ω + HAT 120Ω\n= 60Ω total (rätt!)"]
+        WRONG["❌ Fel: PDM + HAT + extern 120Ω\n= 40Ω → CAN-fel!"]
+        VERIFY["Mät CAN-H till CAN-L\nmed buss av = ska vara 60Ω ±5Ω"]
+    end
+
+    style RADIO fill:#1a1a2e,stroke:#5c6bc0,color:#f2ede6
+    style RPI fill:#0f3460,stroke:#c9a144,color:#f2ede6
+    style CAN_BUS fill:#1a2e1a,stroke:#4caf50,color:#f2ede6
+    style CAN_TERM fill:#2e2a1a,stroke:#c9a144,color:#f2ede6
+    style WRONG fill:#2e1a1a,stroke:#ef5350,color:#f2ede6
+    style CORRECT fill:#1a2e1a,stroke:#4caf50,color:#f2ede6

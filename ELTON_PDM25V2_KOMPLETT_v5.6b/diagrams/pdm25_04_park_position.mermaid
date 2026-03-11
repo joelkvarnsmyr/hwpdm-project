@@ -1,0 +1,20 @@
+flowchart TD
+    subgraph BUSBAR_SRC["Signalbusbar O1 (Always-On, 3A)"]
+        BUSBAR["📶 Signalbusbar 12V"]
+    end
+
+    BUSBAR -->|"via parkljusswitch"| I7["PDM I7 (A10)\nPARK\nMomentary, 6V"]
+
+    I7 -->|"I7 Status (UTAN tändning!)"| O7["O7 PARK\n(D6, 3A)"]
+
+    O7 -->|"1.5mm² gr\nPDM.OUT.PARK"| BRANCH["Grenuttag\n(kabelspjälk)"]
+
+    BRANCH -->|"1.5mm² gr/sw\nPDM.OUT.PARK-L"| PARK_L["M1 Sidoljus V\n+ M4 Bakljus park V"]
+    BRANCH -->|"1.5mm² gr/ro\nPDM.OUT.PARK-R"| PARK_R["M3 Sidoljus H\n+ M2 Bakljus park H"]
+
+    PARK_L & PARK_R --> GND_REAR["⏚ Jordsamlingsplint bak\n→ Chassi punkt 15"]
+
+    NOTE["✅ O7 funktion = I7 Status\nFungerar UTAN tändning\n(terminal 58-krets)"]
+
+    style BUSBAR_SRC fill:#1a2e1a,stroke:#4caf50,color:#f2ede6
+    style NOTE fill:#1a2e1a,stroke:#4caf50,color:#f2ede6
