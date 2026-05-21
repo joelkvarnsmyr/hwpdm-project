@@ -1,0 +1,444 @@
+VERSION "PDM25 V2 - Thu May 07 2026 22:09:27 GMT+0200 (centraleuropeisk sommartid)"
+
+NS_ : 
+    NS_DESC_
+    CM_
+    BA_DEF_
+    BA_
+    VAL_
+    CAT_DEF_
+    CAT_
+    FILTER
+    BA_DEF_DEF_
+    EV_DATA_
+    ENVVAR_DATA_
+    SGTYPE_
+    SGTYPE_VAL_
+    BA_DEF_SGTYPE_
+    BA_SGTYPE_
+    SIG_TYPE_REF_
+    VAL_TABLE_
+    SIG_GROUP_
+    SIG_VALTYPE_
+    SIGTYPE_VALTYPE_
+
+BS_:
+
+BU_:
+
+BO_ 2147487744 CAN_Message_1: 8 Vector__XXX
+ SG_ RTC_Year : 7|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ RTC_Month : 15|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ RTC_Day : 23|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ RTC_Hour : 31|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ RTC_Minute : 39|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ RTC_Second : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487745 CAN_Message_2: 8 Vector__XXX
+ SG_ Controller_On_Time : 7|32@0+ (1,0) [0|0] "s" Vector__XXX
+ SG_ Battery_Voltage : 39|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ _5V_Rail : 55|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+
+BO_ 2147487746 CAN_Message_3: 8 Vector__XXX
+ SG_ Device_Temperature_1 : 7|8@0- (1,0) [0|0] "degC" Vector__XXX
+ SG_ Device_Temperature_2 : 15|8@0- (1,0) [0|0] "degC" Vector__XXX
+ SG_ Device_Temperature_3 : 23|8@0- (1,0) [0|0] "degC" Vector__XXX
+ SG_ Device_Temperature_4 : 31|8@0- (1,0) [0|0] "degC" Vector__XXX
+ SG_ Device_Temperature_5 : 39|8@0- (1,0) [0|0] "degC" Vector__XXX
+ SG_ Device_Temperature_6 : 47|8@0- (1,0) [0|0] "degC" Vector__XXX
+ SG_ Total_Current : 55|16@0+ (0.1,0) [0|0] "A" Vector__XXX
+
+BO_ 2147487747 CAN_Message_4: 8 Vector__XXX
+ SG_ Acceleration_X_Axis : 7|16@0- (0.01,0) [0|0] "m/s-2" Vector__XXX
+ SG_ Acceleration_Y_Axis : 23|16@0- (0.01,0) [0|0] "m/s-2" Vector__XXX
+ SG_ Acceleration_Z_Axis : 39|16@0- (0.01,0) [0|0] "m/s-2" Vector__XXX
+
+BO_ 2147487748 CAN_Message_5: 8 Vector__XXX
+ SG_ Rotation_Angle_X_Axis : 7|16@0- (0.01,0) [0|0] "deg" Vector__XXX
+ SG_ Rotation_Angle_Y_Axis : 23|16@0- (0.01,0) [0|0] "deg" Vector__XXX
+ SG_ Rotation_Angle_Z_Axis : 39|16@0- (0.01,0) [0|0] "deg" Vector__XXX
+
+BO_ 2147487749 CAN_Message_6: 8 Vector__XXX
+ SG_ Rotation_Speed_X_Axis : 7|16@0- (0.01,0) [0|0] "deg/s" Vector__XXX
+ SG_ Rotation_Speed_Y_Axis : 23|16@0- (0.01,0) [0|0] "deg/s" Vector__XXX
+ SG_ Rotation_Speed_Z_Axis : 39|16@0- (0.01,0) [0|0] "deg/s" Vector__XXX
+
+BO_ 2147487750 CAN_Message_7: 8 Vector__XXX
+ SG_ Output_1__BUSBAR__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_1__BUSBAR__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_1__BUSBAR__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_1__BUSBAR__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_1__BUSBAR__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487751 CAN_Message_8: 8 Vector__XXX
+ SG_ Output_2__WIPER_FST__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_2__WIPER_FST__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_2__WIPER_FST__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_2__WIPER_FST__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_2__WIPER_FST__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487752 CAN_Message_9: 8 Vector__XXX
+ SG_ Output_3__IGN_COIL__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_3__IGN_COIL__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_3__IGN_COIL__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_3__IGN_COIL__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_3__IGN_COIL__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487753 CAN_Message_10: 8 Vector__XXX
+ SG_ Output_4__BRAKE__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_4__BRAKE__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_4__BRAKE__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_4__BRAKE__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_4__BRAKE__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487754 CAN_Message_11: 8 Vector__XXX
+ SG_ Output_5__FUEL__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_5__FUEL__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_5__FUEL__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_5__FUEL__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_5__FUEL__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487755 CAN_Message_12: 8 Vector__XXX
+ SG_ Output_6__PARK__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_6__PARK__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_6__PARK__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_6__PARK__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_6__PARK__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487756 CAN_Message_13: 8 Vector__XXX
+ SG_ Output_7__HIBEAM_R__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_7__HIBEAM_R__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_7__HIBEAM_R__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_7__HIBEAM_R__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_7__HIBEAM_R__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487757 CAN_Message_14: 8 Vector__XXX
+ SG_ Output_8__IND.TURN__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_8__IND.TURN__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_8__IND.TURN__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_8__IND.TURN__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_8__IND.TURN__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487758 CAN_Message_15: 8 Vector__XXX
+ SG_ Output_9__WARN.MASTER__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_9__WARN.MASTER__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_9__WARN.MASTER__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_9__WARN.MASTER__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_9__WARN.MASTER__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487759 CAN_Message_16: 8 Vector__XXX
+ SG_ Output_10__WIPER_SLO__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_10__WIPER_SLO__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_10__WIPER_SLO__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_10__WIPER_SLO__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_10__WIPER_SLO__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487760 CAN_Message_17: 8 Vector__XXX
+ SG_ Output_11__BLOWER__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_11__BLOWER__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_11__BLOWER__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_11__BLOWER__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_11__BLOWER__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487761 CAN_Message_18: 8 Vector__XXX
+ SG_ Output_12__WASHER__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_12__WASHER__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_12__WASHER__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_12__WASHER__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_12__WASHER__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487762 CAN_Message_19: 8 Vector__XXX
+ SG_ Output_13__HORN__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_13__HORN__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_13__HORN__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_13__HORN__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_13__HORN__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487763 CAN_Message_20: 8 Vector__XXX
+ SG_ Output_14__LOWBEAM_L__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_14__LOWBEAM_L__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_14__LOWBEAM_L__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_14__LOWBEAM_L__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_14__LOWBEAM_L__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487764 CAN_Message_21: 8 Vector__XXX
+ SG_ Output_15__LOWBEAM_R__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_15__LOWBEAM_R__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_15__LOWBEAM_R__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_15__LOWBEAM_R__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_15__LOWBEAM_R__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487765 CAN_Message_22: 8 Vector__XXX
+ SG_ Output_16__HIBEAM_L__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_16__HIBEAM_L__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_16__HIBEAM_L__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_16__HIBEAM_L__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_16__HIBEAM_L__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487766 CAN_Message_23: 8 Vector__XXX
+ SG_ Output_17__RESERVE17__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_17__RESERVE17__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_17__RESERVE17__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_17__RESERVE17__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_17__RESERVE17__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487767 CAN_Message_24: 8 Vector__XXX
+ SG_ Output_18__RESERVE18__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_18__RESERVE18__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_18__RESERVE18__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_18__RESERVE18__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_18__RESERVE18__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487768 CAN_Message_25: 8 Vector__XXX
+ SG_ Output_19__REVERSE__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_19__REVERSE__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_19__REVERSE__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_19__REVERSE__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_19__REVERSE__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487769 CAN_Message_26: 8 Vector__XXX
+ SG_ Output_20__RADIO_ACC__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_20__RADIO_ACC__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_20__RADIO_ACC__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_20__RADIO_ACC__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_20__RADIO_ACC__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487770 CAN_Message_27: 8 Vector__XXX
+ SG_ Output_21__RPI__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_21__RPI__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_21__RPI__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_21__RPI__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_21__RPI__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487771 CAN_Message_28: 8 Vector__XXX
+ SG_ Output_22__USB_12V__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_22__USB_12V__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_22__USB_12V__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_22__USB_12V__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_22__USB_12V__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487772 CAN_Message_29: 8 Vector__XXX
+ SG_ Output_23__STARTER__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_23__STARTER__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_23__STARTER__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_23__STARTER__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_23__STARTER__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487773 CAN_Message_30: 8 Vector__XXX
+ SG_ Output_24__TURN_R__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_24__TURN_R__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_24__TURN_R__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_24__TURN_R__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_24__TURN_R__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487774 CAN_Message_31: 8 Vector__XXX
+ SG_ Output_25__TURN_L__HS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_25__TURN_L__HS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_25__TURN_L__HS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_25__TURN_L__HS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_25__TURN_L__HS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487775 CAN_Message_32: 8 Vector__XXX
+ SG_ Output_1__BUSBAR__LS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_1__BUSBAR__LS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_1__BUSBAR__LS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_1__BUSBAR__LS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_1__BUSBAR__LS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487776 CAN_Message_33: 8 Vector__XXX
+ SG_ Output_2__WIPER_FST__LS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_2__WIPER_FST__LS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_2__WIPER_FST__LS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_2__WIPER_FST__LS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_2__WIPER_FST__LS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487777 CAN_Message_34: 8 Vector__XXX
+ SG_ Output_3__IGN_COIL__LS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_3__IGN_COIL__LS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_3__IGN_COIL__LS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_3__IGN_COIL__LS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_3__IGN_COIL__LS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487778 CAN_Message_35: 8 Vector__XXX
+ SG_ Output_4__BRAKE__LS_Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Output_4__BRAKE__LS_Current : 23|16@0+ (0.001,0) [0|0] "A" Vector__XXX
+ SG_ Output_4__BRAKE__LS_Percentage_Tripped : 39|8@0+ (1,0) [0|0] "%" Vector__XXX
+ SG_ Output_4__BRAKE__LS_Trip_Count : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Output_4__BRAKE__LS_Status : 55|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487779 CAN_Message_36: 8 Vector__XXX
+ SG_ Input_1__BLOWER__Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Input_1__BLOWER__Frequency : 23|16@0+ (1,0) [0|0] "Hz" Vector__XXX
+ SG_ Input_1__BLOWER__Status : 39|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487780 CAN_Message_37: 8 Vector__XXX
+ SG_ Input_2__HIBEAM__Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Input_2__HIBEAM__Frequency : 23|16@0+ (1,0) [0|0] "Hz" Vector__XXX
+ SG_ Input_2__HIBEAM__Status : 39|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487781 CAN_Message_38: 8 Vector__XXX
+ SG_ Input_3__HAZARD__Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Input_3__HAZARD__Frequency : 23|16@0+ (1,0) [0|0] "Hz" Vector__XXX
+ SG_ Input_3__HAZARD__Status : 39|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487782 CAN_Message_39: 8 Vector__XXX
+ SG_ Input_4__BRAKE__Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Input_4__BRAKE__Frequency : 23|16@0+ (1,0) [0|0] "Hz" Vector__XXX
+ SG_ Input_4__BRAKE__Status : 39|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487783 CAN_Message_40: 8 Vector__XXX
+ SG_ Input_5__TURN_L__Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Input_5__TURN_L__Frequency : 23|16@0+ (1,0) [0|0] "Hz" Vector__XXX
+ SG_ Input_5__TURN_L__Status : 39|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487784 CAN_Message_41: 8 Vector__XXX
+ SG_ Input_6__TURN_R__Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Input_6__TURN_R__Frequency : 23|16@0+ (1,0) [0|0] "Hz" Vector__XXX
+ SG_ Input_6__TURN_R__Status : 39|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487785 CAN_Message_42: 8 Vector__XXX
+ SG_ Input_7__REVERSE__Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Input_7__REVERSE__Frequency : 23|16@0+ (1,0) [0|0] "Hz" Vector__XXX
+ SG_ Input_7__REVERSE__Status : 39|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487786 CAN_Message_43: 8 Vector__XXX
+ SG_ Input_8__WASHER__Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Input_8__WASHER__Frequency : 23|16@0+ (1,0) [0|0] "Hz" Vector__XXX
+ SG_ Input_8__WASHER__Status : 39|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487787 CAN_Message_44: 8 Vector__XXX
+ SG_ Input_9__WIPER_FST__Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Input_9__WIPER_FST__Frequency : 23|16@0+ (1,0) [0|0] "Hz" Vector__XXX
+ SG_ Input_9__WIPER_FST__Status : 39|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487788 CAN_Message_45: 8 Vector__XXX
+ SG_ Input_10__WIPER_SLO__Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Input_10__WIPER_SLO__Frequency : 23|16@0+ (1,0) [0|0] "Hz" Vector__XXX
+ SG_ Input_10__WIPER_SLO__Status : 39|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487789 CAN_Message_46: 8 Vector__XXX
+ SG_ Input_11__COOLANT__Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Input_11__COOLANT__Frequency : 23|16@0+ (1,0) [0|0] "Hz" Vector__XXX
+ SG_ Input_11__COOLANT__Status : 39|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487790 CAN_Message_47: 8 Vector__XXX
+ SG_ Input_12__HORN__Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Input_12__HORN__Frequency : 23|16@0+ (1,0) [0|0] "Hz" Vector__XXX
+ SG_ Input_12__HORN__Status : 39|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487791 CAN_Message_48: 8 Vector__XXX
+ SG_ Input_13__FUEL_LVL__Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Input_13__FUEL_LVL__Frequency : 23|16@0+ (1,0) [0|0] "Hz" Vector__XXX
+ SG_ Input_13__FUEL_LVL__Status : 39|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487792 CAN_Message_49: 8 Vector__XXX
+ SG_ Input_14__OIL.PRESS__Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Input_14__OIL.PRESS__Frequency : 23|16@0+ (1,0) [0|0] "Hz" Vector__XXX
+ SG_ Input_14__OIL.PRESS__Status : 39|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487793 CAN_Message_50: 8 Vector__XXX
+ SG_ Input_15__START__Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Input_15__START__Frequency : 23|16@0+ (1,0) [0|0] "Hz" Vector__XXX
+ SG_ Input_15__START__Status : 39|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487794 CAN_Message_51: 8 Vector__XXX
+ SG_ Input_16__IGNITION__Voltage : 7|16@0+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ Input_16__IGNITION__Frequency : 23|16@0+ (1,0) [0|0] "Hz" Vector__XXX
+ SG_ Input_16__IGNITION__Status : 39|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487795 CAN_Message_52: 8 Vector__XXX
+ SG_ CAN_Keypad_1_Connection_Status : 0|1@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Locked_Status : 1|1@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Button_1_Status : 9|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Button_2_Status : 11|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Button_3_Status : 13|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Button_4_Status : 15|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Button_5_Status : 17|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Button_6_Status : 19|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Button_7_Status : 21|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Button_8_Status : 23|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Button_9_Status : 25|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Button_10_Status : 27|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Button_11_Status : 29|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Button_12_Status : 31|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Button_13_Status : 33|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Button_14_Status : 35|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Button_15_Status : 37|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Button_16_Status : 39|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Button_17_Status : 41|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Button_18_Status : 43|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Button_19_Status : 45|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_1_Button_20_Status : 47|2@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487796 CAN_Message_53: 8 Vector__XXX
+ SG_ CAN_Keypad_2_Connection_Status : 0|1@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Locked_Status : 1|1@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Button_1_Status : 9|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Button_2_Status : 11|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Button_3_Status : 13|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Button_4_Status : 15|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Button_5_Status : 17|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Button_6_Status : 19|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Button_7_Status : 21|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Button_8_Status : 23|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Button_9_Status : 25|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Button_10_Status : 27|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Button_11_Status : 29|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Button_12_Status : 31|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Button_13_Status : 33|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Button_14_Status : 35|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Button_15_Status : 37|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Button_16_Status : 39|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Button_17_Status : 41|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Button_18_Status : 43|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Button_19_Status : 45|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_2_Button_20_Status : 47|2@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487797 CAN_Message_54: 8 Vector__XXX
+ SG_ CAN_Keypad_3_Connection_Status : 0|1@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Locked_Status : 1|1@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Button_1_Status : 9|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Button_2_Status : 11|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Button_3_Status : 13|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Button_4_Status : 15|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Button_5_Status : 17|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Button_6_Status : 19|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Button_7_Status : 21|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Button_8_Status : 23|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Button_9_Status : 25|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Button_10_Status : 27|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Button_11_Status : 29|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Button_12_Status : 31|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Button_13_Status : 33|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Button_14_Status : 35|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Button_15_Status : 37|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Button_16_Status : 39|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Button_17_Status : 41|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Button_18_Status : 43|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Button_19_Status : 45|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_3_Button_20_Status : 47|2@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147487798 CAN_Message_55: 8 Vector__XXX
+ SG_ CAN_Keypad_4_Connection_Status : 0|1@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Locked_Status : 1|1@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Button_1_Status : 9|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Button_2_Status : 11|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Button_3_Status : 13|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Button_4_Status : 15|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Button_5_Status : 17|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Button_6_Status : 19|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Button_7_Status : 21|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Button_8_Status : 23|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Button_9_Status : 25|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Button_10_Status : 27|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Button_11_Status : 29|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Button_12_Status : 31|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Button_13_Status : 33|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Button_14_Status : 35|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Button_15_Status : 37|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Button_16_Status : 39|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Button_17_Status : 41|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Button_18_Status : 43|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Button_19_Status : 45|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_Keypad_4_Button_20_Status : 47|2@0+ (1,0) [0|0] "" Vector__XXX
+

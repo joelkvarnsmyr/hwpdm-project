@@ -1,0 +1,55 @@
+flowchart TD
+    subgraph PDM_NATIVE["🛡 PDM-NATIVE säkerhetssignaler (v9.0)"]
+        F1["F1 Oljetrycksbrytare\n(NC, sluten vid lågt tryck)"]
+        F["F Bromskrets\n(differensbrytare, NC mot jord)"]
+        F66["F66 Kylvätskenivåvakt\n(NC mot jord när nivå OK)"]
+
+        I14["I14 OIL.PRESS\n(C12, Active Low\n200kΩ intern PU)"]
+        I13["I13 BRAKE_FAULT\n(C11, Latching High\n4.7kΩ → 12V)"]
+        I10["I10 COOLANT_LOW\n(A2, Latching High\n4.7kΩ → 12V)"]
+
+        F1 -->|"0.75 bl/gn"| I14
+        F -->|"0.75 br/ws"| I13
+        F66 -->|"0.75 li/sw"| I10
+    end
+
+    subgraph LOGIC["⚙️ Logik-aggregat"]
+        GF3["GF3 OIL_OK\n= I14 Status Equals False"]
+        T3["Timer3 START_GRACE\n5000ms\nTrigger: I15 Status = True"]
+        GF7["GF7 ANY_FAULT\n= GF3=F AND T3=F\n  OR I13 Status\n  OR I10 Status"]
+        GF4["GF4 OIL_OR_CR\n= GF3 OR I15 Status"]
+
+        I14 --> GF3
+        I15_NODE["I15 START\n(Tändningslås kl.50)"] --> T3
+        I15_NODE --> GF4
+        GF3 --> GF7
+        T3 --> GF7
+        I13 --> GF7
+        I10 --> GF7
+        GF3 --> GF4
+    end
+
+    subgraph OUTPUTS["⚡ PDM Outputs styrda av säkerhetslogiken"]
+        O5["O5 FUEL\n= GF1 AND T2=F AND GF4\n→ pump stannar vid stall,\n  kör under cranking"]
+        O23["O23 STARTER\n= GF1 AND I15 AND T2=F\n  AND GF3 Equals False\n→ blockerad mot rullande motor"]
+        O9["O9 WARN.MASTER\n= GF1 AND GF7 AND T2=F\n→ röd master-varningslampa"]
+
+        GF4 --> O5
+        GF3 --> O23
+        GF7 --> O9
+    end
+
+    subgraph PI_SIDE["🖥 Pi-side säkerhetssignaler (via CAN frame 0x110)"]
+        F34["F34 Bromsvätska-nivåvakt\n→ Pi GPIO"]
+        F9["F9 Handbroms-brytare\n→ Pi GPIO"]
+        PI_CAN["RPi 5\nLäser GPIO,\nskickar CAN 0x110 till PDM"]
+
+        F34 --> PI_CAN
+        F9 --> PI_CAN
+        PI_CAN -.->|"CAN 0x110\n(future: GF14 RPI_HANDBRAKE)"| GF7
+    end
+
+    style PDM_NATIVE fill:#1a3a1a,stroke:#4caf50,color:#f2ede6
+    style LOGIC fill:#1a2e3a,stroke:#5c6bc0,color:#f2ede6
+    style OUTPUTS fill:#3a2e1a,stroke:#c9a144,color:#f2ede6
+    style PI_SIDE fill:#1a1a2e,stroke:#5c6bc0,color:#f2ede6

@@ -25,14 +25,23 @@ flowchart TD
         G_SENDER --> GND_G["⏚ Chassijord (tank)"]
     end
 
+    subgraph OIL_PRESS["🛢 F1 Oljetrycksbrytare (I14) — PDM-NATIVE"]
+        F1["F1 Oljetrycksbrytare\n(VW original, NC mot jord)\nSluten vid lågt tryck (motor av)\nÖppen vid tryck OK (~0.3-0.6 bar+)"]
+        I14["PDM I14 (C12)\nOIL.PRESS\nDigital, Active Low\n200kΩ intern pullup\nthreshold 2.5V, hyst 0.5V\ndelay 0.2s, EMA = 5"]
+        GF3_NODE["GF3 'OIL OK'\n= I14 Status = False\n(brytare öppen = tryck OK)"]
+
+        F1 -->|"0.75mm² bl/gn\nPDM.IN.OIL.PRESS"| I14
+        F1 --> GND_F1["⏚ Motorblock (jord)"]
+        I14 --> GF3_NODE
+        GF3_NODE -.->|"interlock"| INTERLOCK_USES["O5 FUEL pump:\nGF1 AND (GF3 OR I15)\n→ pump stannar vid stall\n\nO23 STARTER:\nGF1 AND I15 AND NOT GF3\n→ blockad mot rullande motor\n\nCAN-stream → RPi\n(spegel, ej källa)"]
+    end
+
     subgraph RPi_SENSORS["🖥 Sensorer → Raspberry Pi GPIO (ej PDM)"]
-        F1["F1 Oljetrycksbrytare\n(NC = tryck OK, öppnar = lågt tryck)"]
         F66["F66 Kylvätskenivåbrytare\n(NC = nivå OK)"]
         RPI_IO["RPi GPIO Input\n(3.3V logic med pull-up)"]
 
-        F1 -->|"0.75mm² bl/gn\nPDM.SENSOR.OIL"| RPI_IO
         F66 -->|"0.75mm² li/sw\nPDM.SENSOR.COOLANTLVL"| RPI_IO
-        F1 & F66 --> GND_SW["⏚ Chassijord"]
+        F66 --> GND_SW["⏚ Chassijord"]
     end
 
     subgraph BUDGET["💰 5V Budget (C10)"]
@@ -44,6 +53,7 @@ flowchart TD
     NOTE_EMA["EMA = Exponential Moving Average\nfiltrerar brusiga sensorsignaler\nEMA=10 = mjuk respons\nEMA=5 = snabbare"]
 
     style C10_5V fill:#0f3460,stroke:#c9a144,color:#f2ede6
+    style OIL_PRESS fill:#2e1a2a,stroke:#c9a144,color:#f2ede6
     style RPi_SENSORS fill:#1a1a2e,stroke:#5c6bc0,color:#f2ede6
     style BUDGET fill:#1a2e1a,stroke:#4caf50,color:#f2ede6
     style NOTE_EMA fill:#2e2a1a,stroke:#c9a144,color:#f2ede6

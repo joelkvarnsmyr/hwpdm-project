@@ -18,9 +18,14 @@ flowchart TD
 
     subgraph GF["⚙️ Logic"]
         GF1["GF1: IGN ON\n= I16 Status"]
-        T1["Timer1: BLINK TMR\nPulse Train 400/400ms"]
+        GF2["GF2: CRASH DET\n= MC1 G-Force > 4.0g"]
+        T1["Timer1: BLINK TMR\nPulse 400/400ms"]
+        T2["Timer2: CRASH TMR\n10 min one-shot\n(triggered by GF2)"]
+        MC1["MC1: G-FORCE\n= √(AccX²+AccY²+AccZ²)"]
     end
     I16 --> GF1
+    MC1 --> GF2
+    GF2 --> T2
 
     subgraph GROUND["⏚ Jordpunkter"]
         GND1["Chassi punkt 1\n(Batteri−, 25mm²)"]
@@ -37,35 +42,42 @@ flowchart TD
     subgraph OUTPUTS_ALWAYS["🔴 Always On Outputs"]
         O1["O1 BUSBAR\n(C6, 3A)"]
         O18["O18 RADIO MEM\n(B12, 1A)"]
-        O21["O21 RPI\n(D2, 5A, 2s soft)"]
+        O21["O21 RPI\n(D2, 5A, soft start)"]
     end
 
-    subgraph OUTPUTS_IGN["🟡 Ignition-on Outputs (GF1)"]
+    subgraph OUTPUTS_IGN["🟡 Ignition-on Outputs (GF1 AND T2=False)"]
         O3["O3 IGN COIL\n(C4, 5A)"]
-        O11["O11 BLOWER\n(B8, 9A, PWM)"]
-        O14["O14 LOWBEAM-L\n(B5, 6A, 3s delay)"]
-        O15["O15 LOWBEAM-R\n(B4, 6A, 3s delay)"]
+        O5["O5 FUEL\n(D8, 8A, 2s stay)"]
+        O11["O11 BLOWER\n(B8, 9A, analog)"]
+        O14["O14 LOWBEAM-L\n(B5, 5A, 3s delay)"]
+        O15["O15 LOWBEAM-R\n(B4, 5A, 3s delay)"]
         O20["O20 RADIO ACC\n(D11, 3A)"]
         O22["O22 USB 12V\n(B11, 3A)"]
-        O25["O25 FUEL PUMP\n(B3, 8A)"]
     end
 
-    subgraph OUTPUTS_CMD["🟢 Command Outputs"]
+    subgraph OUTPUTS_CMD["🟢 Command Outputs (AND T2=False)"]
         O2["O2 WIPER FST\n(C5, 7A)"]
-        O4["O4 BRAKE\n(D7, 5A, Instant)"]
-        O5["O5 TURN-L\n(D8, 3A)"]
-        O6["O6 TURN-R\n(D9, 3A)"]
-        O7["O7 PARK\n(D6, 3A)"]
+        O4["O4 BRAKE\n(D7, 3A)"]
+        O6["O6 PARK\n(D9, 2A)"]
+        O7["O7 HIBEAM-R\n(D6, 5A)"]
         O10["O10 WIPER SLO\n(B7, 7A)"]
         O12["O12 WASHER\n(B9, 5A)"]
         O13["O13 HORN\n(B6, 6A)"]
-        O16["O16 HIBEAM-L\n(D12, 6A)"]
-        O19["O19 REVERSE\n(B1, 5A)"]
-        O23["O23 STARTER\n(B2, 2A)"]
-        O24["O24 HIBEAM-R\n(D3, 6A)"]
+        O16["O16 HIBEAM-L\n(D12, 5A)"]
+        O19["O19 REVERSE\n(B1, 3A)"]
+        O23["O23 STARTER\n(B2, 12A, direkt)"]
     end
 
-    GF1 --> O3 & O11 & O14 & O15 & O20 & O22 & O25
+    subgraph OUTPUTS_SIGNAL["🔵 Signal & Blinkers (Timer1)"]
+        O24["O24 TURN R\n(D3+D10 dual, 2A)"]
+        O25["O25 TURN L\n(B3+B10 dual, 2A)"]
+        O8["O8 IND.TURN\n(D5, 2A, kontrollampa)"]
+        O9["O9 WARN.MASTER\n(D4, 2A, CAN-styrd)"]
+    end
+
+    GF1 --> O3 & O5 & O11 & O14 & O15 & O20 & O22
+    T1 --> O24 & O25
+    T2 -.->|"T2=False\n(alla utom RPi/blink)"| OUTPUTS_CMD
 
     style POWER fill:#1a1a2e,stroke:#c9a144,color:#f2ede6
     style IGNITION fill:#16213e,stroke:#c9a144,color:#f2ede6
@@ -74,3 +86,4 @@ flowchart TD
     style OUTPUTS_ALWAYS fill:#1a2e1a,stroke:#4caf50,color:#f2ede6
     style OUTPUTS_IGN fill:#2e2a1a,stroke:#c9a144,color:#f2ede6
     style OUTPUTS_CMD fill:#1a1a2e,stroke:#5c6bc0,color:#f2ede6
+    style OUTPUTS_SIGNAL fill:#1a2e2e,stroke:#00bcd4,color:#f2ede6

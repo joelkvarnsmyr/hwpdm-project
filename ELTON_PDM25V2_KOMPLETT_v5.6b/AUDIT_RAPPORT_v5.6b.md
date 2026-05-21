@@ -73,9 +73,15 @@ Kabeln är uppgraderad till **32mm²** vilket överstiger manualens rekommendati
 
 ---
 
-### B2 — Bränslepump (O25) saknar motor-stall-skydd
+### B2 — Bränslepump (O5) saknar motor-stall-skydd ✅ LÖST 2026-05-07
 
-**Plats:** O25 Funktion = `GF1` (tändning PÅ → pump PÅ)
+**Plats:** O5 Funktion (tidigare `GF1 AND Timer2 Equals False`)
+
+**Lösning:** F1 oljetrycksbrytare flyttad från RPi GPIO till PDM I14 (C12, ersätter REVERSE). Ny Generic Function `GF3 = I14 Status = False` (OIL OK). O5 funktion uppdaterad till `GF1 AND Timer2 Equals False AND (GF3 OR I15 Status)` — pump kör vid (tändning PÅ + ej krock + oljetryck OK ELLER cranking). När motorn stannar utan att startknappen är tryckt → GF3 går False → pump stängs av efter delay 0.2s. Cranking-undantaget (`OR I15`) krävs för att pumpen ska kunna prima före oljetrycket byggts upp.
+
+**Originalanalys nedan (för historik):**
+
+**Plats:** O5 Funktion = `GF1` (tändning PÅ → pump PÅ)
 
 Om motorn stannar i fart (bränsleavstängning, motorstopp) men tändnyckeln sitter kvar i läge II: pumpen fortsätter mata bränsle oavbrutet. För en förgasarmotor (CH) innebär detta risk för förgasarsvämning och potentiell brandrisk vid läckage.
 
@@ -109,7 +115,13 @@ Många Raspberry Pi CAN HATs (t.ex. Waveshare, PiCAN2, MCP2515-baserade) har en 
 
 ---
 
-### B5 — Starterinterlock saknas (motorn igång → startmotor disablas ej)
+### B5 — Starterinterlock saknas (motorn igång → startmotor disablas ej) ✅ LÖST 2026-05-07
+
+**Plats:** O23 STARTER
+
+**Lösning:** O23 funktion uppdaterad till `GF1 AND I15 Status AND Timer2 Equals False AND NOT GF3` — startmotorn kan inte engageras när oljetryck redan är OK (motor igång). PDM-native interlock, ingen RPi-beroende.
+
+**Originalanalys nedan (för historik):**
 
 **Plats:** O23 STARTER, ingen RPM- eller oljetrycksinterlock
 
@@ -119,13 +131,15 @@ Om tändningen är PÅ (GF1=True) och startknappen (I15/odefinierad) råkar akti
 
 ---
 
-### B6 — K2 Laddningslampa + K3 Oljetryck + K28 Kyltemp: beroende av RPi
+### B6 — K2 Laddningslampa + K3 Oljetryck + K28 Kyltemp: beroende av RPi ⚠️ DELVIS LÖST 2026-05-07
 
 **Plats:** INST.LAMP.* etiketter utan direkta PDM-outputs
 
-Tre säkerhetskritiska varningslampor (laddning, oljetryck, kyltemp) drivs uteslutande via RPi (CAN/GPIO). Om RPi hänger sig, bootar om eller har mjukvarufel: **inga varningslampor lyser**, oavsett vad som händer i motorrummet.
+**Status K3 OLJETRYCK:** Källan flyttad till PDM I14 (oberoende av RPi). PDM kan nu driva K3 via en valfri output drivet av `GF3 = False` (eller direkt I14 Status). K3 kvarstår dock fortfarande utan dedikerad PDM-output → behöver tilldelas en ledig output (t.ex. O17 RESERVE17 eller O18 RESERVE18).
 
-**Rekommendation:** Minst K3 (oljetryck) bör ha en direktkoppling — om inte via PDM-output, så åtminstone via en inline LED+resistor direkt från F1 till 12V, fristående från RPi.
+**Status K2 LADDNING + K28 KYLTEMP:** Fortsatt beroende av RPi. K28 kan drivas av PDM via I11 COOLANT analog → tröskelvillkor på output. K2 (laddningslampa) kräver D+/IND-signal från generatorn vilket inte är inkopplat i PDM.
+
+**Rekommendation kvar:** Minst K3 (oljetryck) bör ha en direktkoppling — om inte via PDM-output, så åtminstone via en inline LED+resistor direkt från F1 till 12V, fristående från RPi.
 
 ---
 

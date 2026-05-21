@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ELTON PDM25 V2 — Kopplingsguide</title>
+<style>
+  @page { size: A4 portrait; margin: 8mm 10mm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; font-size: 10px; color: #1a1a1a; background: #fff; padding: 10px; line-height: 1.3; }
+
+  h1 { font-size: 14px; font-weight: 700; margin-bottom: 1px; }
+  .subtitle { font-size: 9px; color: #666; margin-bottom: 8px; }
+
+  /* Connector section */
+  .conn-section { margin-bottom: 10px; page-break-inside: avoid; }
+  .conn-top { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 3px; }
+  .conn-top svg { flex-shrink: 0; }
+  .conn-header { display: flex; flex-direction: column; justify-content: center; padding: 4px 8px; border-radius: 4px; flex: 1; }
+  .conn-header h2 { font-size: 11px; font-weight: 700; }
+  .conn-header .type { font-size: 9px; font-weight: 400; color: #666; }
+  .conn-a .conn-header { background: #e8e8e8; border-left: 4px solid #888; }
+  .conn-c .conn-header { background: #e8f5e9; border-left: 4px solid #4caf50; }
+  .conn-d .conn-header { background: #f5f0e0; border-left: 4px solid #a0875a; }
+  .conn-b .conn-header { background: #e0e0e0; border-left: 4px solid #333; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; font-size: 9.5px; }
+  th { text-align: left; padding: 2px 5px; font-size: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #888; border-bottom: 1.5px solid #ccc; }
+  td { padding: 2.5px 5px; border-bottom: 1px solid #eee; vertical-align: middle; }
+  tr:hover td { background: #f8f8f8; }
+
+  .pin { font-weight: 700; width: 24px; text-align: center; }
+  .role { font-weight: 600; width: 36px; }
+  .role-input { color: #1565c0; }
+  .role-output { color: #e65100; }
+  .role-pwr { color: #c62828; }
+  .role-sys { color: #555; }
+  .role-free { color: #bbb; }
+
+  .label { font-family: 'Consolas', 'Courier New', monospace; font-size: 9px; white-space: nowrap; }
+
+  /* Cable badge — VW color code: huvudfarg/randfarg (stripe) */
+  .cable {
+    display: inline-flex; align-items: center; gap: 0;
+    border-radius: 2px; overflow: hidden; font-size: 9px;
+    font-weight: 600; line-height: 1; white-space: nowrap;
+    border: 1px solid rgba(0,0,0,0.15);
+  }
+  .cable .dim {
+    padding: 2px 4px; background: rgba(0,0,0,0.06); color: #555;
+    font-weight: 400; font-size: 8px; border-right: 1px solid rgba(0,0,0,0.1);
+  }
+  .cable .clr { padding: 2px 5px; color: #fff; position: relative; }
+  /* Stripe: second color as a thin stripe across the base color */
+  .cable .stripe {
+    padding: 2px 5px; color: #fff; position: relative; overflow: hidden;
+  }
+  .cable .stripe::after {
+    content: ''; position: absolute;
+    top: 42%; left: -4px; right: -4px; height: 16%;
+    background: var(--stripe);
+  }
+  .cable .stripe span { position: relative; z-index: 1; }
+  /* VW colors */
+  .c-ro  { background: #c62828; }
+  .c-sw  { background: #222; }
+  .c-ws  { background: #e0e0e0; color: #333 !important; }
+  .c-ge  { background: #f9a825; color: #333 !important; }
+  .c-gn  { background: #2e7d32; }
+  .c-gr  { background: #757575; }
+  .c-bl  { background: #1565c0; }
+  .c-br  { background: #5d4037; }
+  .c-li  { background: #7b1fa2; }
+  .c-none { background: #bbb; color: #555 !important; }
+  /* Stripe color vars */
+  .s-ro  { --stripe: #c62828; }
+  .s-sw  { --stripe: #222; }
+  .s-ws  { --stripe: #e0e0e0; }
+  .s-ge  { --stripe: #f9a825; }
+  .s-gn  { --stripe: #2e7d32; }
+  .s-gr  { --stripe: #757575; }
+  .s-bl  { --stripe: #1565c0; }
+  .s-br  { --stripe: #5d4037; }
+  .s-li  { --stripe: #7b1fa2; }
+  .s-ro  { --stripe: #c62828; }
+
+  .dest { color: #555; }
+  .dual-mark { font-size: 8px; color: #e65100; font-weight: 700; vertical-align: super; }
+
+  /* Power table */
+  .pwr-section { margin-top: 10px; page-break-inside: avoid; }
+  .pwr-section h2 { font-size: 11px; margin-bottom: 3px; padding: 3px 8px; background: #fce4ec; border-left: 3px solid #c62828; border-radius: 3px; }
+
+  /* Checklist */
+  .checklist { margin-top: 10px; page-break-inside: avoid; border: 1px solid #ddd; border-radius: 3px; padding: 6px 8px; }
+  .checklist h3 { font-size: 10px; margin-bottom: 3px; }
+  .checklist label { display: block; font-size: 9px; padding: 1px 0; }
+  .checklist input { margin-right: 3px; }
+
+  /* Harness rewire sections */
+  .rewire { margin-top: 10px; page-break-inside: avoid; }
+  .rewire h2 { font-size: 11px; margin-bottom: 3px; padding: 3px 8px; border-radius: 3px; }
+  .rewire.rw-ratt h2 { background: #e3f2fd; border-left: 3px solid #1565c0; }
+  .rewire.rw-tand h2 { background: #fff3e0; border-left: 3px solid #e65100; }
+  .rewire.rw-bak h2 { background: #fce4ec; border-left: 3px solid #c62828; }
+  .rewire.rw-fram h2 { background: #e8f5e9; border-left: 3px solid #2e7d32; }
+  .rewire.rw-motor h2 { background: #f3e5f5; border-left: 3px solid #7b1fa2; }
+  .act-reuse { color: #2e7d32; font-weight: 600; }
+  .act-reroute { color: #e65100; font-weight: 600; }
+  .act-isolate { color: #999; font-weight: 600; }
+  .act-new { color: #1565c0; font-weight: 600; }
+  .wire-diagram { font-family: 'Consolas', monospace; font-size: 8px; background: #f8f8f8; padding: 5px 8px; border-radius: 3px; margin: 3px 0 8px; white-space: pre; line-height: 1.3; border: 1px solid #eee; overflow-x: auto; }
+
+  /* Harness filter bar */
+  .harness-bar { margin-bottom: 10px; display: flex; gap: 4px; flex-wrap: wrap; }
+  .harness-btn {
+    padding: 3px 10px; border-radius: 12px; border: 1.5px solid #ccc;
+    background: #fff; color: #333; cursor: pointer; font-size: 10px; font-weight: 500;
+  }
+  .harness-btn.active { background: #1565c0; color: #fff; border-color: #1565c0; }
+  .harness-btn:hover { border-color: #888; }
+  tr.h-dim td { opacity: 0.15; }
+
+  /* Print */
+  @media print {
+    body { padding: 0; font-size: 9px; }
+    h1 { font-size: 13px; }
+    table { font-size: 8.5px; }
+    th { font-size: 7.5px; padding: 2px 4px; }
+    td { padding: 2px 4px; }
+    tr:hover td { background: none; }
+    .no-print, .harness-bar { display: none; }
+    .conn-section, .rewire, .pwr-section, .checklist { page-break-inside: avoid; }
+    tr.h-dim td { opacity: 1; }
+    .conn-top svg { width: 45px; height: 110px; }
+    .wire-diagram { font-size: 7.5px; padding: 4px 6px; }
+    .cable { font-size: 8px; }
+    .cable .dim { font-size: 7px; padding: 1.5px 3px; }
+    .cable .clr, .cable .stripe { padding: 1.5px 4px; }
+    .label { font-size: 8px; }
+    /* Page breaks for logical grouping */
+    .rewire.rw-tand { page-break-before: always; }
+  }
+</style>
+</head>
+<body>
+
+<h1>ELTON PDM25 V2 — Kopplingsguide</h1>
+<p class="subtitle">VW LT31 1976 &middot; JSN 398 &middot; Config v5.9 &middot; HWPDM v8.1 &middot; FW 1.2.3 &middot; S/N 2818103 &middot; 2026-03-15</p>
+
+<div class="harness-bar">
+  <button class="harness-btn active" onclick="filterHarness('all')">Alla</button>
+  <button class="harness-btn" onclick="filterHarness('ratt')">Ratt / Spak</button>
+  <button class="harness-btn" onclick="filterHarness('dash')">Instrumentbrada</button>
+  <button class="harness-btn" onclick="filterHarness('fram')">Fram / Stralkastar</button>
+  <button class="harness-btn" onclick="filterHarness('bak')">Bakstam</button>
+  <button class="harness-btn" onclick="filterHarness('motor')">Motor</button>
+  <button class="harness-btn" onclick="filterHarness('system')">System / CAN</button>
+  <button class="harness-btn" onclick="filterHarness('tand')">Tandning</button>
+</div>
+
+<!-- ===== CONNECTOR A (DT-Grey) ===== -->
+<div class="conn-section conn-a">
+  <div class="conn-top">
+    <svg width="48" height="112" viewBox="0 0 58 136" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="3" width="52" height="130" rx="10" fill="#d4943a" stroke="#999" stroke-width="4.5"/>
+      <circle cx="19" cy="18" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="21.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">12</text>
+      <circle cx="39" cy="18" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="21.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">1</text>
+      <circle cx="19" cy="38" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="41.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">11</text>
+      <circle cx="39" cy="38" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="41.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">2</text>
+      <circle cx="19" cy="58" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="61.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">10</text>
+      <circle cx="39" cy="58" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="61.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">3</text>
+      <circle cx="19" cy="78" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="81.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">9</text>
+      <circle cx="39" cy="78" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="81.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">4</text>
+      <circle cx="19" cy="98" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="101.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">8</text>
+      <circle cx="39" cy="98" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="101.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">5</text>
+      <circle cx="19" cy="118" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="121.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">7</text>
+      <circle cx="39" cy="118" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="121.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">6</text>
+    </svg>
+    <div class="conn-header"><h2>A &mdash; DT Grey</h2> <span class="type">12-pin &middot; Inputs</span></div>
+  </div>
+  <table>
+    <tr><th>Pin</th><th>I/O</th><th>Label</th><th>Kabel</th><th>Destination</th></tr>
+    <tr data-h="ratt"><td class="pin">1</td><td class="role role-input">I12</td><td class="label">HORN</td><td><span class="cable"><span class="dim">1.0</span><span class="stripe c-br s-bl"><span>br/bl</span></span></span></td><td class="dest">Hornknapp via slip ring (Active Low)</td></tr>
+    <tr data-h="motor"><td class="pin">2</td><td class="role role-input">I10</td><td class="label">COOLANT_LOW</td><td><span class="cable"><span class="dim">0.75</span><span class="stripe c-li s-sw"><span>li/sw</span></span></span></td><td class="dest">F66 kylvätskenivåvakt (Latching, Active High, 4.7k PU&rarr;12V)</td></tr>
+    <tr data-h="ratt"><td class="pin">3</td><td class="role role-input">I8</td><td class="label">WASHER</td><td><span class="cable"><span class="stripe c-gn s-ro"><span>gn/ro</span></span></span></td><td class="dest">Spolarpump knapp</td></tr>
+    <tr data-h="ratt"><td class="pin">4</td><td class="role role-input">I6</td><td class="label">TURN_R</td><td><span class="cable"><span class="stripe c-sw s-gn"><span>sw/gn</span></span></span></td><td class="dest">Blinkerspak hoger</td></tr>
+    <tr data-h="dash"><td class="pin">5</td><td class="role role-input">I4</td><td class="label">BRAKE</td><td><span class="cable"><span class="stripe c-sw s-ro"><span>sw/ro</span></span></span></td><td class="dest">Bromslysbrytare (bat-matad)</td></tr>
+    <tr data-h="ratt"><td class="pin">6</td><td class="role role-input">I2</td><td class="label">HIBEAM</td><td><span class="cable"><span class="clr c-ge">ge</span></span></td><td class="dest">Helljusspak kl.56b (Latching)</td></tr>
+    <tr data-h="dash"><td class="pin">7</td><td class="role role-input">I1</td><td class="label">BLOWER</td><td><span class="cable"><span class="stripe c-sw s-ge"><span>sw/ge</span></span></span></td><td class="dest">Flaktomkopplare (Analog 4.7k+4.7k)</td></tr>
+    <tr data-h="dash"><td class="pin">8</td><td class="role role-input">I3</td><td class="label">HAZARD</td><td><span class="cable"><span class="clr c-none">—</span></span></td><td class="dest">Varningsblinkersknapp (Latching)</td></tr>
+    <tr data-h="ratt"><td class="pin">9</td><td class="role role-input">I5</td><td class="label">TURN_L</td><td><span class="cable"><span class="stripe c-sw s-ws"><span>sw/ws</span></span></span></td><td class="dest">Blinkerspak vanster</td></tr>
+    <tr data-h="motor"><td class="pin">10</td><td class="role role-input">I7</td><td class="label">REVERSE</td><td><span class="cable"><span class="dim">1.0</span><span class="stripe c-sw s-bl"><span>sw/bl</span></span></span></td><td class="dest">Backväxelkontakt (kl.15 → switch → I7)</td></tr>
+    <tr data-h="ratt"><td class="pin">11</td><td class="role role-input">I9</td><td class="label">WIPER_SPEED</td><td><span class="cable"><span class="dim">1.0</span><span class="stripe c-sw s-gr"><span>sw/gr</span></span></span></td><td class="dest">E22 stalk via resistor-stege (Analog, 1kΩ pulldown→GND)</td></tr>
+    <tr data-h="motor"><td class="pin">12</td><td class="role role-input">I11</td><td class="label">COOLANT</td><td><span class="cable"><span class="clr c-gn">gn</span></span></td><td class="dest">G2 NTC kyltemp (Analog, 1k PU&rarr;5V)</td></tr>
+  </table>
+</div>
+
+<!-- ===== CONNECTOR C (DT-Green) ===== -->
+<div class="conn-section conn-c">
+  <div class="conn-top">
+    <svg width="48" height="112" viewBox="0 0 58 136" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="3" width="52" height="130" rx="10" fill="#d4943a" stroke="#4caf50" stroke-width="4.5"/>
+      <circle cx="19" cy="18" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="21.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">12</text>
+      <circle cx="39" cy="18" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="21.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">1</text>
+      <circle cx="19" cy="38" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="41.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">11</text>
+      <circle cx="39" cy="38" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="41.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">2</text>
+      <circle cx="19" cy="58" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="61.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">10</text>
+      <circle cx="39" cy="58" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="61.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">3</text>
+      <circle cx="19" cy="78" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="81.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">9</text>
+      <circle cx="39" cy="78" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="81.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">4</text>
+      <circle cx="19" cy="98" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="101.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">8</text>
+      <circle cx="39" cy="98" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="101.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">5</text>
+      <circle cx="19" cy="118" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="121.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">7</text>
+      <circle cx="39" cy="118" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="121.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">6</text>
+    </svg>
+    <div class="conn-header"><h2>C &mdash; DT Green</h2> <span class="type">12-pin &middot; Mixed (Input / Output / Power / CAN)</span></div>
+  </div>
+  <table>
+    <tr><th>Pin</th><th>I/O</th><th>Label</th><th>Kabel</th><th>Destination</th></tr>
+    <tr data-h="tand"><td class="pin">1</td><td class="role role-input">I16</td><td class="label">IGNITION</td><td><span class="cable"><span class="dim">2.5</span><span class="stripe c-sw s-ge"><span>sw/ge</span></span></span></td><td class="dest">Tandningslas kl.15</td></tr>
+    <tr data-h="tand"><td class="pin">2</td><td class="role role-input">I15</td><td class="label">START</td><td><span class="cable"><span class="dim">2.5</span><span class="stripe c-sw s-ws"><span>sw/ws</span></span></span></td><td class="dest">Tandningslas kl.50</td></tr>
+    <tr data-h="motor"><td class="pin">3</td><td class="role role-pwr">PWR</td><td class="label">PWR.CTRL</td><td><span class="cable"><span class="dim">4.0</span><span class="clr c-ro">ro</span></span></td><td class="dest">Batteristrom (always on)</td></tr>
+    <tr data-h="motor"><td class="pin">4</td><td class="role role-output">O3</td><td class="label">IGN.COIL</td><td><span class="cable"><span class="dim">1.5</span><span class="stripe c-sw s-li"><span>sw/li</span></span></span></td><td class="dest">N6 seriemotstand (tandspole)</td></tr>
+    <tr data-h="motor"><td class="pin">5</td><td class="role role-output">O2</td><td class="label">WIPER.FST</td><td><span class="cable"><span class="dim">2.5</span><span class="stripe c-sw s-gr"><span>sw/gr</span></span></span></td><td class="dest">Torkarmotor kl.53b</td></tr>
+    <tr data-h="system"><td class="pin">6</td><td class="role role-output">O1</td><td class="label">BUSBAR</td><td><span class="cable"><span class="dim">0.75</span><span class="clr c-none">—</span></span></td><td class="dest">Signalbusbar (Always On, 3A)</td></tr>
+    <tr data-h="system"><td class="pin">7</td><td class="role role-pwr">GND</td><td class="label">GND.CHASSIS</td><td><span class="cable"><span class="dim">10</span><span class="clr c-br">br</span></span></td><td class="dest">Chassijord punkt 12</td></tr>
+    <tr data-h="system"><td class="pin">8</td><td class="role role-sys">CAN H</td><td class="label">CAN.H</td><td><span class="cable"><span class="dim">0.75</span><span class="clr c-ws">ws</span></span></td><td class="dest">RPi CAN High (tvinnad)</td></tr>
+    <tr data-h="system"><td class="pin">9</td><td class="role role-sys">CAN L</td><td class="label">CAN.L</td><td><span class="cable"><span class="dim">0.75</span><span class="clr c-sw">sw</span></span></td><td class="dest">RPi CAN Low (tvinnad)</td></tr>
+    <tr data-h="system"><td class="pin">10</td><td class="role role-sys">5V</td><td class="label">5V.REF</td><td><span class="cable"><span class="clr c-none">—</span></span></td><td class="dest">5V sensorutgang (100mA max)</td></tr>
+    <tr data-h="motor"><td class="pin">11</td><td class="role role-input">I13</td><td class="label">BRAKE_FAULT</td><td><span class="cable"><span class="dim">0.75</span><span class="stripe c-br s-ws"><span>br/ws</span></span></span></td><td class="dest">F bromskrets-differensbrytare (Latching, Active High, 4.7k PU&rarr;12V). FUEL_LVL flyttad till Pi via ADS1115.</td></tr>
+    <tr data-h="motor"><td class="pin">12</td><td class="role role-input">I14</td><td class="label">OIL.PRESS</td><td><span class="cable"><span class="dim">0.75</span><span class="stripe c-bl s-gn"><span>bl/gn</span></span></span></td><td class="dest">F1 oljetrycksbrytare (Active Low, 200k intern PU)</td></tr>
+  </table>
+</div>
+
+<!-- ===== CONNECTOR D (DT-Brown) ===== -->
+<div class="conn-section conn-d">
+  <div class="conn-top">
+    <svg width="48" height="112" viewBox="0 0 58 136" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="3" width="52" height="130" rx="10" fill="#d4943a" stroke="#8d6e3f" stroke-width="4.5"/>
+      <circle cx="19" cy="18" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="21.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">12</text>
+      <circle cx="39" cy="18" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="21.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">1</text>
+      <circle cx="19" cy="38" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="41.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">11</text>
+      <circle cx="39" cy="38" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="41.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">2</text>
+      <circle cx="19" cy="58" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="61.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">10</text>
+      <circle cx="39" cy="58" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="61.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">3</text>
+      <circle cx="19" cy="78" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="81.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">9</text>
+      <circle cx="39" cy="78" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="81.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">4</text>
+      <circle cx="19" cy="98" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="101.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">8</text>
+      <circle cx="39" cy="98" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="101.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">5</text>
+      <circle cx="19" cy="118" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="121.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">7</text>
+      <circle cx="39" cy="118" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="121.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">6</text>
+    </svg>
+    <div class="conn-header"><h2>D &mdash; DT Brown</h2> <span class="type">12-pin &middot; Outputs</span></div>
+  </div>
+  <table>
+    <tr><th>Pin</th><th>Output</th><th>Label</th><th>Kabel</th><th>Destination</th></tr>
+    <tr data-h="system"><td class="pin">1</td><td class="role role-free">O17</td><td class="label" style="color:#bbb">LEDIG</td><td></td><td class="dest" style="color:#bbb">— (plugga)</td></tr>
+    <tr data-h="system"><td class="pin">2</td><td class="role role-output">O21</td><td class="label">RPI</td><td><span class="cable"><span class="dim">2.0</span><span class="clr c-none">—</span></span></td><td class="dest">Raspberry Pi 5 + CAN HAT</td></tr>
+    <tr data-h="fram"><td class="pin">3</td><td class="role role-output">O24</td><td class="label">TURN_R</td><td><span class="cable"><span class="dim">1.5</span><span class="stripe c-sw s-gn"><span>sw/gn</span></span></span></td><td class="dest">M7 blink H fram <span class="dual-mark">DUAL D3+D10</span></td></tr>
+    <tr data-h="dash"><td class="pin">4</td><td class="role role-output">O9</td><td class="label">WARN.MASTER</td><td><span class="cable"><span class="dim">1.5</span><span class="clr c-ro">ro</span></span></td><td class="dest">Varningslampa K3 (CAN-styrd)</td></tr>
+    <tr data-h="dash"><td class="pin">5</td><td class="role role-output">O8</td><td class="label">IND.TURN</td><td><span class="cable"><span class="dim">1.5</span><span class="stripe c-sw s-bl"><span>sw/bl</span></span></span></td><td class="dest">K5 blinkers kontrollampa</td></tr>
+    <tr data-h="fram"><td class="pin">6</td><td class="role role-output">O7</td><td class="label">HIBEAM_R</td><td><span class="cable"><span class="dim">2.5</span><span class="clr c-ws">ws</span></span></td><td class="dest">L2 hoger kl.56b</td></tr>
+    <tr data-h="bak"><td class="pin">7</td><td class="role role-output">O4</td><td class="label">BRAKE</td><td><span class="cable"><span class="dim">1.5</span><span class="clr c-bl">bl</span></span></td><td class="dest">M9+M10 bromsljus</td></tr>
+    <tr data-h="bak"><td class="pin">8</td><td class="role role-output">O5</td><td class="label">FUEL</td><td><span class="cable"><span class="dim">2&times;1.5</span><span class="stripe c-sw s-br"><span>sw/br</span></span></span></td><td class="dest">G6 branslepump (2 ledare parallell, 5A)</td></tr>
+    <tr data-h="bak"><td class="pin">9</td><td class="role role-output">O6</td><td class="label">PARK</td><td><span class="cable"><span class="dim">1.5</span><span class="clr c-ro">ro</span></span></td><td class="dest">Parkljus M1 M3 M2 M4 X</td></tr>
+    <tr data-h="bak"><td class="pin">10</td><td class="role role-output">O24</td><td class="label">TURN_R</td><td><span class="cable"><span class="dim">1.5</span><span class="clr c-gn">gn</span></span></td><td class="dest">M8 blink H bak <span class="dual-mark">DUAL D3+D10</span></td></tr>
+    <tr data-h="system"><td class="pin">11</td><td class="role role-output">O20</td><td class="label">RADIO.ACC</td><td><span class="cable"><span class="dim">1.5</span><span class="clr c-none">—</span></span></td><td class="dest">Radio ACC (tandningsstyrd)</td></tr>
+    <tr data-h="fram"><td class="pin">12</td><td class="role role-output">O16</td><td class="label">HIBEAM_L</td><td><span class="cable"><span class="dim">2.5</span><span class="stripe c-ws s-sw"><span>ws/sw</span></span></span></td><td class="dest">L1 vanster kl.56b</td></tr>
+  </table>
+</div>
+
+<!-- ===== CONNECTOR B (DT-Black) ===== -->
+<div class="conn-section conn-b">
+  <div class="conn-top">
+    <svg width="48" height="112" viewBox="0 0 58 136" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="3" width="52" height="130" rx="10" fill="#d4943a" stroke="#222" stroke-width="4.5"/>
+      <circle cx="19" cy="18" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="21.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">12</text>
+      <circle cx="39" cy="18" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="21.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">1</text>
+      <circle cx="19" cy="38" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="41.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">11</text>
+      <circle cx="39" cy="38" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="41.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">2</text>
+      <circle cx="19" cy="58" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="61.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">10</text>
+      <circle cx="39" cy="58" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="61.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">3</text>
+      <circle cx="19" cy="78" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="81.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">9</text>
+      <circle cx="39" cy="78" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="81.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">4</text>
+      <circle cx="19" cy="98" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="101.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">8</text>
+      <circle cx="39" cy="98" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="101.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">5</text>
+      <circle cx="19" cy="118" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="19" y="121.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">7</text>
+      <circle cx="39" cy="118" r="7.5" fill="#f5f0e6" stroke="#aaa" stroke-width="0.7"/><text x="39" y="121.5" text-anchor="middle" font-size="8" font-weight="700" fill="#333">6</text>
+    </svg>
+    <div class="conn-header"><h2>B &mdash; DT Black</h2> <span class="type">12-pin &middot; Outputs</span></div>
+  </div>
+  <table>
+    <tr><th>Pin</th><th>Output</th><th>Label</th><th>Kabel</th><th>Destination</th></tr>
+    <tr data-h="bak"><td class="pin">1</td><td class="role role-output">O19</td><td class="label">REVERSE</td><td><span class="cable"><span class="dim">1.5</span><span class="clr c-gr">gr</span></span></td><td class="dest">M16+M17 backljus (drivs av I7)</td></tr>
+    <tr data-h="motor"><td class="pin">2</td><td class="role role-output">O23</td><td class="label">STARTER</td><td><span class="cable"><span class="dim">2.5</span><span class="stripe c-ro s-sw"><span>ro/sw</span></span></span></td><td class="dest">Solenoid kl.50 (direkt, Peak 50A)</td></tr>
+    <tr data-h="fram"><td class="pin">3</td><td class="role role-output">O25</td><td class="label">TURN_L</td><td><span class="cable"><span class="dim">1.5</span><span class="stripe c-sw s-ws"><span>sw/ws</span></span></span></td><td class="dest">M5 blink V fram <span class="dual-mark">DUAL B3+B10</span></td></tr>
+    <tr data-h="fram"><td class="pin">4</td><td class="role role-output">O15</td><td class="label">LOWBEAM_R</td><td><span class="cable"><span class="dim">2.5</span><span class="clr c-ge">ge</span></span></td><td class="dest">L2 hoger kl.56a</td></tr>
+    <tr data-h="fram"><td class="pin">5</td><td class="role role-output">O14</td><td class="label">LOWBEAM_L</td><td><span class="cable"><span class="dim">2.5</span><span class="stripe c-ge s-sw"><span>ge/sw</span></span></span></td><td class="dest">L1 vanster kl.56a</td></tr>
+    <tr data-h="ratt"><td class="pin">6</td><td class="role role-output">O13</td><td class="label">HORN</td><td><span class="cable"><span class="dim">2.0</span><span class="stripe c-sw s-ge"><span>sw/ge</span></span></span></td><td class="dest">H1 signalhorn</td></tr>
+    <tr data-h="motor"><td class="pin">7</td><td class="role role-output">O10</td><td class="label">WIPER.SLO</td><td><span class="cable"><span class="dim">2.5</span><span class="clr c-gn">gn</span></span></td><td class="dest">Torkarmotor kl.53</td></tr>
+    <tr data-h="dash"><td class="pin">8</td><td class="role role-output">O11</td><td class="label">BLOWER</td><td><span class="cable"><span class="dim">2.5</span><span class="stripe c-sw s-ge"><span>sw/ge</span></span></span></td><td class="dest">V2 kupeflakt (Stay On 30s)</td></tr>
+    <tr data-h="motor"><td class="pin">9</td><td class="role role-output">O12</td><td class="label">WASHER</td><td><span class="cable"><span class="dim">1.5</span><span class="stripe c-gn s-ro"><span>gn/ro</span></span></span></td><td class="dest">V5 spolarpump</td></tr>
+    <tr data-h="bak"><td class="pin">10</td><td class="role role-output">O25</td><td class="label">TURN_L</td><td><span class="cable"><span class="dim">1.5</span><span class="clr c-ge">ge</span></span></td><td class="dest">M6 blink V bak <span class="dual-mark">DUAL B3+B10</span></td></tr>
+    <tr data-h="system"><td class="pin">11</td><td class="role role-output">O22</td><td class="label">USB.12V</td><td><span class="cable"><span class="dim">1.5</span><span class="clr c-none">—</span></span></td><td class="dest">12V USB-uttag</td></tr>
+    <tr data-h="system"><td class="pin">12</td><td class="role role-output">O18</td><td class="label">RADIO.MEM</td><td><span class="cable"><span class="dim">1.0</span><span class="clr c-none">—</span></span></td><td class="dest">Radio permanent minne (Always On)</td></tr>
+  </table>
+</div>
+
+<!-- ===== POWER CABLES ===== -->
+<div class="pwr-section">
+  <h2>Kraftkablar (ej DT-kontakter)</h2>
+  <table>
+    <tr><th>Fran</th><th>Till</th><th>Kabel</th><th>Etikett</th></tr>
+    <tr><td>Startmotor kl.30</td><td>PDM M8-stud (8Nm)</td><td><span class="cable"><span class="dim">32</span><span class="clr c-ro">ro</span></span></td><td class="label">PDM.PWR.BAT+</td></tr>
+    <tr><td>Batteri+ via frankiljare</td><td>Startmotor kl.30</td><td><span class="cable"><span class="dim">35</span><span class="clr c-ro">ro</span></span></td><td class="label">PDM.ENG.BAT&rarr;START</td></tr>
+    <tr><td>Generator B+</td><td>Batteri+</td><td><span class="cable"><span class="dim">6</span><span class="clr c-ro">ro</span></span></td><td class="label">PDM.ENG.GEN.B+</td></tr>
+    <tr><td>N6 seriemotstand</td><td>Tandspole kl.15</td><td><span class="cable"><span class="dim">1.0</span><span class="stripe c-ws s-li"><span>ws/li</span></span></span></td><td class="label">PDM.ENG.COIL.N6</td></tr>
+  </table>
+</div>
+
+<!-- ===== HARNESS: TÄNDNINGSLÅS ===== -->
+<div class="rewire rw-tand">
+  <h2>Tandningslas D &mdash; Original &rarr; PDM</h2>
+  <table>
+    <tr><th>Original</th><th>Farg</th><th>Dim</th><th>Terminal</th><th>Gick till</th><th>Atgard</th><th>PDM</th></tr>
+    <tr>
+      <td>W084</td>
+      <td><span class="cable"><span class="stripe c-sw s-ge"><span>sw/ge</span></span></span></td>
+      <td>4mm&sup2;</td><td>kl.30 ut</td><td>E1 ljusomkopplare</td>
+      <td class="act-reroute">Koppla om</td>
+      <td>Busbar (O1) &rarr; kl.30 IN (vand riktning)</td>
+    </tr>
+    <tr>
+      <td>W121</td>
+      <td><span class="cable"><span class="clr c-sw">sw</span></span></td>
+      <td>~2.5mm&sup2;</td><td>kl.15</td><td>Sakring S5</td>
+      <td class="act-reuse">Ateranvand</td>
+      <td>kl.15 &rarr; <b>I16 (C1)</b> IGNITION</td>
+    </tr>
+    <tr>
+      <td>W080</td>
+      <td><span class="cable"><span class="stripe c-ro s-sw"><span>ro/sw</span></span></span></td>
+      <td>4mm&sup2;</td><td>kl.50</td><td>B startmotor</td>
+      <td class="act-reroute">Kapa + koppla om</td>
+      <td>kl.50 &rarr; <b>I15 (C2)</b> START. Isolera motorrumsandan</td>
+    </tr>
+    <tr>
+      <td>W082</td>
+      <td><span class="cable"><span class="clr c-ro">ro</span></span></td>
+      <td>4mm&sup2;</td><td>kl.15</td><td>J stralkastarrela</td>
+      <td class="act-isolate">Isolera</td>
+      <td>Behovs ej &mdash; PDM skoter ljus</td>
+    </tr>
+    <tr>
+      <td>W120</td>
+      <td><span class="cable"><span class="clr c-sw">sw</span></span></td>
+      <td>6mm&sup2;</td><td>kl.30 in</td><td>Batteri (separat terminal)</td>
+      <td class="act-isolate">Isolera / ta bort</td>
+      <td>Ersatts av busbar via sw/ge ovan</td>
+    </tr>
+  </table>
+  <div class="wire-diagram">Busbar (O1) ── sw/ge 4mm&sup2; ──&gt; Tandningslas kl.30
+                                    ├── kl.15 ── sw ~2.5mm&sup2; ──&gt; PDM I16 (C1)
+                                    └── kl.50 ── ro/sw 4mm&sup2; ──&gt; PDM I15 (C2)</div>
+</div>
+
+<!-- ===== HARNESS: RATT / SPAK ===== -->
+<div class="rewire rw-ratt">
+  <h2>Rattstam &mdash; Original &rarr; PDM</h2>
+  <table>
+    <tr><th>Original</th><th>Farg</th><th>Dim</th><th>Switch</th><th>Gick till</th><th>Atgard</th><th>PDM</th></tr>
+    <tr>
+      <td>W002</td>
+      <td><span class="cable"><span class="clr c-gn">gn</span></span></td>
+      <td>1mm&sup2;</td><td>E22 in</td><td>Sakring S11</td>
+      <td class="act-reroute">Koppla om</td>
+      <td>Busbar (O1) &rarr; E22 strom</td>
+    </tr>
+    <tr>
+      <td>W013</td>
+      <td><span class="cable"><span class="stripe c-gn s-sw"><span>gn/sw</span></span></span></td>
+      <td>1mm&sup2;</td><td>E22 ut</td><td>Motor V kl.53</td>
+      <td class="act-reuse">Ateranvand</td>
+      <td>E22 &rarr; <b>I10 (A2)</b> WIPER.SLO</td>
+    </tr>
+    <tr>
+      <td>W014</td>
+      <td><span class="cable"><span class="stripe c-gn s-ge"><span>gn/ge</span></span></span></td>
+      <td>1mm&sup2;</td><td>E22 ut</td><td>Motor V kl.53b</td>
+      <td class="act-reuse">Ateranvand</td>
+      <td>E22 &rarr; <b>I9 (A11)</b> WIPER.FST</td>
+    </tr>
+    <tr>
+      <td>W012</td>
+      <td><span class="cable"><span class="stripe c-sw s-gr"><span>sw/gr</span></span></span></td>
+      <td>1mm&sup2;</td><td>E22 ut</td><td>Motor V kl.53a</td>
+      <td class="act-reuse">Behall</td>
+      <td>Busbar &rarr; E22 (AV) &rarr; motor 53a (parkkrets)</td>
+    </tr>
+    <tr>
+      <td>W010</td>
+      <td><span class="cable"><span class="stripe c-gn s-ro"><span>gn/ro</span></span></span></td>
+      <td>0.5mm&sup2;</td><td>E22 ut</td><td>Spolarpump/rela</td>
+      <td class="act-reuse">Ateranvand</td>
+      <td>E22 &rarr; <b>I8 (A3)</b> WASHER</td>
+    </tr>
+    <tr>
+      <td>W091</td>
+      <td><span class="cable"><span class="stripe c-ro s-ws"><span>ro/ws</span></span></span></td>
+      <td>1.5mm&sup2;</td><td>E22 in</td><td>Sakring S8</td>
+      <td class="act-isolate">Isolera</td>
+      <td>Oanvand &mdash; W002 via busbar racker</td>
+    </tr>
+    <tr>
+      <td>W096</td>
+      <td><span class="cable"><span class="stripe c-sw s-gn"><span>sw/gn</span></span></span></td>
+      <td>1mm&sup2;</td><td>E22 in</td><td>Intervallrela J31</td>
+      <td class="act-isolate">Isolera</td>
+      <td>Oanvand &mdash; inget intervallrela</td>
+    </tr>
+    <tr>
+      <td>W151</td>
+      <td><span class="cable"><span class="clr c-sw">sw</span></span></td>
+      <td>1mm&sup2;</td><td>E2 in</td><td>Blinkrela J2</td>
+      <td class="act-reroute">Koppla om</td>
+      <td>Busbar (O1) &rarr; E2 strom</td>
+    </tr>
+    <tr>
+      <td>W085</td>
+      <td><span class="cable"><span class="clr c-ge">ge</span></span></td>
+      <td>1.5mm&sup2;</td><td>E4 ut</td><td>Rela J</td>
+      <td class="act-reuse">Ateranvand</td>
+      <td>E4 &rarr; <b>I2 (A6)</b> HIBEAM</td>
+    </tr>
+    <tr>
+      <td>W094</td>
+      <td><span class="cable"><span class="stripe c-sw s-gr"><span>sw/gr</span></span></span></td>
+      <td>~1.5mm&sup2;</td><td>H</td><td>H1 horn (jord)</td>
+      <td class="act-reuse">Ateranvand</td>
+      <td>Hornknapp &rarr; <b>I12 (A1)</b> Active Low</td>
+    </tr>
+    <tr>
+      <td>W066</td>
+      <td><span class="cable"><span class="stripe c-sw s-bl"><span>sw/bl</span></span></span></td>
+      <td>1mm&sup2;</td><td>E2 ut</td><td>M5 blink V fram</td>
+      <td class="act-isolate">Isolera</td>
+      <td>PDM O25 (B3) driver direkt</td>
+    </tr>
+    <tr>
+      <td>W067</td>
+      <td><span class="cable"><span class="stripe c-sw s-bl"><span>sw/bl</span></span></span></td>
+      <td>1mm&sup2;</td><td>E2 ut</td><td>M6 blink V bak</td>
+      <td class="act-isolate">Isolera</td>
+      <td>PDM O25 (B10) driver direkt</td>
+    </tr>
+    <tr>
+      <td>W068</td>
+      <td><span class="cable"><span class="stripe c-sw s-gn"><span>sw/gn</span></span></span></td>
+      <td>1mm&sup2;</td><td>E2 ut</td><td>M7 blink H fram</td>
+      <td class="act-isolate">Isolera</td>
+      <td>PDM O24 (D3) driver direkt</td>
+    </tr>
+    <tr>
+      <td>W069</td>
+      <td><span class="cable"><span class="stripe c-sw s-gn"><span>sw/gn</span></span></span></td>
+      <td>1mm&sup2;</td><td>E2 ut</td><td>M8 blink H bak</td>
+      <td class="act-isolate">Isolera</td>
+      <td>PDM O24 (D10) driver direkt</td>
+    </tr>
+    <tr>
+      <td>W163</td>
+      <td><span class="cable"><span class="stripe c-sw s-gn"><span>sw/gn/ws</span></span></span></td>
+      <td>1mm&sup2;</td><td>E2&harr;E3</td><td>Blink&harr;Hazard lank</td>
+      <td class="act-isolate">Isolera</td>
+      <td>PDM skoter hazard via I3 (A8) separat</td>
+    </tr>
+    <tr>
+      <td>???</td>
+      <td><span class="cable"><span class="stripe c-br s-bl"><span>br/bl</span></span></span></td>
+      <td>?</td><td>?</td><td>Okand</td>
+      <td class="act-isolate">Identifiera forst!</td>
+      <td>Ej i VW-manual &mdash; mat med multimeter</td>
+    </tr>
+  </table>
+  <div class="wire-diagram">ATERANVANDS (6 st):
+W002 gn        Busbar &rarr; E22 torkaspak (strom in)
+W013 gn/sw     E22 &rarr; I10 (A2) WIPER.SLO
+W014 gn/ge     E22 &rarr; I9 (A11) WIPER.FST
+W010 gn/ro     E22 &rarr; I8 (A3) WASHER
+W085 ge        E4  &rarr; I2 (A6) HIBEAM
+W094 sw/gr     H   &rarr; I12 (A1) HORN (Active Low)
+
+KOPPLAS OM (2 st):
+W151 sw        Busbar &rarr; E2 blinkerspak (strom in, var J2)
+W012 sw/gr     Busbar &rarr; E22(AV) &rarr; motor 53a (parkkrets)
+
+ISOLERAS (7 st):
+W091 ro/ws     Oanvand (gammal S8-matning)
+W096 sw/gn     Oanvand (intervallrela J31)
+W066 sw/bl     Blink V fram (PDM O25 B3 tar over)
+W067 sw/bl     Blink V bak  (PDM O25 B10 tar over)
+W068 sw/gn     Blink H fram (PDM O24 D3 tar over)
+W069 sw/gn     Blink H bak  (PDM O24 D10 tar over)
+W163 sw/gn/ws  E2-E3 lank   (PDM I3 separat hazard)
+
+OKAND (1 st):
+???  br/bl     Identifiera med multimeter</div>
+</div>
+
+<!-- ===== HARNESS: BAKSTAM ===== -->
+<div class="rewire rw-bak">
+  <h2>Bakstam &mdash; PDM &rarr; Bak</h2>
+  <table>
+    <tr><th>PDM Pin</th><th>Output</th><th>Farg</th><th>Dim</th><th>Till</th><th>Not</th></tr>
+    <tr><td>D7</td><td>O4 BRAKE</td><td><span class="cable"><span class="dim">1.5</span><span class="clr c-bl">bl</span></span></td><td>1.5mm&sup2;</td><td>Splice &rarr; M9 + M10</td><td>2 bromsljus</td></tr>
+    <tr><td>D8</td><td>O5 FUEL</td><td><span class="cable"><span class="dim">2&times;1.5</span><span class="stripe c-sw s-br"><span>sw/br</span></span></span></td><td>2&times;1.5mm&sup2;</td><td>G6 branslepump</td><td>2 ledare parallell i 1 pin</td></tr>
+    <tr><td>D9</td><td>O6 PARK</td><td><span class="cable"><span class="dim">1.5</span><span class="clr c-ro">ro</span></span></td><td>1.5mm&sup2;</td><td>Splitter &rarr; M4 M2</td><td>Bakre parkljus</td></tr>
+    <tr><td>D10</td><td>O24 TURN-R</td><td><span class="cable"><span class="dim">1.5</span><span class="clr c-gn">gn</span></span></td><td>1.5mm&sup2;</td><td>M8 blink H bak</td><td>Dual D3+D10</td></tr>
+    <tr><td>B1</td><td>O19 REVERSE</td><td><span class="cable"><span class="dim">1.5</span><span class="clr c-gr">gr</span></span></td><td>1.5mm&sup2;</td><td>Splice &rarr; M16 + M17</td><td>2 backljus (drivs av I7)</td></tr>
+    <tr><td>B10</td><td>O25 TURN-L</td><td><span class="cable"><span class="dim">1.5</span><span class="clr c-ge">ge</span></span></td><td>1.5mm&sup2;</td><td>M6 blink V bak</td><td>Dual B3+B10</td></tr>
+    <tr><td>&mdash;</td><td>GND</td><td><span class="cable"><span class="dim">1.5</span><span class="clr c-br">br</span></span></td><td>1.5mm&sup2;</td><td>Chassi M8 punkt 15</td><td>Gemensam jordbuss</td></tr>
+  </table>
+  <div class="wire-diagram">PDM ──┬── D7  O4  bl  1.5mm&sup2; ──&gt; splice ──&gt; M9 + M10 bromsljus
+      ├── D8  O5  sw+br 2&times;1.5 ──&gt; G6 branslepump
+      ├── D9  O6  ro  1.5mm&sup2; ──&gt; splitter ──&gt; M4 + M2 parkljus bak
+      ├── D10 O24 gn  1.5mm&sup2; ──&gt; M8 blink hoger bak
+      ├── B1  O19 gr  1.5mm&sup2; ──&gt; splice ──&gt; M16 + M17 backljus
+      ├── B10 O25 ge  1.5mm&sup2; ──&gt; M6 blink vanster bak
+      └── GND     br  1.5mm&sup2; ──&gt; chassi punkt 15 (jordbuss)
+
+7 kablar + 1 extra ledar (FUEL) = 8 ledare i bakstammen</div>
+</div>
+
+<!-- ===== HARNESS: FRAM / STRÅLKASTARE ===== -->
+<div class="rewire rw-fram">
+  <h2>Framstam &mdash; PDM &rarr; Stralkastar / Blinkers fram</h2>
+  <table>
+    <tr><th>PDM Pin</th><th>Output</th><th>Farg</th><th>Dim</th><th>Till</th></tr>
+    <tr><td>B5</td><td>O14 LOWBEAM-L</td><td><span class="cable"><span class="dim">2.5</span><span class="stripe c-ge s-sw"><span>ge/sw</span></span></span></td><td>2.5mm&sup2;</td><td>L1 vanster kl.56a</td></tr>
+    <tr><td>B4</td><td>O15 LOWBEAM-R</td><td><span class="cable"><span class="dim">2.5</span><span class="clr c-ge">ge</span></span></td><td>2.5mm&sup2;</td><td>L2 hoger kl.56a</td></tr>
+    <tr><td>D12</td><td>O16 HIBEAM-L</td><td><span class="cable"><span class="dim">2.5</span><span class="stripe c-ws s-sw"><span>ws/sw</span></span></span></td><td>2.5mm&sup2;</td><td>L1 vanster kl.56b</td></tr>
+    <tr><td>D6</td><td>O7 HIBEAM-R</td><td><span class="cable"><span class="dim">2.5</span><span class="clr c-ws">ws</span></span></td><td>2.5mm&sup2;</td><td>L2 hoger kl.56b</td></tr>
+    <tr><td>D3</td><td>O24 TURN-R-F</td><td><span class="cable"><span class="dim">1.5</span><span class="stripe c-sw s-gn"><span>sw/gn</span></span></span></td><td>1.5mm&sup2;</td><td>M7 blink H fram</td></tr>
+    <tr><td>B3</td><td>O25 TURN-L-F</td><td><span class="cable"><span class="dim">1.5</span><span class="stripe c-sw s-ws"><span>sw/ws</span></span></span></td><td>1.5mm&sup2;</td><td>M5 blink V fram</td></tr>
+  </table>
+  <div class="wire-diagram">PDM ──┬── B5  O14 ge/sw 2.5mm&sup2; ──&gt; L1 halvljus vanster
+      ├── B4  O15 ge    2.5mm&sup2; ──&gt; L2 halvljus hoger
+      ├── D12 O16 ws/sw 2.5mm&sup2; ──&gt; L1 helljus vanster
+      ├── D6  O7  ws    2.5mm&sup2; ──&gt; L2 helljus hoger
+      ├── D3  O24 sw/gn 1.5mm&sup2; ──&gt; M7 blink hoger fram
+      └── B3  O25 sw/ws 1.5mm&sup2; ──&gt; M5 blink vanster fram
+
+6 kablar genom torpedvaggen till stralkastar</div>
+</div>
+
+<!-- ===== HARNESS: MOTOR ===== -->
+<div class="rewire rw-motor">
+  <h2>Motorrum &mdash; PDM &rarr; Motor</h2>
+  <table>
+    <tr><th>PDM Pin</th><th>Output</th><th>Farg</th><th>Dim</th><th>Till</th></tr>
+    <tr><td>C3</td><td>PWR.CTRL</td><td><span class="cable"><span class="dim">4.0</span><span class="clr c-ro">ro</span></span></td><td>4mm&sup2;</td><td>Batteri (controller-strom)</td></tr>
+    <tr><td>C4</td><td>O3 IGN.COIL</td><td><span class="cable"><span class="dim">1.5</span><span class="stripe c-sw s-li"><span>sw/li</span></span></span></td><td>1.5mm&sup2;</td><td>N6 seriemotstand</td></tr>
+    <tr><td>C5</td><td>O2 WIPER.FST</td><td><span class="cable"><span class="dim">2.5</span><span class="stripe c-sw s-gr"><span>sw/gr</span></span></span></td><td>2.5mm&sup2;</td><td>Torkarmotor kl.53b</td></tr>
+    <tr><td>B7</td><td>O10 WIPER.SLO</td><td><span class="cable"><span class="dim">2.5</span><span class="clr c-gn">gn</span></span></td><td>2.5mm&sup2;</td><td>Torkarmotor kl.53</td></tr>
+    <tr><td>B9</td><td>O12 WASHER</td><td><span class="cable"><span class="dim">1.5</span><span class="stripe c-gn s-ro"><span>gn/ro</span></span></span></td><td>1.5mm&sup2;</td><td>V5 spolarpump</td></tr>
+    <tr><td>B2</td><td>O23 STARTER</td><td><span class="cable"><span class="dim">2.5</span><span class="stripe c-ro s-sw"><span>ro/sw</span></span></span></td><td>2.5mm&sup2;</td><td>Solenoid kl.50 (direkt)</td></tr>
+    <tr><td>C7</td><td>GND.CHASSIS</td><td><span class="cable"><span class="dim">10</span><span class="clr c-br">br</span></span></td><td>10mm&sup2;</td><td>Chassijord punkt 12</td></tr>
+  </table>
+</div>
+
+<!-- ===== CHECKLIST ===== -->
+<div class="checklist">
+  <h3>Checklista</h3>
+  <label><input type="checkbox"> A (Grey): 12 pins crimpade + wedgelock</label>
+  <label><input type="checkbox"> C (Green): 12 pins crimpade + wedgelock</label>
+  <label><input type="checkbox"> D (Brown): 11 pins + 1 plugg (D1) + wedgelock</label>
+  <label><input type="checkbox"> B (Black): 12 pins crimpade + wedgelock</label>
+  <label><input type="checkbox"> M8-stud: 32mm&sup2; crimpat, 8Nm</label>
+  <label><input type="checkbox"> Dual-pin: D3+D10 (O24), B3+B10 (O25)</label>
+  <label><input type="checkbox"> CAN tvinnad: C8+C9</label>
+  <label><input type="checkbox"> Pull-up extern (5V/C10): I11 COOLANT (1k&rarr;C10)</label>
+  <label><input type="checkbox"> Pull-up extern (12V): I10 COOLANT_LOW + I13 BRAKE_FAULT (4.7k&rarr;12V via s&auml;kring)</label>
+  <label><input type="checkbox"> Pull-down extern: I9 WIPER_SPEED (1k&rarr;GND); 12V via 4.7k+470&Omega; resistor-stege till stalk</label>
+  <label><input type="checkbox"> Pull-up intern (200k): I14 OIL.PRESS &mdash; ingen extern resistor</label>
+  <label><input type="checkbox"> I13 100R PU borttagen (FUEL_LVL flyttad till Pi ADS1115)</label>
+  <label><input type="checkbox"> Alla etiketter (Dymo)</label>
+  <label><input type="checkbox"> Continuity 48 pins</label>
+</div>
+
+<script>
+function filterHarness(group) {
+  document.querySelectorAll('.harness-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('tr[data-h]').forEach(row => {
+    if (group === 'all') {
+      row.classList.remove('h-dim');
+    } else {
+      row.classList.toggle('h-dim', row.dataset.h !== group);
+    }
+  });
+}
+</script>
+
+</body>
+</html>

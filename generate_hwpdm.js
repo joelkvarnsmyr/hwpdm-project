@@ -43,8 +43,8 @@ const path = require('path');
 
 // --- Automatic Versioning Logic ---
 const buildsDir = 'Builds';
-let latestMajor = 7;
-let latestMinor = 2;
+let latestMajor = 8;
+let latestMinor = -1;
 
 if (fs.existsSync(buildsDir)) {
   const files = fs.readdirSync(buildsDir);
@@ -1300,6 +1300,80 @@ function buildRawSendData(hwpdm) {
   return lines;
 }
 
+// --- Build Pin Manager notes ---
+function buildPinManager() {
+  // PDM-25 pin layout: A(notes 0-11), C(notes 12-23), D(notes 24-35), B(notes 36-47)
+  // Each note is freetext per pin position with cable info from KABELMARKNING doc
+  const pinNotes = {
+    // === Connector A (inputs) ===
+    0:  'I12 HORN | 1.0mm² br/bl | Active Low | Hornknapp via slip ring',
+    1:  'I10 WIPER.SLO | gn | Momentary | Torkaromkopplare kl.53',
+    2:  'I8 WASHER | gn/ro | Momentary | Spolarpump knapp',
+    3:  'I6 TURN-R | sw/gn | Momentary | Blinkerspak höger',
+    4:  'I4 BRAKE | sw/ro | Momentary | Bromslysbrytare (bat-matad)',
+    5:  'I2 HIGHBEAM | ge | Latching | Helljusspak kl.56b',
+    6:  'I1 BLOWER | sw/ge | Analog | Fläktomkopplare (4.7k+4.7k)',
+    7:  'I3 HAZARD | Latching | Varningsblinkersknapp',
+    8:  'I5 TURN-L | sw/ws | Momentary | Blinkerspak vänster',
+    9:  'I7 PARK | Momentary | Parkljusswitch',
+    10: 'I9 WIPER.FST | sw/gr | Momentary | Torkaromkopplare kl.53b',
+    11: 'I11 COOLANT | gn | Analog | G2 NTC kyltemp (1kΩ PU→5V)',
+
+    // === Connector C (mixed: inputs, outputs, power, CAN) ===
+    12: 'I16 IGNITION | 2.5mm² sw/ge | Momentary | Tändningslås kl.15',
+    13: 'I15 START | 2.5mm² sw/ws | Momentary | Tändningslås kl.50',
+    14: 'PWR.CTRL | 4mm² ro | Batteriström till PDM controller',
+    15: 'O3 IGN COIL | 1.5mm² sw/li | N6 seriemotstånd (tändspole)',
+    16: 'O2 WIPER.FST | 2.5mm² sw/gr | Torkarmotor kl.53b',
+    17: 'O1 BUSBAR | 0.75mm² | Signalbusbar (Always On, 3A)',
+    18: 'GND.CHASSIS | 10mm² br | Chassijord punkt 12',
+    19: 'CAN.H | 0.75mm² ws | RPi CAN High (tvinnad)',
+    20: 'CAN.L | 0.75mm² sw | RPi CAN Low (tvinnad)',
+    21: '5V.REF | 100mA sensorutgång',
+    22: 'I13 FUEL.LVL | li/sw | Analog | Bränslegivare (100Ω PU→5V)',
+    23: 'I14 REVERSE | sw/bl | Momentary | Backväxelkontakt',
+
+    // === Connector D (outputs) ===
+    24: 'O17 LEDIG',
+    25: 'O21 RPI | 2.0mm² | Raspberry Pi 5 + CAN HAT',
+    26: 'O24 TURN-R-F | 1.5mm² sw/gn | M7 blink H fram (dual D3+D10)',
+    27: 'O9 WARN.MASTER | 1.5mm² ro | Varningslampa K3 (CAN-styrd)',
+    28: 'O8 IND.TURN | 1.5mm² sw/bl | K5 blinkers kontrollampa',
+    29: 'O7 HIGHBEAM-R | 2.5mm² ws | L2 höger kl.56b',
+    30: 'O4 BRAKE | 1.5mm² bl | M9+M10 bromsljus',
+    31: 'O5 FUEL | 1.5mm² sw | G6 bränslepump',
+    32: 'O6 PARK | 1.5mm² röd | Parkljus M1 M3 M2 M4 X',
+    33: 'O24 TURN-R-R | 1.5mm² grön | M8 blink H bak (dual D3+D10)',
+    34: 'O20 RADIO.ACC | 1.5mm² | Radio ACC (tändningsstyrd)',
+    35: 'O16 HIGHBEAM-L | 2.5mm² ws/sw | L1 vänster kl.56b',
+
+    // === Connector B (outputs) ===
+    36: 'O19 REVERSE | 1.5mm² grå | M16+M17 backljus',
+    37: 'O23 STARTER | 2.5mm² ro/sw | Solenoid kl.50 (direkt)',
+    38: 'O25 TURN-L-F | 1.5mm² sw/ws | M5 blink V fram (dual B3+B10)',
+    39: 'O15 LOWBEAM-R | 2.5mm² ge | L2 höger kl.56a',
+    40: 'O14 LOWBEAM-L | 2.5mm² ge/sw | L1 vänster kl.56a',
+    41: 'O13 HORN | 2.0mm² sw/ge | H1 signalhorn',
+    42: 'O10 WIPER.SLO | 2.5mm² gn | Torkarmotor kl.53',
+    43: 'O11 BLOWER | 2.5mm² sw/ge | V2 kupéfläkt (Stay On 30s)',
+    44: 'O12 WASHER | 1.5mm² gn/ro | V5 spolarpump',
+    45: 'O25 TURN-L-R | 1.5mm² gul | M6 blink V bak (dual B3+B10)',
+    46: 'O22 USB12V | 1.5mm² | 12V USB-uttag',
+    47: 'O18 RADIO.MEM | 1.0mm² | Radio permanent minne (Always On)',
+  };
+
+  const notes = [];
+  for (let i = 0; i < 48; i++) {
+    notes.push({
+      noteNumber: i,
+      noteText: pinNotes[i] || ''
+    });
+  }
+
+  console.log(`Pin Manager: ${Object.keys(pinNotes).length} pin notes populated`);
+  return { notes };
+}
+
 // --- Assemble the HWPDM file ---
 console.log('Building HWPDM from config...');
 
@@ -1326,7 +1400,7 @@ const hwpdm = {
   CANStream: buildCANStream(),
   MPDMDevice: template.MPDMDevice,
   LINBus: template.LINBus,
-  pinManager: template.pinManager,
+  pinManager: buildPinManager(),
   rawSendData: [], // Will be populated
 };
 

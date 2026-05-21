@@ -1,14 +1,7 @@
 flowchart TD
-    subgraph BUSBAR_SRC["Signalbusbar O1 (Always-On, 3A)"]
-        BUSBAR["📶 Signalbusbar 12V"]
+    subgraph PULL_UP["PDM Intern 200kΩ Pull-Up (Active Low)"]
+        I12["PDM I12 (A1)\nHORN\nMomentary Active LOW\n6V threshold\nIntern 200kΩ PU"]
     end
-
-    subgraph PULL_UP["10kΩ Pull-Up (Active Low)"]
-        R10K["10kΩ resistor\n(monterad nära PDM A1)\n1/4W"]
-        I12["PDM I12 (A1)\nHORN\nMomentary Active LOW\n6V threshold"]
-    end
-
-    BUSBAR --> R10K --> I12
 
     subgraph HORN_BTN_CIRCUIT["Hornknapp (via rattstångens slip ring)"]
         HORN_BTN["Hornknapp\n(i rattcentrum)"]
@@ -16,20 +9,22 @@ flowchart TD
         HORN_BTN --> SLIP_RING
     end
 
-    SLIP_RING -->|"1.0mm² br/bl"| I12_LINE["Kabel till PDM I12\n(delas med pull-up)"]
-    I12_LINE --> I12
+    SLIP_RING -->|"1.0mm² br/bl\nPDM.IN.HORN"| I12
     SLIP_RING -->|"Knapp nedtryckt\n→ GND"| GND_CHR["⏚ Chassijord"]
 
-    I12 -->|"I12 Status\n(LOW = ON)"| O13["O13 HORN\n(B6, 6A)\nPeak Fuse 8A / 0.5s"]
+    I12 -->|"I12 Status\n(LOW = ON)\nAND Timer2=False"| O13["O13 HORN\n(B6, 6A)\nPeak Fuse 8A / 0.5s"]
     O13 -->|"2.0mm² sw/ge\nPDM.OUT.HORN"| H1["H1 Signalhorn"]
     H1 --> GND_HORN["⏚ Chassijord"]
 
     subgraph STATES["Tillståndstabell"]
-        S1["Knapp ej nedtryckt\nI12 = 12V (pull-up HIGH)\nO13 = AV"]
-        S2["Knapp nedtryckt\nI12 = 0V (GND LOW)\nO13 = PÅ"]
-        S3["Kabelbrott\nI12 = 12V (pull-up HIGH)\nO13 = AV (fail-safe!)"]
+        S1["Knapp ej nedtryckt\nI12 = ~VBat via 200kΩ PU\nO13 = AV"]
+        S2["Knapp nedtryckt\nI12 = 0V (GND via slip ring)\nO13 = PÅ"]
+        S3["Kabelbrott\nI12 = ~VBat via 200kΩ PU\nO13 = AV (fail-safe!)"]
     end
+
+    NOTE["✅ v5.9: Ingen extern resistor\nPDM intern 200kΩ pull-up räcker\n\n🛡️ Crash: Timer2=True → O13 blockerad\n⚠️ 200kΩ är svag — överväg 10kΩ\nextern PU till busbar för robusthet"]
 
     style PULL_UP fill:#0f3460,stroke:#c9a144,color:#f2ede6
     style STATES fill:#1a1a2e,stroke:#5c6bc0,color:#f2ede6
     style S3 fill:#1a2e1a,stroke:#4caf50,color:#f2ede6
+    style NOTE fill:#1a2e1a,stroke:#4caf50,color:#f2ede6
