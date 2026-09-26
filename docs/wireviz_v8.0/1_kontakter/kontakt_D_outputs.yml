@@ -1,0 +1,134 @@
+# ELTON PDM25 V2 — Deutsch connector D (12-pin) — OUTPUTS
+# Source: PINMAP v8.0 + cable data.
+# Connector D output map:
+#   D1 = O17 HORN_2 (cable run to horn 2)
+#   D5 = O8 WIPER_FST
+#   D7 = O4 PARK / D9 = O6 BRAKE
+#   D2 = O21 reserve (Pi fed directly from battery, not via PDM)
+#   D4 = O9 reserve
+#   D11 = O20 reserve (radio fed directly from the battery busbar, not via PDM)
+
+connectors:
+  PDM_D:
+    type: Deutsch DT 12-pin — BROWN housing
+    subtype: female
+    bgcolor_title: BN
+    image: {src: ../_assets/connectors/dt_brun.png, width: 130}
+    notes: "Connector D (3-DT-BROWN) — outputs"
+    pinlabels:
+      - O17 HORN_2
+      - O21 RESERVE
+      - O24 TURN_R (front)
+      - O9 RESERVE
+      - O8 WIPER_FST
+      - O7 HIBEAM_R (PWM)
+      - O4 PARK (PWM)
+      - O5 FUEL (pump)
+      - O6 BRAKE
+      - O24 TURN_R (rear)
+      - O20 RESERVE (radio → battery busbar)
+      - O16 HIBEAM_L (PWM)
+
+  H2_HORN:
+    type: Horn 2 (secondary)
+    notes: "Cable run D1 → horn 2."
+    pincount: 1
+  M7:
+    type: M7 turn right front
+    pincount: 1
+  TORKARMOTOR:
+    type: Wiper motor
+    pinlabels: [Term. 53b high]
+  L2_HB:
+    type: L2 headlight right
+    pinlabels: [Term. 56a high beam]
+  PARK_SPLIT:
+    type: Parking light splitter
+    pinlabels: [M1 left front, M3 left rear, M2 right front, M4 right rear, X number plate]
+    notes: "X number plate grounded via GND.REAR.BUS"
+  G6_PUMP:
+    type: G6 fuel pump
+    notes: "black+brown join to the SAME pin (+12V) at the pump. Separate GND pin → chassis (cable not drawn)."
+    pinlabels: ["+12V (black+brown)", "GND → chassis"]
+  M9_M10:
+    type: M9 + M10 brake light
+    pincount: 1
+  M8:
+    type: M8 turn right rear
+    pincount: 1
+  L1_HB:
+    type: L1 headlight left
+    pinlabels: [Term. 56a high beam]
+
+cables:
+  W_HORN2:
+    category: bundle
+    gauge: 2.0 mm2
+    colors: [BKYE]
+    wirelabels: [PDM.OUT.HORN-2]
+  W_TURN_R:
+    category: bundle
+    gauge: 1.5 mm2
+    colors: [BKGN, GN]
+    wirelabels: [PDM.OUT.TURN-R-F, PDM.OUT.TURN-R-R]
+  W_WIPER_FST:
+    category: bundle
+    gauge: 2.5 mm2
+    colors: [BKGY]
+    wirelabels: [PDM.OUT.WIPER.FST]
+  W_HIBEAM:
+    category: bundle
+    gauge: 2.5 mm2
+    colors: [WH, WHBK]
+    wirelabels: [PDM.OUT.HIGHBEAM-R, PDM.OUT.HIGHBEAM-L]
+  W_PARK:
+    category: bundle
+    gauge: 1.5 mm2
+    colors: [BU]
+    wirelabels: [PDM.OUT.PARK]
+    notes: "Observed blue → parking light (some docs list red)."
+  W_FUEL:
+    category: bundle
+    gauge: 1.5 mm2
+    colors: [BK, BN]
+    wirelabels: [PDM.OUT.FUEL (black), PDM.OUT.FUEL (brown)]
+    notes: 2x1.5 parallel → same pin at the pump
+  W_BRAKE:
+    category: bundle
+    gauge: 1.5 mm2
+    colors: [RD]
+    wirelabels: [PDM.OUT.BRAKE]
+    notes: "Observed red → brake light M9+M10 (some docs list blue)."
+
+connections:
+  - - PDM_D: [1]
+    - W_HORN2: [1]
+    - H2_HORN: [1]
+  - - PDM_D: [3]
+    - W_TURN_R: [1]
+    - M7: [1]
+  - - PDM_D: [10]
+    - W_TURN_R: [2]
+    - M8: [1]
+  - - PDM_D: [5]
+    - W_WIPER_FST: [1]
+    - TORKARMOTOR: [1]
+  - - PDM_D: [6]
+    - W_HIBEAM: [1]
+    - L2_HB: [1]
+  - - PDM_D: [12]
+    - W_HIBEAM: [2]
+    - L1_HB: [1]
+  - - PDM_D: [7]
+    - W_PARK: [1]
+    - PARK_SPLIT: [1]
+  - - PDM_D: [8]
+    - W_FUEL: [1]
+    - G6_PUMP: [1]
+  - - PDM_D: [8]
+    - W_FUEL: [2]
+    - G6_PUMP: [1]
+  # (pump ground = GND pin → chassis, cable not drawn)
+  - - PDM_D: [9]
+    - W_BRAKE: [1]
+    - M9_M10: [1]

@@ -1,0 +1,54 @@
+# ELTON — PDM control feed C3: two paths (ignition + hazard-wake)
+# Split out from kraft_busbar (so the busbar only shows radio/Pi). Rendered vertically (TB).
+# The +12V busbar (always hot, see kraft_busbar) feeds C3 in two ways:
+#   1. Ignition switch (RUN) → C3  (normal; PDM alive only with ignition on)
+#   2. Hazard switch → diode → C3  (wake without ignition; diode prevents back-feed to the flasher)
+
+connectors:
+  BUSBAR:
+    type: +12V busbar (always hot)
+    notes: "See kraft_busbar. Two branches to C3."
+    pinlabels: ["→ ignition switch", "→ hazard (wake)"]
+  TANDLAS:
+    type: Ignition switch
+    notes: "RUN → +12V to C3\n(= ignition-coupled PDM)."
+    pinlabels: ["+12V in", "out → C3 (RUN)"]
+  HAZARD_SW:
+    type: Hazard switch live pole (wake)
+    notes: "Live when hazard is on → diode → C3\n(wakes the PDM without ignition)."
+    pinlabels: ["+12V in", "out → diode"]
+  DIODE:
+    type: Diode (wake isolation)
+    image: {src: ../_assets/diode.png, width: 140}
+    notes: "Anode=hazard, cathode(band)=C3.\nPrevents C3 back-feeding the hazard flasher."
+    pinlabels: [anode, cathode]
+  PDM_C3:
+    type: PDM25 V2 connector C (GREEN housing)
+    subtype: female
+    bgcolor_title: GN
+    notes: "C3 PWR.CTRL — PDM control feed.\nIgnition-coupled."
+    pinlabels: [C3 / PWR.CTRL]
+
+cables:
+  W_IGN_IN: {category: bundle, gauge: 2.5 mm2, colors: [RD], wirelabels: [busbar → ignition switch]}
+  W_C3:     {category: bundle, gauge: 4.0 mm2, colors: [BK], wirelabels: [PDM.PWR.CTRL], notes: "note BLACK"}
+  W_HAZ_IN: {category: bundle, gauge: 1.5 mm2, colors: [RD], wirelabels: [busbar → hazard]}
+  W_HAZ_DI: {category: bundle, gauge: 1.5 mm2, length: 0.05 m, colors: [RD], wirelabels: [hazard → diode]}
+  W_DI_C3:  {category: bundle, gauge: 1.5 mm2, colors: [RD], wirelabels: [diode → C3 (wake)]}
+
+connections:
+  - - BUSBAR: [1]
+    - W_IGN_IN: [1]
+    - TANDLAS: [1]
+  - - TANDLAS: [2]
+    - W_C3: [1]
+    - PDM_C3: [1]
+  - - BUSBAR: [2]
+    - W_HAZ_IN: [1]
+    - HAZARD_SW: [1]
+  - - HAZARD_SW: [2]
+    - W_HAZ_DI: [1]
+    - DIODE: [1]
+  - - DIODE: [2]
+    - W_DI_C3: [1]
+    - PDM_C3: [1]

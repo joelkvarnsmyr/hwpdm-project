@@ -1,0 +1,6 @@
+Id	Description	Qty	Unit	Designators
+1	Connector, Alternator D+, 1 pins	1		GEN
+2	Connector, Blocking diode, 2 pins	1		DIODE
+3	Connector, PDM25 V2 (connector C, GREEN housing), female, 1 pins	1		PDM
+4	Connector, Power resistor 82Ω 5W, 2 pins	1		R_EXCITE
+5	Wire, 1.5 mm², BU	0.05	m	W_DP, W_EXC, W_RD

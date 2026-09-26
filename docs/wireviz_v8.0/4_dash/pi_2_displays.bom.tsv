@@ -1,0 +1,9 @@
+Id	Description	Qty	Unit	Designators
+1	Connector, GX16 10-pin (from part 1), 4 pins	1		GX16
+2	Connector, ST7789 display 1, 2 pins	1		S1
+3	Connector, ST7789 display 2, 2 pins	1		S2
+4	Connector, ST7789 display 3, 2 pins	1		S3
+5	Wire, 0.25 mm², BN	0	m	W_C3
+6	Wire, 0.25 mm², GY	0	m	W_B1, W_B2, W_B3
+7	Wire, 0.25 mm², OG	0	m	W_C1
+8	Wire, 0.25 mm², RD	0	m	W_C2

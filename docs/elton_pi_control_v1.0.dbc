@@ -1,0 +1,97 @@
+VERSION "Elton Pi Control v1.0 - Pi -> PDM commands - 2026-06-05"
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+
+BS_:
+
+BU_:
+
+BO_ 1280 Elton_Ctrl_Lights: 8 Vector__XXX
+ SG_ LightShow_Enable : 0|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ LightShow_Heartbeat : 1|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ Safety_Override : 2|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ LowBeam_L_Cmd : 8|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ LowBeam_R_Cmd : 9|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ HiBeam_L_Cmd : 10|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ HiBeam_R_Cmd : 11|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ Park_Lights_Cmd : 12|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ Turn_L_Cmd : 16|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ Turn_R_Cmd : 17|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ Brake_Lights_Cmd : 18|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ Reverse_Lights_Cmd : 19|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ Hazard_Cmd : 20|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ Interior_Cmd : 24|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ Horn_Pulse : 25|1@0+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 1281 Elton_Ctrl_PWM: 8 Vector__XXX
+ SG_ LowBeam_L_PWM : 7|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ LowBeam_R_PWM : 15|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ HiBeam_L_PWM : 23|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ HiBeam_R_PWM : 31|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ Park_Lights_PWM : 39|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ Brake_Lights_PWM : 47|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ Turn_L_PWM : 55|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ Turn_R_PWM : 63|8@0+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 1282 Elton_Ctrl_Pattern: 8 Vector__XXX
+ SG_ Pattern_ID : 7|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ Pattern_Speed : 15|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ Pattern_Brightness : 23|8@0+ (1,0) [0|100] "" Vector__XXX
+ SG_ Pattern_Phase : 31|8@0+ (1,0) [0|255] "" Vector__XXX
+
+CM_ BO_ 1280 "Pi -> PDM primary command frame. Send at 10-50Hz when LightShow_Enable=1. PDM falls back to physical inputs if frame missing > 500ms.";
+CM_ BO_ 1281 "Pi -> PDM PWM dim levels for fade/breathing effects (0=off, 255=full).";
+CM_ BO_ 1282 "Pi -> PDM pattern selector for PDM-side autonomous patterns.";
+
+CM_ SG_ 1280 LightShow_Enable "Master enable. 0=PDM uses physical inputs, 1=PDM accepts CAN commands.";
+CM_ SG_ 1280 LightShow_Heartbeat "Pi heartbeat - must toggle each frame for liveness check.";
+CM_ SG_ 1280 Safety_Override "Bypass speed>0 interlock. Use only stationary.";
+CM_ SG_ 1280 LowBeam_L_Cmd "Activate Low Beam Left (PDM O14).";
+CM_ SG_ 1280 LowBeam_R_Cmd "Activate Low Beam Right (PDM O15).";
+CM_ SG_ 1280 HiBeam_L_Cmd "Activate Hi Beam Left (PDM O16).";
+CM_ SG_ 1280 HiBeam_R_Cmd "Activate Hi Beam Right (PDM O7).";
+CM_ SG_ 1280 Park_Lights_Cmd "Activate Parking Lights (PDM O4).";
+CM_ SG_ 1280 Turn_L_Cmd "Activate Turn Left (PDM O25).";
+CM_ SG_ 1280 Turn_R_Cmd "Activate Turn Right (PDM O24).";
+CM_ SG_ 1280 Brake_Lights_Cmd "Activate Brake Lights (PDM O6).";
+CM_ SG_ 1280 Reverse_Lights_Cmd "Activate Reverse Lights (PDM O19).";
+CM_ SG_ 1280 Hazard_Cmd "Activate both turn signals as hazard.";
+CM_ SG_ 1280 Interior_Cmd "Activate Interior Light.";
+CM_ SG_ 1280 Horn_Pulse "Single horn pulse. Sparingly!";
+
+VAL_ 1280 LightShow_Enable 0 "OFF" 1 "ON" ;
+VAL_ 1280 LightShow_Heartbeat 0 "BEAT_A" 1 "BEAT_B" ;
+VAL_ 1280 Safety_Override 0 "SAFE" 1 "OVERRIDE" ;
+VAL_ 1280 LowBeam_L_Cmd 0 "OFF" 1 "ON" ;
+VAL_ 1280 LowBeam_R_Cmd 0 "OFF" 1 "ON" ;
+VAL_ 1280 HiBeam_L_Cmd 0 "OFF" 1 "ON" ;
+VAL_ 1280 HiBeam_R_Cmd 0 "OFF" 1 "ON" ;
+VAL_ 1280 Park_Lights_Cmd 0 "OFF" 1 "ON" ;
+VAL_ 1280 Turn_L_Cmd 0 "OFF" 1 "ON" ;
+VAL_ 1280 Turn_R_Cmd 0 "OFF" 1 "ON" ;
+VAL_ 1280 Brake_Lights_Cmd 0 "OFF" 1 "ON" ;
+VAL_ 1280 Reverse_Lights_Cmd 0 "OFF" 1 "ON" ;
+VAL_ 1280 Hazard_Cmd 0 "OFF" 1 "ON" ;
+VAL_ 1280 Interior_Cmd 0 "OFF" 1 "ON" ;
+VAL_ 1280 Horn_Pulse 0 "OFF" 1 "PULSE" ;
+

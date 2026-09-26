@@ -1,0 +1,82 @@
+# ELTON PDM25 V2 — 5V REF (C10) distribution + analog voltage dividers
+# Shows the COMPLETE divider: 5V → pull-up → NODE → (input) + (sensor → ground).
+#
+# TURN_MUX = TURN_L + TURN_R combined (the stalk is left XOR right) → there is no separate
+# TURN_L pin here; it is read as a voltage window.
+#
+# NO shared pull-up — the 5V rail is shared, but every input has its OWN pull-up. Each pull-up's
+# NODE goes to BOTH the input pin AND the sensor/switch (which goes to ground). That is the divider.
+# The sensor/switch blocks are shown compactly here; full detail (resistor ladder etc.) in the respective circuit.
+# Current budget: ~37 mA of 100 mA (~2.7x margin). Fuel is largest at ~31 mA.
+
+connectors:
+  SPLICE_5V:
+    type: 5V distribution point (at PDM)
+    notes: "Fed from C10 / 5V REF — see the connector_C diagram (max 100 mA). This diagram shows the distribution from here."
+    pinlabels: ["from C10 (connector C)", "→ wiper", "→ blower", "→ turn signal", "→ coolant", "→ fuel"]
+
+  R_WIPER: {type: "Pull-up 5.6kΩ", image: {src: ../_assets/r_5k6.png, width: 130}, pinlabels: [5V, node]}
+  R_FAN:   {type: "Pull-up 5.6kΩ", image: {src: ../_assets/r_5k6.png, width: 130}, pinlabels: [5V, node]}
+  R_TURN:  {type: "Pull-up 5.6kΩ", image: {src: ../_assets/r_5k6.png, width: 130}, pinlabels: [5V, node]}
+  R_COOL:  {type: "Pull-up coolant ~470-680Ω", pinlabels: [5V, node]}
+  R_FUEL:  {type: "Pull-up fuel 150Ω", pinlabels: [5V, node]}
+
+  PDM_A_IN:
+    type: PDM25 V2 connector A (GREY housing)
+    subtype: female
+    bgcolor_title: GY
+    notes: "Analog inputs (each taps one divider node)"
+    pinlabels:
+      - A11 / I9 WIPER_WASH_MUX
+      - A7 / I1 BLOWER_MUX
+      - A9 / I5 TURN_MUX
+      - A2 / I10 COOLANT_TEMP
+      - A3 / I8 FUEL_LEVEL
+
+  # Sensors/switches (= lower divider leg → ground; ground pin on the load, cable not drawn).
+  # Full detail in the respective circuit diagram.
+  SW_WIPER: {type: "Wiper+washer switch", notes: "low/high/washer via resistors → ground (chassis). Detail: mux_wiper_washer", pinlabels: [node, GND]}
+  SW_FAN:   {type: "Blower knob E9", notes: "low/high via resistors → ground (chassis). Detail: mux_blower", pinlabels: [node, GND]}
+  SW_TURN:  {type: "Turn-signal stalk (L/R)", notes: "TURN_L+TURN_R via resistors → ground (chassis)", pinlabels: [node, GND]}
+  NTC_COOL: {type: "G2 NTC coolant temperature", notes: "→ engine ground. Detail: coolant_temp", pinlabels: [node, GND]}
+  SND_FUEL: {type: "Fuel sender (tank)", notes: "→ tank ground", pinlabels: [node, GND]}
+
+cables:
+  # 5V splice → pull-ups
+  W5_W: {category: bundle, gauge: 0.5 mm2, length: 0.05 m, colors: [WH], wirelabels: ["→ wiper pull-up"]}
+  W5_F: {category: bundle, gauge: 0.5 mm2, length: 0.05 m, colors: [WH], wirelabels: ["→ blower pull-up"]}
+  W5_T: {category: bundle, gauge: 0.5 mm2, length: 0.05 m, colors: [WH], wirelabels: ["→ turn-signal pull-up"]}
+  W5_C: {category: bundle, gauge: 0.5 mm2, length: 0.05 m, colors: [WH], wirelabels: ["→ coolant pull-up"]}
+  W5_U: {category: bundle, gauge: 0.5 mm2, length: 0.05 m, colors: [WH], wirelabels: ["→ fuel pull-up"]}
+  # pull-up node → input (signal cable to PDM)
+  WI_W: {category: bundle, gauge: 1.0 mm2, colors: [BKGY], wirelabels: ["node → A11"]}
+  WI_F: {category: bundle, gauge: 1.0 mm2, colors: [BKYE], wirelabels: ["node → A7"]}
+  WI_T: {category: bundle, gauge: 1.0 mm2, colors: [BKGN], wirelabels: ["node → A9"]}
+  WI_C: {category: bundle, gauge: 1.0 mm2, colors: [BU, YE], wirelabels: ["node → A2"]}
+  WI_U: {category: bundle, gauge: 1.0 mm2, colors: [GNRD], wirelabels: ["node → A3"]}
+  # pull-up node → sensor/switch (lower divider leg)
+  WS_W: {category: bundle, gauge: 1.0 mm2, colors: [BKGY], wirelabels: ["node → switch"]}
+  WS_F: {category: bundle, gauge: 1.0 mm2, colors: [BKYE], wirelabels: ["node → knob"]}
+  WS_T: {category: bundle, gauge: 1.0 mm2, colors: [BKGN], wirelabels: ["node → stalk"]}
+  WS_C: {category: bundle, gauge: 1.0 mm2, colors: [GN], wirelabels: ["node → NTC"]}
+  WS_U: {category: bundle, gauge: 1.0 mm2, colors: [VTBK], wirelabels: ["node → sender"]}
+connections:
+  # 5V → pull-ups (splice fed from C10 / connector C — see the connector_C diagram)
+  - [SPLICE_5V: [2], W5_W: [1], R_WIPER: [1]]
+  - [SPLICE_5V: [3], W5_F: [1], R_FAN: [1]]
+  - [SPLICE_5V: [4], W5_T: [1], R_TURN: [1]]
+  - [SPLICE_5V: [5], W5_C: [1], R_COOL: [1]]
+  - [SPLICE_5V: [6], W5_U: [1], R_FUEL: [1]]
+  # node → input
+  - [R_WIPER: [2], WI_W: [1], PDM_A_IN: [1]]
+  - [R_FAN: [2],   WI_F: [1], PDM_A_IN: [2]]
+  - [R_TURN: [2],  WI_T: [1], PDM_A_IN: [3]]
+  - [R_COOL: [2],  WI_C: [1], PDM_A_IN: [4]]
+  - [R_FUEL: [2],  WI_U: [1], PDM_A_IN: [5]]
+  # node → sensor/switch
+  - [R_WIPER: [2], WS_W: [1], SW_WIPER: [1]]
+  - [R_FAN: [2],   WS_F: [1], SW_FAN: [1]]
+  - [R_TURN: [2],  WS_T: [1], SW_TURN: [1]]
+  - [R_COOL: [2],  WS_C: [1], NTC_COOL: [1]]
+  - [R_FUEL: [2],  WS_U: [1], SND_FUEL: [1]]
+  # (ground shown as a GND pin on each load; cable not drawn)

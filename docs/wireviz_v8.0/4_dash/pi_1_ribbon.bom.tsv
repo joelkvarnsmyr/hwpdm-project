@@ -1,0 +1,13 @@
+Id	Description	Qty	Unit	Designators
+1	Connector, GX16 10-pin (dash connector), 10 pins	1		GX16
+2	Connector, Raspberry Pi 5 (GPIO header), 10 pins	1		PI
+3	Wire, 0.25 mm², BK	0	m	RIBBON
+4	Wire, 0.25 mm², BN	0	m	RIBBON
+5	Wire, 0.25 mm², BU	0	m	RIBBON
+6	Wire, 0.25 mm², GN	0	m	RIBBON
+7	Wire, 0.25 mm², GY	0	m	RIBBON
+8	Wire, 0.25 mm², OG	0	m	RIBBON
+9	Wire, 0.25 mm², RD	0	m	RIBBON
+10	Wire, 0.25 mm², VT	0	m	RIBBON
+11	Wire, 0.25 mm², WH	0	m	RIBBON
+12	Wire, 0.25 mm², YE	0	m	RIBBON

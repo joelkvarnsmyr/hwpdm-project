@@ -1,0 +1,5 @@
+Id	Description	Qty	Unit	Designators
+1	Connector, +12V busbar (behind PDM), 3 pins	1		BUSBAR
+2	Connector, Radio (ACC), 1 pins	1		RADIO
+3	Connector, Raspberry Pi (+ CAN HAT), 1 pins	1		RPI
+4	Wire, 1.5 mm², RD	0	m	W_PI, W_RADIO

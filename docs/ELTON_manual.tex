@@ -1,0 +1,248 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,landscape,margin=15mm,top=18mm,bottom=16mm]{geometry}
+\usepackage{fontspec}
+\setmainfont{Arial}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{sectsty}
+\usepackage{hyperref}
+\definecolor{eltongold}{RGB}{169,138,87}
+\definecolor{eltongold2}{RGB}{208,174,120}
+\definecolor{eltondark}{RGB}{15,15,15}
+\definecolor{eltonred}{RGB}{255,51,51}
+\hypersetup{colorlinks=true,linkcolor=eltongold!80!black}
+\renewcommand{\contentsname}{Contents}
+\sectionfont{\color{eltongold!75!black}}
+\subsectionfont{\color{eltondark}}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\color{eltongold!75!black}\textbf{ELTON} \color{gray}PDM25 V2 — Wiring manual}
+\fancyhead[R]{\small\color{gray}2026-06-17}
+\fancyfoot[C]{\small\color{gray}\thepage}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{eltongold}\leaders\hrule height 1pt\hfill}}
+\begin{document}
+\thispagestyle{empty}
+\pagecolor{eltondark}
+\vspace*{1.4cm}\begin{center}
+\includegraphics[width=0.52\textwidth]{C:/Users/joel/Documents/Elton LT Wire diagrams/hwpdm-project/docs/wireviz_v8.0/_assets/elton-logo.png}\\[14pt]
+{\fontsize{42}{48}\selectfont\bfseries\color{eltongold2} ELTON}\\[8pt]
+{\color{eltongold}\rule{60mm}{1.2pt}}\\[10pt]
+{\LARGE\color{white} Electrical system \& wiring}\\[4pt]
+{\large\color{white!80} Wiring diagrams — service manual}\\[12pt]
+{\large\color{eltongold} PDM25 V2 \quad·\quad VW LT31 1976 \quad·\quad JSN 398}\\[14pt]
+{\normalsize\color{white!75} Prepared by Joel Kvarnsmyr}\\[3pt]
+{\small\color{white!55} 2026-06-17}
+\end{center}\vfill
+\clearpage
+\pagecolor{white}
+\thispagestyle{empty}
+\tableofcontents\clearpage
+\section{Introduction}
+This is the physical wiring and service manual for the conversion of a VW LT31 (1976, JSN~398) to a Hardwire PDM25 V2 + Raspberry Pi dashboard. Each diagram shows the PDM connector on the left, the cable in the middle (cross-section + actual color) and the consumer on the right.\\[6pt]\textbf{Conventions:} The connectors' title bar carries the housing's physical color (A grey, B black, C green, D brown). Cross-sections are given in mm\textsuperscript{2}. Ground is shown as a GND pin on the consumer rather than as a drawn cable. Wire colors reflect the wiring as physically inspected in the vehicle.
+\clearpage
+\section{Connectors}
+\subsection{Connector A — Inputs (GREY)}
+{\small All input signals: levers, switches and senders. Switch-to-ground unless otherwise noted. Grey housing. Pin number on the left, cable in the middle (cross-section + actual color), consumer on the right.}
+\\[4pt]
+\begin{center}
+\includegraphics[width=\linewidth,height=0.74\textheight,keepaspectratio]{C:/Users/joel/Documents/Elton LT Wire diagrams/hwpdm-project/docs/wireviz_v8.0/1_kontakter/kontakt_A_inputs.png}
+\end{center}
+{\scriptsize\color{gray} Diagram: wireviz\_v8.0/1\_kontakter/kontakt\_A\_inputs}
+\clearpage
+\subsection{Connector B — Outputs (BLACK)}
+{\small Outputs: low beam, left turn signal, horn 1, wiper low, blower, washer pump, starter motor, reversing light, USB.}
+\\[4pt]
+\begin{center}
+\includegraphics[width=\linewidth,height=0.74\textheight,keepaspectratio]{C:/Users/joel/Documents/Elton LT Wire diagrams/hwpdm-project/docs/wireviz_v8.0/1_kontakter/kontakt_B_outputs.png}
+\end{center}
+{\scriptsize\color{gray} Diagram: wireviz\_v8.0/1\_kontakter/kontakt\_B\_outputs}
+\clearpage
+\subsection{Connector C — Power / CAN / sensors (GREEN)}
+{\small Control feed (C3), chassis ground, CAN to the Pi, ignition/cranking, ignition coil, alternator field excitation, signal busbar and the 5V reference distribution point.}
+\\[4pt]
+\begin{center}
+\includegraphics[width=\linewidth,height=0.74\textheight,keepaspectratio]{C:/Users/joel/Documents/Elton LT Wire diagrams/hwpdm-project/docs/wireviz_v8.0/1_kontakter/kontakt_C_kraft_can.png}
+\end{center}
+{\scriptsize\color{gray} Diagram: wireviz\_v8.0/1\_kontakter/kontakt\_C\_kraft\_can}
+\clearpage
+\subsection{Connector D — Outputs (BROWN)}
+{\small Outputs: high beam, parking light, brake light, right turn signal, fuel pump (2 parallel to the same pin), wiper high, horn 2.}
+\\[4pt]
+\begin{center}
+\includegraphics[width=\linewidth,height=0.74\textheight,keepaspectratio]{C:/Users/joel/Documents/Elton LT Wire diagrams/hwpdm-project/docs/wireviz_v8.0/1_kontakter/kontakt_D_outputs.png}
+\end{center}
+{\scriptsize\color{gray} Diagram: wireviz\_v8.0/1\_kontakter/kontakt\_D\_outputs}
+\clearpage
+\section{Power supply}
+\subsection{+12V power busbar (always-on loads)}
+{\small The busbar (battery-fed via a 10A ceramic fuse) supplies the always-on loads: radio and Raspberry Pi. The PDM control feed C3 has its own graph (next page).}
+\\[4pt]
+\begin{center}
+\includegraphics[width=\linewidth,height=0.74\textheight,keepaspectratio]{C:/Users/joel/Documents/Elton LT Wire diagrams/hwpdm-project/docs/wireviz_v8.0/2_kraft/kraft_busbar.png}
+\end{center}
+{\scriptsize\color{gray} Diagram: wireviz\_v8.0/2\_kraft/kraft\_busbar}
+\clearpage
+\subsection{PDM control feed C3 — ignition + hazard wake}
+{\small Two paths to C3 from the busbar: normally via the ignition switch (RUN), and as a wake via the hazard switch through a blocking diode. Vertical layout.}
+\\[4pt]
+\begin{center}
+\includegraphics[width=\linewidth,height=0.74\textheight,keepaspectratio]{C:/Users/joel/Documents/Elton LT Wire diagrams/hwpdm-project/docs/wireviz_v8.0/2_kraft/kraft_c3.png}
+\end{center}
+{\scriptsize\color{gray} Diagram: wireviz\_v8.0/2\_kraft/kraft\_c3}
+\clearpage
+\subsection{5V reference — analog inputs}
+{\small C10 (5V REF, max 100 mA) feeds, via a distribution point, five SEPARATE pull-ups to the analog inputs (wiper/blower/turn mux plus coolant and fuel). Total load \textasciitilde{}37 mA. Each input has its own pull-up — never shared.}
+\\[4pt]
+\begin{center}
+\includegraphics[width=\linewidth,height=0.74\textheight,keepaspectratio]{C:/Users/joel/Documents/Elton LT Wire diagrams/hwpdm-project/docs/wireviz_v8.0/2_kraft/kraft_5v.png}
+\end{center}
+{\scriptsize\color{gray} Diagram: wireviz\_v8.0/2\_kraft/kraft\_5v}
+\clearpage
+\section{Circuits}
+\subsection{Mux — wiper + washer (I9): switch + resistors}
+{\small The resistor coding for the wiper+washer mux. Washer 10k, low 4.7k, high 22k on the switch outputs → chassis ground; each position gives a unique node voltage. Feed/sensing (5.6k pull-up → 5V REF) is shown in the 5V-reference diagram.}
+\\[4pt]
+\begin{center}
+\includegraphics[width=\linewidth,height=0.74\textheight,keepaspectratio]{C:/Users/joel/Documents/Elton LT Wire diagrams/hwpdm-project/docs/wireviz_v8.0/3_kretsar/mux_torkare_brytare.png}
+\end{center}
+{\scriptsize\color{gray} Diagram: wireviz\_v8.0/3\_kretsar/mux\_torkare\_brytare}
+\clearpage
+\subsection{Mux — blower low/high (I1): knob + resistors}
+{\small The blower knob's resistor coding. Low 10k, high 2.2k → chassis ground. Feed via pull-up to 5V REF: see the 5V-reference diagram. Two speeds come from O11's PWM — no power resistor.}
+\\[4pt]
+\begin{center}
+\includegraphics[width=\linewidth,height=0.74\textheight,keepaspectratio]{C:/Users/joel/Documents/Elton LT Wire diagrams/hwpdm-project/docs/wireviz_v8.0/3_kretsar/mux_flakt_brytare.png}
+\end{center}
+{\scriptsize\color{gray} Diagram: wireviz\_v8.0/3\_kretsar/mux\_flakt\_brytare}
+\clearpage
+\subsection{Coolant temperature — NTC (I10)}
+{\small NTC sender as a voltage divider against an external pull-up to 5V REF (\textasciitilde{}470-680Ω). High temperature = low resistance = low voltage. Ground via the sender thread in the engine block.}
+\\[4pt]
+\begin{center}
+\includegraphics[width=\linewidth,height=0.74\textheight,keepaspectratio]{C:/Users/joel/Documents/Elton LT Wire diagrams/hwpdm-project/docs/wireviz_v8.0/3_kretsar/vattentemp.png}
+\end{center}
+{\scriptsize\color{gray} Diagram: wireviz\_v8.0/3\_kretsar/vattentemp}
+\clearpage
+\subsection{Oil-pressure switch (I14)}
+{\small Simple switch-to-ground (F1). Internal pull-up to VBat. Low pressure / engine off = 0V (warning), engine running + pressure OK = high.}
+\\[4pt]
+\begin{center}
+\includegraphics[width=\linewidth,height=0.74\textheight,keepaspectratio]{C:/Users/joel/Documents/Elton LT Wire diagrams/hwpdm-project/docs/wireviz_v8.0/3_kretsar/oljetryck.png}
+\end{center}
+{\scriptsize\color{gray} Diagram: wireviz\_v8.0/3\_kretsar/oljetryck}
+\clearpage
+\subsection{Handbrake warning (I16)}
+{\small Mechanical switch-to-ground (F9), grounds when the handbrake is applied. Internal pull-up, a copy of the brake-light input.}
+\\[4pt]
+\begin{center}
+\includegraphics[width=\linewidth,height=0.74\textheight,keepaspectratio]{C:/Users/joel/Documents/Elton LT Wire diagrams/hwpdm-project/docs/wireviz_v8.0/3_kretsar/handbroms.png}
+\end{center}
+{\scriptsize\color{gray} Diagram: wireviz\_v8.0/3\_kretsar/handbroms}
+\clearpage
+\subsection{Ignition coil (1/2): feed O3 → N6 → coil}
+{\small Original VW, but fed by O3 instead of the ignition switch. O3 → N6 ballast resistor → coil Term. 15.}
+\\[4pt]
+\begin{center}
+\includegraphics[width=\linewidth,height=0.74\textheight,keepaspectratio]{C:/Users/joel/Documents/Elton LT Wire diagrams/hwpdm-project/docs/wireviz_v8.0/3_kretsar/motor_tandspole_1_matning.png}
+\end{center}
+{\scriptsize\color{gray} Diagram: wireviz\_v8.0/3\_kretsar/motor\_tandspole\_1\_matning}
+\clearpage
+\subsection{Ignition coil (2/2): coil → distributor}
+{\small Coil Term. 1 → distributor breaker points → ground. The points break the primary circuit → HT is induced (Term. 4 → distributor cap → spark plug, not drawn).}
+\\[4pt]
+\begin{center}
+\includegraphics[width=\linewidth,height=0.74\textheight,keepaspectratio]{C:/Users/joel/Documents/Elton LT Wire diagrams/hwpdm-project/docs/wireviz_v8.0/3_kretsar/motor_tandspole_2_fordelare.png}
+\end{center}
+{\scriptsize\color{gray} Diagram: wireviz\_v8.0/3\_kretsar/motor\_tandspole\_2\_fordelare}
+\clearpage
+\subsection{Alternator (1/2): field excitation}
+{\small O2 → 82Ω power resistor → blocking diode → alternator D+. The resistor supplies field current; the diode stops D+ (\textasciitilde{}14V) back-feeding the PDM.}
+\\[4pt]
+\begin{center}
+\includegraphics[width=\linewidth,height=0.74\textheight,keepaspectratio]{C:/Users/joel/Documents/Elton LT Wire diagrams/hwpdm-project/docs/wireviz_v8.0/3_kretsar/generator_1_excitering.png}
+\end{center}
+{\scriptsize\color{gray} Diagram: wireviz\_v8.0/3\_kretsar/generator\_1\_excitering}
+\clearpage
+\subsection{Alternator (2/2): charge status}
+{\small Charge status is tapped AFTER the diode to a spare PDM input (charging \textasciitilde{}14V = high, not charging \textasciitilde{}1V = low) → CAN → charge warning lamp in the dashboard.}
+\\[4pt]
+\begin{center}
+\includegraphics[width=\linewidth,height=0.74\textheight,keepaspectratio]{C:/Users/joel/Documents/Elton LT Wire diagrams/hwpdm-project/docs/wireviz_v8.0/3_kretsar/generator_2_laddstatus.png}
+\end{center}
+{\scriptsize\color{gray} Diagram: wireviz\_v8.0/3\_kretsar/generator\_2\_laddstatus}
+\clearpage
+\section{Dashboard}
+\subsection{Dashboard (1/2): Pi → GX16 rainbow ribbon}
+{\small Pi 5 → GX16 10-pin ribbon in fixed color order. Canonical GPIO source: DRIVER-DASH.md §7.}
+\\[4pt]
+\begin{center}
+\includegraphics[width=\linewidth,height=0.74\textheight,keepaspectratio]{C:/Users/joel/Documents/Elton LT Wire diagrams/hwpdm-project/docs/wireviz_v8.0/4_dash/pi_1_ribbon.png}
+\end{center}
+{\scriptsize\color{gray} Diagram: wireviz\_v8.0/4\_dash/pi\_1\_ribbon}
+\clearpage
+\subsection{Dashboard (2/2): GX16 → 3× ST7789 (SPI0)}
+{\small Pins 1-7 (GND/3V3/SCLK/MOSI/RST/DC/BLK) are daisy-chained to all three displays (shown as a shared bus); only CS is unique: orange→S1, red→S2, brown→S3.}
+\\[4pt]
+\begin{center}
+\includegraphics[width=\linewidth,height=0.74\textheight,keepaspectratio]{C:/Users/joel/Documents/Elton LT Wire diagrams/hwpdm-project/docs/wireviz_v8.0/4_dash/pi_2_displays.png}
+\end{center}
+{\scriptsize\color{gray} Diagram: wireviz\_v8.0/4\_dash/pi\_2\_displays}
+\clearpage
+\section{Appendix A — Component reference}
+{\small Components on the converted vehicle, by their VW designation as used in the diagrams. From the VW LT workshop manual (Fig.\ 13.77, 4-cyl).}\\[6pt]
+\begin{center}\small
+\begin{tabular}{|l|p{78mm}|l|p{78mm}|}
+\hline
+\textbf{ID} & \textbf{Description} & \textbf{ID} & \textbf{Description} \\ \hline
+A & Battery (12 V) & H1 & Horn \\ \hline
+B & Starter motor & H2 & Horn 2 (additional) \\ \hline
+C & Alternator & L1 & Headlight, left (twin-filament) \\ \hline
+D & Ignition / start switch & L2 & Headlight, right (twin-filament) \\ \hline
+E2 & Turn-signal stalk & M5 & Turn signal, front left \\ \hline
+E4 & High-beam / headlight-flasher stalk & M6 & Turn signal, rear left \\ \hline
+E9 & Blower (fresh-air fan) switch & M7 & Turn signal, front right \\ \hline
+E22 & Wiper / washer stalk & M8 & Turn signal, rear right \\ \hline
+F & Brake-light switch & M9 & Brake light, left \\ \hline
+F1 & Oil-pressure switch & M10 & Brake light, right \\ \hline
+F4 & Reversing-light switch & M16 & Reversing light, left \\ \hline
+F9 & Handbrake warning switch & M17 & Reversing light, right \\ \hline
+G & Fuel-gauge sender & N & Ignition coil \\ \hline
+G2 & Coolant-temperature sender & N6 & Series (ballast) resistor \\ \hline
+G6 & Electric fuel pump & O & Distributor (breaker points) \\ \hline
+\end{tabular}
+\end{center}
+\clearpage
+\section{Appendix B — Terminal designations (DIN 72552)}
+{\small Standard terminal numbers used throughout the diagrams.}\\[6pt]
+\begin{center}\small
+\begin{tabular}{|l|p{78mm}|l|p{78mm}|}
+\hline
+\textbf{ID} & \textbf{Description} & \textbf{ID} & \textbf{Description} \\ \hline
+1 & Ignition coil primary, to distributor & 53 & Wiper, normal speed \\ \hline
+4 & Ignition coil HT output (to distributor cap) & 53a & Wiper, fast speed \\ \hline
+15 & Switched ignition + (live with ignition on) & 53b & Wiper park / return \\ \hline
+30 & Battery + (permanent, unswitched) & 56a & High beam \\ \hline
+31 & Ground (chassis earth return) & 56b & Low beam \\ \hline
+50 & Starter control (solenoid, cranking only) & 58 & Parking / side lights \\ \hline
+\end{tabular}
+\end{center}
+\vspace{6pt}\par{\footnotesize\color{gray} Terminal numbers follow the DIN 72552 standard and are common to all VW / Bosch wiring.}
+\clearpage
+\section{Appendix C — Earth points \& grounding}
+{\small In the diagrams, ground is shown as a GND pin on each consumer rather than as a drawn cable. The physical chassis earth points below are where those grounds terminate. \textbf{All ground wires are brown.}}\\[6pt]
+\begin{center}\small
+\begin{tabular}{|l|p{70mm}|l|p{70mm}|}
+\hline
+\textbf{ID} & \textbf{Description} & \textbf{ID} & \textbf{Description} \\ \hline
+1 & Battery earth strap to body & 14 & Roof cross-member, passenger side \\ \hline
+3 & Engine-to-body earth strap & 15 & Rear, on longitudinal member \\ \hline
+10 & Instrument-panel insert & 17 & At steering gear \\ \hline
+11 & Behind instrument panel & 18 & Longitudinal member, rear left \\ \hline
+12 & Under instrument panel (former fuse-box area) & 19 & Longitudinal member, rear right \\ \hline
+13 & At rear door & 20 & In engine bay \\ \hline
+\end{tabular}
+\end{center}
+\vspace{4pt}\par{\footnotesize\color{gray} Earth-point locations are per the VW LT factory manual for the donor vehicle and should be confirmed on the actual car. Common gauges: 0.5 mm\textsuperscript{2} (lamps, senders), 1.0 mm\textsuperscript{2} (motors, brake lights), 4.0 mm\textsuperscript{2} and heavier (battery, engine and gearbox straps).}
+\clearpage
+\end{document}

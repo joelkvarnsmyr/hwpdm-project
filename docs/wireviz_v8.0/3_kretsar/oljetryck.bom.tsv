@@ -1,0 +1,4 @@
+Id	Description	Qty	Unit	Designators
+1	Connector, F1 oil-pressure switch, 2 pins	1		F1_OLJA
+2	Connector, PDM25 V2 connector C (GREEN housing), female, 1 pins	1		PDM_C12
+3	Wire, 1.0 mm², BUGN	0	m	W_OIL

@@ -1,0 +1,46 @@
+# ELTON — Dash PART 2: GX16 → 3× ST7789 (SPI0) (2026-06-17)
+# Pins 1-7 (GND/3V3/SCLK/MOSI/RST/DC/BLK) are SHARED to all three displays (daisy-chained physically).
+# Only CS is unique: orange→S1, red→S2, brown→S3. Shown as a fan-out (compact).
+
+connectors:
+  GX16:
+    type: GX16 10-pin (from part 1)
+    notes: "Pins 1-7 = shared bus (daisy S1→S2→S3). Pins 8/9/10 = CS per display."
+    pinlabels: ["bus 1-7 (shared)", "8 CS1", "9 CS2", "10 CS3"]
+  S1:
+    type: ST7789 display 1
+    pinlabels: ["bus 1-7", "CS1"]
+  S2:
+    type: ST7789 display 2
+    pinlabels: ["bus 1-7", "CS2"]
+  S3:
+    type: ST7789 display 3
+    pinlabels: ["bus 1-7", "CS3"]
+
+cables:
+  W_B1: {category: bundle, gauge: 0.25 mm2, colors: [GY], wirelabels: [bus 1-7]}
+  W_B2: {category: bundle, gauge: 0.25 mm2, colors: [GY], wirelabels: [bus 1-7]}
+  W_B3: {category: bundle, gauge: 0.25 mm2, colors: [GY], wirelabels: [bus 1-7]}
+  W_C1: {category: bundle, gauge: 0.25 mm2, colors: [OG], wirelabels: [CS1 (orange)]}
+  W_C2: {category: bundle, gauge: 0.25 mm2, colors: [RD], wirelabels: [CS2 (red)]}
+  W_C3: {category: bundle, gauge: 0.25 mm2, colors: [BN], wirelabels: [CS3 (brown)]}
+
+connections:
+  - - GX16: [1]
+    - W_B1: [1]
+    - S1: [1]
+  - - GX16: [1]
+    - W_B2: [1]
+    - S2: [1]
+  - - GX16: [1]
+    - W_B3: [1]
+    - S3: [1]
+  - - GX16: [2]
+    - W_C1: [1]
+    - S1: [2]
+  - - GX16: [3]
+    - W_C2: [1]
+    - S2: [2]
+  - - GX16: [4]
+    - W_C3: [1]
+    - S3: [2]

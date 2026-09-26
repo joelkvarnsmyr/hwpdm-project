@@ -1,0 +1,43 @@
+# ELTON — Fuel level sender on I8 (A3) · compact
+# Sender as voltage divider: 5V REF (C10) → 150Ω pull-up → A3 node → sender → tank ground.
+# Full tank = low resistance = low voltage. Build/verify SC2.
+#
+# Divider maths (5.00 V, 150Ω pull-up, sender assumed 10Ω full / 180Ω empty):
+#   full  : 5000 × 10/160  =  313 mV
+#   empty : 5000 × 180/330 = 2727 mV
+#   current at full = 5/160 = 31 mA  (largest single load on the 100 mA 5V rail)
+#
+# WARNING: the 10–180Ω span, the linearity and the 80 L tank volume are ALL unverified.
+# Measure the sender with an ohmmeter at empty and full before locking SC2.
+
+connectors:
+  PDM:
+    type: PDM25 V2 (connector C + A)
+    subtype: female
+    bgcolor_title: GN
+    notes: "C10 5V REF feeds the pull-up; A3 (I8, analog, pullResistor=0) senses the node voltage."
+    pinlabels: ["C10 / 5V REF", "A3 / I8 (analog)"]
+  R_PULLUP:
+    type: "Pull-up 150Ω 0.5W"
+    notes: "Mounted AT the PDM, between the C10 and A3 wires. Dissipates 0.15 W at full tank.\nAlso limits a short-to-chassis on the tank wire to 33 mA, within the 5V rail's 100 mA budget."
+    pinlabels: ["from 5V (C10)", "to A3"]
+  G_FUEL:
+    type: G fuel level sender (tank)
+    notes: "Float arm, resistive. Low ohms = full.\nBody grounds through the tank flange (GND pin).\nMeasure the real span before building SC2."
+    pinlabels: [signal terminal, "GND → tank flange / chassis"]
+
+cables:
+  W_5V:   {category: bundle, gauge: 0.75 mm2, length: 0.05 m, colors: [RD], wirelabels: [5V → pull-up]}
+  W_PU:   {category: bundle, gauge: 0.75 mm2, length: 0.05 m, colors: [RD], wirelabels: [pull-up → A3]}
+  W_FUEL: {category: bundle, gauge: 1.0 mm2, colors: [VTBK], wirelabels: [INST.SENS.FUEL]}
+
+connections:
+  - - PDM: [1]
+    - W_5V: [1]
+    - R_PULLUP: [1]
+  - - R_PULLUP: [2]
+    - W_PU: [1]
+    - PDM: [2]
+  - - PDM: [2]
+    - W_FUEL: [1]
+    - G_FUEL: [1]

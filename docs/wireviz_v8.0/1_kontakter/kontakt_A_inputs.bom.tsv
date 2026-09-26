@@ -1,0 +1,24 @@
+Id	Description	Qty	Unit	Designators
+1	Connector, Deutsch DT 12-pin — GREY housing, female, 12 pins	1		PDM_A
+2	Connector, E2 turn-signal stalk, 2 pins	1		E2_BLINKERS
+3	Connector, E22 wiper selector, 1 pins	1		E22_TORKARE
+4	Connector, E4 high-beam stalk, 1 pins	1		E4_HELLJUS
+5	Connector, E9 blower selector, 1 pins	1		E9_FLAKT
+6	Connector, F brake-light switch, 1 pins	1		F_BROMS
+7	Connector, F4 reverse-gear switch, 1 pins	1		F4_BACK
+8	Connector, G fuel sender (tank), 1 pins	1		G_FUEL
+9	Connector, G2 coolant-temperature NTC sender, 1 pins	1		G2_NTC
+10	Connector, Hazard switch, 1 pins	1		HAZARD_KNAPP
+11	Connector, Horn button via slip ring, 1 pins	1		HORNKNAPP
+12	Connector, V wiper-motor park sensor, 1 pins	1		TORKARMOTOR
+13	Wire, 1.0 mm², BKBU	0	m	W_REVERSE
+14	Wire, 1.0 mm², BKGN	0	m	W_HAZARD, W_TURN
+15	Wire, 1.0 mm², BKWH	0	m	W_TURN
+16	Wire, 1.0 mm², BKYE	0	m	W_BLOWER
+17	Wire, 1.0 mm², BNBU	0	m	W_HORN
+18	Wire, 1.0 mm², BU	0	m	W_COOLANT
+19	Wire, 1.0 mm², GN	0	m	W_WIPER
+20	Wire, 1.0 mm², GNRD	0	m	W_FUEL
+21	Wire, 1.0 mm², GNYE	0	m	W_WIPER
+22	Wire, 1.0 mm², RDYE	0	m	W_BRAKE
+23	Wire, 1.5 mm², BNWH	0	m	W_HIBEAM

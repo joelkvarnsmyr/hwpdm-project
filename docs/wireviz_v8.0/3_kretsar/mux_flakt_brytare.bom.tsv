@@ -1,0 +1,8 @@
+Id	Description	Qty	Unit	Designators
+1	Connector, 10 kOhm 1% (low), 2 pins	1		R_LAG
+2	Connector, 2.2 kOhm 1% (high), 2 pins	1		R_HOG
+3	Connector, E9 blower knob (OFF/LOW/HIGH), 3 pins	1		E9_FLAKTVRED
+4	Connector, I1 node, 2 pins	1		NOD
+5	Wire, 0.5 mm², BKYE	0.05	m	W_MV
+6	Wire, 0.5 mm², GN	0.05	m	W_UL
+7	Wire, 0.5 mm², RD	0.05	m	W_UH

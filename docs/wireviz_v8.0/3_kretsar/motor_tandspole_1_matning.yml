@@ -1,0 +1,30 @@
+# ELTON — Ignition coil PART 1: feed O3 → N6 → coil Term. 15
+# Everything except the feed (now O3) is original VW. Continued: coil → distributor = part 2.
+
+connectors:
+  PDM:
+    type: PDM25 V2 (connector C, GREEN housing)
+    subtype: female
+    bgcolor_title: GN
+    notes: "O3 IGN_COIL — ignition-switched output to the coil."
+    pinlabels: [C4 / O3]
+  N6:
+    type: N6 ballast resistor
+    notes: "Lowers coil primary voltage when running. Original VW."
+    pinlabels: ["in (O3)", "out (coil 15)"]
+  N_COIL:
+    type: N ignition coil
+    notes: "Term. 15 = primary +.\nTerm. 1 → distributor (PART 2). Term. 4 = HT → spark plug."
+    pinlabels: ["Term. 15 (+)"]
+
+cables:
+  W_O3: {category: bundle, gauge: 1.5 mm2, colors: [BKVT], wirelabels: [PDM.OUT.IGN_COIL]}
+  W_N6: {category: bundle, gauge: 1.0 mm2, colors: [WHVT], wirelabels: [N6 → coil Term. 15]}
+
+connections:
+  - - PDM: [1]
+    - W_O3: [1]
+    - N6: [1]
+  - - N6: [2]
+    - W_N6: [1]
+    - N_COIL: [1]

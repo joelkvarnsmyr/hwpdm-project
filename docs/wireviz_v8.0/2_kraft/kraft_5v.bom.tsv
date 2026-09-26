@@ -1,0 +1,20 @@
+Id	Description	Qty	Unit	Designators
+1	Connector, 5V distribution point (at PDM), 6 pins	1		SPLICE_5V
+2	Connector, Blower knob E9, 2 pins	1		SW_FAN
+3	Connector, Fuel sender (tank), 2 pins	1		SND_FUEL
+4	Connector, G2 NTC coolant temperature, 2 pins	1		NTC_COOL
+5	Connector, PDM25 V2 connector A (GREY housing), female, 5 pins	1		PDM_A_IN
+6	Connector, Pull-up 5.6kΩ, 2 pins	3		R_FAN, R_TURN, R_WIPER
+7	Connector, Pull-up coolant ~470-680Ω, 2 pins	1		R_COOL
+8	Connector, Pull-up fuel 150Ω, 2 pins	1		R_FUEL
+9	Connector, Turn-signal stalk (L/R), 2 pins	1		SW_TURN
+10	Connector, Wiper+washer switch, 2 pins	1		SW_WIPER
+11	Wire, 0.5 mm², WH	0.25	m	W5_C, W5_F, W5_T, W5_U, W5_W
+12	Wire, 1.0 mm², BKGN	0	m	WI_T, WS_T
+13	Wire, 1.0 mm², BKGY	0	m	WI_W, WS_W
+14	Wire, 1.0 mm², BKYE	0	m	WI_F, WS_F
+15	Wire, 1.0 mm², BU	0	m	WI_C
+16	Wire, 1.0 mm², GN	0	m	WS_C
+17	Wire, 1.0 mm², GNRD	0	m	WI_U
+18	Wire, 1.0 mm², VTBK	0	m	WS_U
+19	Wire, 1.0 mm², YE	0	m	WI_C

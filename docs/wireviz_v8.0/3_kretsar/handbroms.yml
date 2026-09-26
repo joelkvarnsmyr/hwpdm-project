@@ -1,0 +1,33 @@
+# ELTON PDM25 V2 — Handbrake warning switch (F9) on I16 (pin C1)
+# F9 = mechanical switch-to-ground (manual Fig 13.83 track 6). Grounds when the
+# handbrake is applied. ONE signal wire; the switch grounds via the lever mechanism → chassis.
+# NO external resistor — internal pull-up (pullResistor=1, 10k → VBat). Same settings as
+# I4 BRAKE — a copy of the brake-light input.
+# Logic: handbrake applied → switch closed → 0V (active-low) → dashboard indicator.
+
+connectors:
+  PDM_C1:
+    type: PDM25 V2 connector C (GREEN housing)
+    subtype: female
+    bgcolor_title: GN
+    notes: "I16 HANDBRAKE — digital, mode 0, pullResistor=1, activeLevel=0, thr 6V (copy of I4 BRAKE)"
+    pinlabels:
+      - C1 / I16
+
+  F9_HANDBROMS:
+    type: F9 handbrake warning switch
+    notes: "Mechanical. Closes terminal → body when the handbrake is applied."
+    pinlabels: [signal terminal, "GND → body (mount)"]
+
+cables:
+  W_HANDBR:
+    category: bundle
+    gauge: 1.0 mm2
+    colors: [BUBN]
+    wirelabels: [PDM.IN.HANDBRAKE]
+
+connections:
+  - - PDM_C1: [1]
+    - W_HANDBR: [1]
+    - F9_HANDBROMS: [1]
+  # (the switch grounds via the mount in the body = GND pin, wire not drawn)

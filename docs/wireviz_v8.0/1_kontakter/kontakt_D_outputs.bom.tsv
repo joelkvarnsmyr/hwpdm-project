@@ -1,0 +1,21 @@
+Id	Description	Qty	Unit	Designators
+1	Connector, Deutsch DT 12-pin — BROWN housing, female, 12 pins	1		PDM_D
+2	Connector, G6 fuel pump, 2 pins	1		G6_PUMP
+3	Connector, Horn 2 (secondary), 1 pins	1		H2_HORN
+4	Connector, L1 headlight left, 1 pins	1		L1_HB
+5	Connector, L2 headlight right, 1 pins	1		L2_HB
+6	Connector, M7 turn right front, 1 pins	1		M7
+7	Connector, M8 turn right rear, 1 pins	1		M8
+8	Connector, M9 + M10 brake light, 1 pins	1		M9_M10
+9	Connector, Parking light splitter, 5 pins	1		PARK_SPLIT
+10	Connector, Wiper motor, 1 pins	1		TORKARMOTOR
+11	Wire, 1.5 mm², BK	0	m	W_FUEL
+12	Wire, 1.5 mm², BKGN	0	m	W_TURN_R
+13	Wire, 1.5 mm², BN	0	m	W_FUEL
+14	Wire, 1.5 mm², BU	0	m	W_PARK
+15	Wire, 1.5 mm², GN	0	m	W_TURN_R
+16	Wire, 1.5 mm², RD	0	m	W_BRAKE
+17	Wire, 2.0 mm², BKYE	0	m	W_HORN2
+18	Wire, 2.5 mm², BKGY	0	m	W_WIPER_FST
+19	Wire, 2.5 mm², WH	0	m	W_HIBEAM
+20	Wire, 2.5 mm², WHBK	0	m	W_HIBEAM

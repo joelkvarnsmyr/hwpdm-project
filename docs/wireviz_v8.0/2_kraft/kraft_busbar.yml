@@ -1,0 +1,30 @@
+# ELTON PDM25 V2 — +12V power busbar behind PDM (always-on loads)
+# The busbar is fed from the battery main supply via a 10A ceramic fuse (RED cable).
+# Here: the always-on loads (radio, Raspberry Pi). The PDM control feed C3 (ignition + hazard-wake)
+# has its own graph: see kraft_c3. (Split out so the busbar does not become deep.)
+
+connectors:
+  BUSBAR:
+    type: +12V busbar (behind PDM)
+    notes: "ALWAYS energized.\nFed: battery → 10A ceramic fuse → busbar (red).\nFeeds radio + Pi here; the C3 paths are in kraft_c3."
+    pinlabels: ["in (10A fuse)", "→ radio", "→ Pi"]
+  RADIO:
+    type: Radio (ACC)
+    notes: "Fed directly from the busbar (not via a PDM output)."
+    pincount: 1
+  RPI:
+    type: Raspberry Pi (+ CAN HAT)
+    notes: "Always on. Fed directly from the busbar."
+    pincount: 1
+
+cables:
+  W_RADIO: {category: bundle, gauge: 1.5 mm2, colors: [RD], wirelabels: [busbar → radio]}
+  W_PI:    {category: bundle, gauge: 1.5 mm2, colors: [RD], wirelabels: [busbar → Pi]}
+
+connections:
+  - - BUSBAR: [2]
+    - W_RADIO: [1]
+    - RADIO: [1]
+  - - BUSBAR: [3]
+    - W_PI: [1]
+    - RPI: [1]

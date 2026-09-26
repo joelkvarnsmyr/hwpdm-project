@@ -1,0 +1,22 @@
+Id	Description	Qty	Unit	Designators
+1	Connector, 12V USB outlet, 1 pins	1		USB
+2	Connector, B starter-motor solenoid, 1 pins	1		SOLENOID
+3	Connector, Deutsch DT 12-pin — BLACK housing, female, 12 pins	1		PDM_B
+4	Connector, H1 horn (primary), 1 pins	1		H1_HORN
+5	Connector, L1 headlight L, 1 pins	1		L1_LB
+6	Connector, L2 headlight R, 1 pins	1		L2_LB
+7	Connector, M16 + M17 reversing light, 1 pins	1		M16_M17
+8	Connector, M5 turn left front, 1 pins	1		M5
+9	Connector, M6 turn left rear, 1 pins	1		M6
+10	Connector, V wiper motor, 1 pins	1		TORKARMOTOR
+11	Connector, V2 cabin blower, 1 pins	1		V2_FLAKT
+12	Connector, V5 washer pump, 1 pins	1		V5_PUMP
+13	Wire, 1.5 mm², GNRD	0	m	W_WASHER
+14	Wire, 1.5 mm², GY	0	m	W_REVERSE
+15	Wire, 1.5 mm², WH	0	m	W_USB
+16	Wire, 1.5 mm², YE	0	m	W_TURN_L
+17	Wire, 2.0 mm², RDYE	0	m	W_HORN1
+18	Wire, 2.5 mm², GN	0	m	W_BLOWER
+19	Wire, 2.5 mm², GNBK	0	m	W_WIPER_SLO
+20	Wire, 2.5 mm², RDBK	0	m	W_STARTER
+21	Wire, 2.5 mm², YE	0	m	W_LOWBEAM

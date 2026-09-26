@@ -1,0 +1,54 @@
+# ELTON — Wiper/washer mux PART 2: switches + resistors (at the steering column)
+# Cont. from part 1. The node feeds the switches' common pin; the resistors on the outputs
+# code each position to a unique node voltage. Switch-to-ground, resistor → chassis ground (GND pin).
+# Levels: LOW 2.28V | WASH 3.21V | WASH+LOW 1.82V | HIGH 3.99V | WASH+HIGH 2.76V.
+
+connectors:
+  NOD:
+    type: "I9 node"
+    notes: "Fed via 5.6k pull-up from 5V REF and sensed by I9 (see kraft_5v).\nBranches to the switches' common pin."
+    pinlabels: ["pull-up/I9 (see kraft_5v)", washer feed, knob feed]
+  E22_SPOLARE:
+    type: E22 washer switch (momentary)
+    notes: "Closes feed → output when pressed."
+    pinlabels: [feed, output]
+  E22_TORKARVRED:
+    type: E22 wiper knob (0/LOW/HIGH)
+    notes: "Latching. LOW and HIGH mutually exclusive."
+    pinlabels: [feed, output LOW, output HIGH]
+  R_SPOL:
+    type: "10 kOhm 1% (washer)"
+    image: {src: ../_assets/r_10k.png, width: 140}
+    pinlabels: [from switch, "GND → chassis"]
+  R_LAG:
+    type: "4.7 kOhm 1% (low)"
+    image: {src: ../_assets/r_4k7.png, width: 140}
+    pinlabels: [from knob, "GND → chassis"]
+  R_HOG:
+    type: "22 kOhm 1% (high)"
+    image: {src: ../_assets/r_22k.png, width: 140}
+    pinlabels: [from knob, "GND → chassis"]
+
+cables:
+  W_MS: {category: bundle, gauge: 0.5 mm2, length: 0.05 m, colors: [BKGY], wirelabels: [washer feed]}
+  W_MV: {category: bundle, gauge: 0.5 mm2, length: 0.05 m, colors: [BKGY], wirelabels: [knob feed]}
+  W_US: {category: bundle, gauge: 0.5 mm2, length: 0.05 m, colors: [GNRD], wirelabels: [output → 10k]}
+  W_UL: {category: bundle, gauge: 0.5 mm2, length: 0.05 m, colors: [GN], wirelabels: [output → 4.7k]}
+  W_UH: {category: bundle, gauge: 0.5 mm2, length: 0.05 m, colors: [BKGN], wirelabels: [output → 22k]}
+
+connections:
+  - - NOD: [2]
+    - W_MS: [1]
+    - E22_SPOLARE: [1]
+  - - NOD: [3]
+    - W_MV: [1]
+    - E22_TORKARVRED: [1]
+  - - E22_SPOLARE: [2]
+    - W_US: [1]
+    - R_SPOL: [1]
+  - - E22_TORKARVRED: [2]
+    - W_UL: [1]
+    - R_LAG: [1]
+  - - E22_TORKARVRED: [3]
+    - W_UH: [1]
+    - R_HOG: [1]

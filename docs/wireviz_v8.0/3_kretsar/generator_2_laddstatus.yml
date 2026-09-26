@@ -1,0 +1,23 @@
+# ELTON — Alternator PART 2: charge status (D+ after the diode → PDM input) (2026-06-17)
+# Tapped AFTER the blocking diode (see part 1). Charging → ~14V (HIGH), not charging → ~1-2V (LOW).
+# PDM input (HW v23 tolerates 12-28V → no optocoupler). → CAN → charge warning lamp in the dashboard.
+
+connectors:
+  GEN:
+    type: Alternator D+ (measuring point after diode)
+    notes: "Charging → ~14V (HIGH). Not charging → ~1-2V (LOW)."
+    pincount: 1
+  PDM_SENSE:
+    type: PDM25 V2 spare input (D+ sense)
+    subtype: female
+    bgcolor_title: GN
+    notes: "Digital: HIGH=charging, LOW=not charging.\n→ CAN → charge warning lamp."
+    pinlabels: ["D+ sense"]
+
+cables:
+  W_SENSE: {category: bundle, gauge: 1.0 mm2, colors: [BUWH], wirelabels: [PDM.IN.CHARGE_SENSE]}
+
+connections:
+  - - GEN: [1]
+    - W_SENSE: [1]
+    - PDM_SENSE: [1]

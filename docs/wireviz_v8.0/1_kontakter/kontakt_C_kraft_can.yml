@@ -1,0 +1,163 @@
+# ELTON PDM25 V2 — Deutsch connector C (12-pin) — POWER, CAN, IGNITION, SENSORS
+# Source: PINMAP v8.0 rev 2 (Elton_v9.60) + cable list v7.1 cable data. 2026-06-12.
+# Connector C pin map:
+#   C1 = I16 WASHER input (washer stalk moved here from A3; old IGNITION cable removed)
+#   C3 = ignition-switched feed (NOT Term. 30 always hot)
+#   C5 = O2 ALT_EXCITE +82R 5W (NOT WIPER.FST, which is on D5)
+
+connectors:
+  PDM_C:
+    type: Deutsch DT 12-pin — GREEN housing
+    subtype: female
+    bgcolor_title: GN
+    image: {src: ../_assets/connectors/dt_gron.png, width: 130}
+    notes: "Connector C (2-DT-GREEN) — power/CAN/ignition/sensors"
+    pinlabels:
+      - I16 WASHER
+      - I15 START
+      - PWR.CTRL (ignition-switched)
+      - O3 IGN_COIL
+      - O2 ALT_EXCITE (+82R)
+      - O1 BUSBAR
+      - GND.CHASSIS
+      - CAN H
+      - CAN L
+      - 5V REF
+      - I13 BRAKE_FAULT
+      - I14 OIL.PRESS
+
+  E22_SPOLARSPAK:
+    type: E22 washer stalk
+    notes: "switch-to-GND. Routing: stalk → C1 (not A3)"
+    pincount: 1
+  TANDLAS:
+    type: Ignition switch
+    pinlabels: [grounds at START, Term. 15 feed]
+    notes: "grounds inputs (Elton knob, not standard-VW +12V)"
+  N6:
+    type: N6 ballast resistor → ignition coil Term. 15
+    pincount: 1
+  GENERATOR:
+    type: Alternator field excitation (D+)
+    notes: "82R 5W ballast resistor at PDM"
+    pincount: 1
+  BUSBAR:
+    type: Signal busbar (terminal block)
+    notes: "always-on 3A — feeds stalks/switches that ground inputs"
+    pincount: 1
+  CHASSI:
+    type: Chassis ground point 12
+    pincount: 1
+  RPI:
+    type: Raspberry Pi CAN HAT (CAN 0)
+    pinlabels: [CAN H, CAN L]
+    notes: "twisted pair. Failsafe: lights go out after 1 s if Pi goes silent"
+  SENSOR_5V:
+    type: 5V distribution point (splice)
+    notes: "C10 5V REF (max 100 mA) → 5 separate pull-ups (wiper/blower/turn signal/coolant/fuel). Distribution: see kraft_5v schematic. Load ~37 mA."
+    pincount: 1
+  BRAKE_SENSOR:
+    type: Brake-fault sender
+    pincount: 1
+  F1_OLJA:
+    type: F1 oil-pressure switch
+    pincount: 1
+
+cables:
+  W_WASHER_IN:
+    category: bundle
+    gauge: 1.0 mm2
+    colors: [GNRD]
+    wirelabels: [PDM.IN.WASHER]
+  W_START:
+    category: bundle
+    gauge: 2.5 mm2
+    colors: [RDBK]
+    wirelabels: [PDM.IN.START]
+  W_PWR:
+    category: bundle
+    gauge: 4.0 mm2
+    colors: [BK]
+    wirelabels: [PDM.PWR.CTRL]
+    notes: "Observed black (some docs list red)."
+  W_COIL:
+    category: bundle
+    gauge: 1.5 mm2
+    colors: [BK]
+    wirelabels: [PDM.OUT.IGN_COIL]
+    notes: "Observed black (any tracer stripe not visible)."
+  W_ALT:
+    category: bundle
+    gauge: 1.5 mm2
+    colors: [BU]
+    wirelabels: [PDM.OUT.ALT_EXCITE]
+  W_BUSBAR:
+    category: bundle
+    gauge: 0.75 mm2
+    colors: [BKYE]
+    wirelabels: [PDM.OUT.BUSBAR]
+  W_GND:
+    category: bundle
+    gauge: 10 mm2
+    colors: [BN]
+    wirelabels: [PDM.GND.CHASSIS]
+  W_CAN:
+    category: bundle
+    gauge: 0.75 mm2
+    colors: [YE, BU]
+    wirelabels: [PDM.CAN.H, PDM.CAN.L]
+    notes: twisted pair
+  W_5V:
+    category: bundle
+    gauge: 0.75 mm2
+    colors: [WH]
+    wirelabels: [PDM.5V.REF → distribution]
+  W_BRAKEF:
+    category: bundle
+    gauge: 1.0 mm2
+    colors: [BUWH]
+    wirelabels: [PDM.IN.BRAKE_FAULT]
+  W_OIL:
+    category: bundle
+    gauge: 1.0 mm2
+    colors: [BUGN]
+    wirelabels: [PDM.IN.OIL.PRESS]
+    notes: "Connected to the oil-pressure switch on the engine. Color not confirmed in inventory."
+
+connections:
+  - - PDM_C: [1]
+    - W_WASHER_IN: [1]
+    - E22_SPOLARSPAK: [1]
+  - - PDM_C: [2]
+    - W_START: [1]
+    - TANDLAS: [1]
+  - - PDM_C: [3]
+    - W_PWR: [1]
+    - TANDLAS: [2]
+  - - PDM_C: [4]
+    - W_COIL: [1]
+    - N6: [1]
+  - - PDM_C: [5]
+    - W_ALT: [1]
+    - GENERATOR: [1]
+  - - PDM_C: [6]
+    - W_BUSBAR: [1]
+    - BUSBAR: [1]
+  - - PDM_C: [7]
+    - W_GND: [1]
+    - CHASSI: [1]
+  - - PDM_C: [8]
+    - W_CAN: [1]
+    - RPI: [1]
+  - - PDM_C: [9]
+    - W_CAN: [2]
+    - RPI: [2]
+  - - PDM_C: [10]
+    - W_5V: [1]
+    - SENSOR_5V: [1]
+  - - PDM_C: [11]
+    - W_BRAKEF: [1]
+    - BRAKE_SENSOR: [1]
+  - - PDM_C: [12]
+    - W_OIL: [1]
+    - F1_OLJA: [1]

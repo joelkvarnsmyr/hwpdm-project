@@ -47,7 +47,16 @@ This document describes the file format as reverse-engineered from existing conf
 
 ## rawSendData Protocol
 
-The `rawSendData` array contains strings, each representing a line of serial commands to be sent to the PDM. The configurator both reads from JSON properties AND from rawSendData — both must be consistent.
+The `rawSendData` array contains strings, each representing a line of serial commands in the same format the configurator sends to the PDM.
+
+> **VERIFIED 2026-06-11 (configurator source, unpacked-app):** `rawSendData` is **write-only** — a snapshot generated at save time, never read back.
+> - `loadConfigFile()` (mainDOM.js:822) populates the UI from the JSON sections only; `rawSendData` is ignored on load.
+> - Sending to the device (`startDeviceConfigurationSend()`, connection.js:758) rebuilds the command stream fresh from the in-memory config via `buildSendConfigArray()` — it does NOT replay the file's `rawSendData`.
+> - `saveConfigFile()` (mainDOM.js:971) regenerates `rawSendData` from the in-memory config on every save.
+>
+> **Consequence:** script-built files only need correct JSON sections to load and flash correctly. A stale `rawSendData` (as in `Elton_v9.53`–`v9.57`, which were patched JSON-only) is harmless to the configurator — but do NOT use `rawSendData` as a data source in analysis scripts; read the JSON sections instead. Opening and re-saving a file in the configurator heals the snapshot.
+
+(Earlier revisions of this document claimed both representations must be kept consistent; that was a misreading — kept here as a warning since the stale stream WILL mislead any tooling that parses it.)
 
 ### Line Format
 
@@ -356,7 +365,7 @@ node generate_hwpdm.js [config.json] [template.hwpdm] [output.hwpdm]
 ```
 
 Defaults:
-- Config: `ELTON_PDM25V2_KOMPLETT_v5.6b/pdm25_outputs_complete.json`
+- Config: `_arkiv/ELTON_PDM25V2_KOMPLETT_v5.6b/pdm25_outputs_complete.json` (arkiverad 2026-06-16)
 - Template: `Elton.HWPDM` (blank/factory config used as skeleton)
 - Output: `Elton_generated.HWPDM`
 

@@ -1,0 +1,144 @@
+# ELTON PDM25 V2 — Deutsch connector B (12-pin) — OUTPUTS
+# Source: PINMAP v8.0 rev 2 (Elton_v9.58) + label list v7.1 cable data. 2026-06-12.
+
+connectors:
+  PDM_B:
+    type: Deutsch DT 12-pin — BLACK housing
+    subtype: female
+    bgcolor_title: BK
+    image: {src: ../_assets/connectors/dt_svart.png, width: 130}
+    notes: "Connector B (4-DT-BLACK) — outputs"
+    pinlabels:
+      - O19 REVERSE
+      - O23 STARTER
+      - O25 TURN_L (front)
+      - O15 LOWBEAM_R (PWM)
+      - O14 LOWBEAM_L (PWM)
+      - O13 HORN_1
+      - O10 WIPER_SLO
+      - O11 BLOWER
+      - O12 WASHER
+      - O25 TURN_L (rear)
+      - O22 USB_12V
+      - O18 RESERVE
+
+  M16_M17:
+    type: M16 + M17 reversing light
+    pincount: 1
+  SOLENOID:
+    type: B starter-motor solenoid
+    pinlabels: [Term. 50]
+  M5:
+    type: M5 turn left front
+    pincount: 1
+  L2_LB:
+    type: L2 headlight R
+    pinlabels: [Term. 56b low beam]
+  L1_LB:
+    type: L1 headlight L
+    pinlabels: [Term. 56b low beam]
+  H1_HORN:
+    type: H1 horn (primary)
+    pincount: 1
+  TORKARMOTOR:
+    type: V wiper motor
+    pinlabels: [Term. 53 low]
+  V2_FLAKT:
+    type: V2 cabin blower
+    pincount: 1
+  V5_PUMP:
+    type: V5 washer pump
+    notes: "controlled by I16 washer stalk (connector C1)"
+    pincount: 1
+  M6:
+    type: M6 turn left rear
+    pincount: 1
+  USB:
+    type: 12V USB outlet
+    pincount: 1
+
+cables:
+  W_REVERSE:
+    category: bundle
+    gauge: 1.5 mm2
+    colors: [GY]
+    wirelabels: [PDM.OUT.REVERSE]
+  W_STARTER:
+    category: bundle
+    gauge: 2.5 mm2
+    colors: [RDBK]
+    wirelabels: [PDM.OUT.STARTER]
+  W_TURN_L:
+    category: bundle
+    gauge: 1.5 mm2
+    colors: [YE, YE]
+    wirelabels: [PDM.OUT.TURN-L-F, PDM.OUT.TURN-L-R]
+    notes: "Front wire marked 'turn left' in the car. Observed yellow (some docs list black/white)."
+  W_LOWBEAM:
+    category: bundle
+    gauge: 2.5 mm2
+    colors: [YE, YE]
+    wirelabels: [PDM.OUT.LOWBEAM-R, PDM.OUT.LOWBEAM-L]
+    notes: "LOWBEAM-L: yellow wire + black transverse ring markings (physical)."
+  W_HORN1:
+    category: bundle
+    gauge: 2.0 mm2
+    colors: [RDYE]
+    wirelabels: [PDM.OUT.HORN-1]
+    notes: "Observed red/yellow (some docs list black/yellow)."
+  W_WIPER_SLO:
+    category: bundle
+    gauge: 2.5 mm2
+    colors: [GNBK]
+    wirelabels: [PDM.OUT.WIPER.SLO]
+  W_BLOWER:
+    category: bundle
+    gauge: 2.5 mm2
+    colors: [GN]
+    wirelabels: [PDM.OUT.BLOWER]
+    notes: "Green wire + black transverse ring markings (physical)."
+  W_WASHER:
+    category: bundle
+    gauge: 1.5 mm2
+    colors: [GNRD]
+    wirelabels: [PDM.OUT.WASHER]
+  W_USB:
+    category: bundle
+    gauge: 1.5 mm2
+    colors: [WH]
+    wirelabels: [PDM.OUT.USB_12V]
+
+connections:
+  - - PDM_B: [1]
+    - W_REVERSE: [1]
+    - M16_M17: [1]
+  - - PDM_B: [2]
+    - W_STARTER: [1]
+    - SOLENOID: [1]
+  - - PDM_B: [3]
+    - W_TURN_L: [1]
+    - M5: [1]
+  - - PDM_B: [10]
+    - W_TURN_L: [2]
+    - M6: [1]
+  - - PDM_B: [4]
+    - W_LOWBEAM: [1]
+    - L2_LB: [1]
+  - - PDM_B: [5]
+    - W_LOWBEAM: [2]
+    - L1_LB: [1]
+  - - PDM_B: [6]
+    - W_HORN1: [1]
+    - H1_HORN: [1]
+  - - PDM_B: [7]
+    - W_WIPER_SLO: [1]
+    - TORKARMOTOR: [1]
+  - - PDM_B: [8]
+    - W_BLOWER: [1]
+    - V2_FLAKT: [1]
+  - - PDM_B: [9]
+    - W_WASHER: [1]
+    - V5_PUMP: [1]
+  - - PDM_B: [11]
+    - W_USB: [1]
+    - USB: [1]

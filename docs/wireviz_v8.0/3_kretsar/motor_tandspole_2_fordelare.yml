@@ -1,0 +1,20 @@
+# ELTON — Ignition coil PART 2: coil Term. 1 → distributor → ground
+# Continued from part 1. The breaker points interrupt the primary circuit → HT is induced in the coil.
+
+connectors:
+  N_COIL:
+    type: N ignition coil
+    notes: "Term. 1 = primary - (fed from PART 1)."
+    pinlabels: ["Term. 1 (-)"]
+  O_DIST:
+    type: O distributor (breaker points)
+    notes: "Interrupts the primary circuit → HT is induced.\nBody grounds via the engine block (GND pin)."
+    pinlabels: ["Term. 1 in (points)", "GND → engine block"]
+
+cables:
+  W_CD: {category: bundle, gauge: 1.0 mm2, colors: [GN], wirelabels: [coil Term. 1 → distributor]}
+
+connections:
+  - - N_COIL: [1]
+    - W_CD: [1]
+    - O_DIST: [1]

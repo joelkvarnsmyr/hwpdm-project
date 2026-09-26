@@ -1,0 +1,35 @@
+# ELTON — Coolant temperature (G2 NTC) on I10 · compact
+# NTC as voltage divider: 5V REF (C10) → external pull-up → A2 node → NTC → engine ground.
+# High temp = low resistance = low voltage. Pull-up ~470-680Ω. Build SC1.
+
+connectors:
+  PDM:
+    type: PDM25 V2 (connector C + A)
+    subtype: female
+    bgcolor_title: GN
+    notes: "C10 5V REF feeds the pull-up; A2 (I10, analog) senses the node voltage."
+    pinlabels: ["C10 / 5V REF", "A2 / I10 (analog)"]
+  R_PULLUP:
+    type: "Pull-up ~470-680Ω"
+    notes: "C10 → A2. Value set against NTC; build SC1."
+    pinlabels: ["from 5V (C10)", "to A2"]
+  G2_NTC:
+    type: G2 coolant temperature sender (NTC)
+    notes: "Sender → voltage. Body grounds via the thread in the engine block (GND pin)."
+    pinlabels: [signal terminal, "GND → engine block (thread)"]
+
+cables:
+  W_5V:      {category: bundle, gauge: 0.75 mm2, length: 0.05 m, colors: [RD], wirelabels: [5V → pull-up]}
+  W_PU:      {category: bundle, gauge: 0.75 mm2, length: 0.05 m, colors: [RD], wirelabels: [pull-up → A2]}
+  W_COOLANT: {category: bundle, gauge: 1.0 mm2, colors: [GN], wirelabels: [INST.SENS.COOLANT]}
+
+connections:
+  - - PDM: [1]
+    - W_5V: [1]
+    - R_PULLUP: [1]
+  - - R_PULLUP: [2]
+    - W_PU: [1]
+    - PDM: [2]
+  - - PDM: [2]
+    - W_COOLANT: [1]
+    - G2_NTC: [1]

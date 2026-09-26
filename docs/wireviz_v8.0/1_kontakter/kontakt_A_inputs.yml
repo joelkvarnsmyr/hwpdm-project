@@ -1,0 +1,150 @@
+# ELTON PDM25 V2 — Deutsch connector A (12-pin) — INPUTS
+# Source: PINMAP v8.0 rev 2 (Elton_v9.58) + label list v7.1 cable data. 2026-06-12.
+# Color codes: sw=BK black, ws=WH white, ge=YE yellow, gn=GN green, gr=GY grey,
+#            bl=BU blue, ro=RD red, br=BN brown, li=VT violet
+
+templates:
+  - &input_wire
+    category: bundle
+    gauge: 1.0 mm2
+
+connectors:
+  PDM_A:
+    type: Deutsch DT 12-pin — GREY housing
+    subtype: female
+    bgcolor_title: GY
+    image: {src: ../_assets/connectors/dt_gra.png, width: 130}
+    notes: "Connector A (1-DT-GREY) — inputs"
+    pinlabels:
+      - I12 HORN
+      - I10 COOLANT_TEMP (analog)
+      - I8 FUEL_LEVEL (analog +150R PU)
+      - I6 TURN_R
+      - I4 BRAKE
+      - I2 HIBEAM
+      - I1 BLOWER (analog)
+      - I3 HAZARD (latching)
+      - I5 TURN_L
+      - I7 REVERSE
+      - I9 WIPER_SLOW
+      - I11 WIPER_PARK
+
+  HORNKNAPP:
+    type: Horn button via slip ring
+    pincount: 1
+  G2_NTC:
+    type: G2 coolant-temperature NTC sender
+    pincount: 1
+  G_FUEL:
+    type: G fuel sender (tank)
+    notes: "150R pull-up at PDM. Ground: own brown wire to chassis"
+    pincount: 1
+  E2_BLINKERS:
+    type: E2 turn-signal stalk
+    pinlabels: [Right, Left]
+  F_BROMS:
+    type: F brake-light switch
+    notes: "battery-fed"
+    pincount: 1
+  E4_HELLJUS:
+    type: E4 high-beam stalk
+    pincount: 1
+  E9_FLAKT:
+    type: E9 blower selector
+    pincount: 1
+  HAZARD_KNAPP:
+    type: Hazard switch
+    pincount: 1
+  F4_BACK:
+    type: F4 reverse-gear switch
+    pincount: 1
+  E22_TORKARE:
+    type: E22 wiper selector
+    notes: "Term. 53 → I9 digital (washer → connector C1)"
+    pincount: 1
+  TORKARMOTOR:
+    type: V wiper-motor park sensor
+    pinlabels: [Term. 31b]
+
+cables:
+  W_HORN:
+    <<: *input_wire
+    colors: [BNBU]
+    wirelabels: [PDM.IN.HORN]
+  W_COOLANT:
+    <<: *input_wire
+    colors: [BU]
+    wirelabels: [INST.SENS.COOLANT]
+    notes: "Blue wire + yellow transverse ring markings (physical)"
+  W_FUEL:
+    <<: *input_wire
+    colors: [GNRD]
+    wirelabels: [INST.SENS.FUEL]
+    notes: "Observed green/red — this is the former washer cable; dedicated fuel-sender cable not yet routed here."
+  W_TURN:
+    <<: *input_wire
+    colors: [BKGN, BKWH]
+    wirelabels: [PDM.IN.TURN-R, PDM.IN.TURN-L]
+  W_BRAKE:
+    <<: *input_wire
+    colors: [RDYE]
+    wirelabels: [PDM.IN.BRAKE]
+  W_HIBEAM:
+    <<: *input_wire
+    gauge: 1.5 mm2
+    colors: [BNWH]
+    wirelabels: [PDM.IN.HIBEAM]
+  W_BLOWER:
+    <<: *input_wire
+    colors: [BKYE]
+    wirelabels: [PDM.IN.BLOWER]
+  W_HAZARD:
+    <<: *input_wire
+    colors: [BKGN]
+    wirelabels: [PDM.IN.HAZARD]
+  W_REVERSE:
+    <<: *input_wire
+    colors: [BKBU]
+    wirelabels: [PDM.IN.REVERSE]
+  W_WIPER:
+    <<: *input_wire
+    colors: [GNYE, GN]
+    wirelabels: [PDM.IN.WIPER_SLOW, PDM.IN.WIPER_PARK]
+
+connections:
+  - - PDM_A: [1]
+    - W_HORN: [1]
+    - HORNKNAPP: [1]
+  - - PDM_A: [2]
+    - W_COOLANT: [1]
+    - G2_NTC: [1]
+  - - PDM_A: [3]
+    - W_FUEL: [1]
+    - G_FUEL: [1]
+  - - PDM_A: [4]
+    - W_TURN: [1]
+    - E2_BLINKERS: [1]
+  - - PDM_A: [9]
+    - W_TURN: [2]
+    - E2_BLINKERS: [2]
+  - - PDM_A: [5]
+    - W_BRAKE: [1]
+    - F_BROMS: [1]
+  - - PDM_A: [6]
+    - W_HIBEAM: [1]
+    - E4_HELLJUS: [1]
+  - - PDM_A: [7]
+    - W_BLOWER: [1]
+    - E9_FLAKT: [1]
+  - - PDM_A: [8]
+    - W_HAZARD: [1]
+    - HAZARD_KNAPP: [1]
+  - - PDM_A: [10]
+    - W_REVERSE: [1]
+    - F4_BACK: [1]
+  - - PDM_A: [11]
+    - W_WIPER: [1]
+    - E22_TORKARE: [1]
+  - - PDM_A: [12]
+    - W_WIPER: [2]
+    - TORKARMOTOR: [1]

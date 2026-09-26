@@ -1,0 +1,34 @@
+# ELTON PDM25 V2 — Oil-pressure switch (F1) on I14 (pin C12)
+# F1 = simple switch-to-ground (manual track 8). ONE signal wire; the switch element
+# sits between the signal terminal and the body — the body grounds through the engine
+# block via the thread. NO external resistor — uses the PDM's internal pull-up
+# (pullResistor=1 = 10k to VBat).
+# Logic: low oil pressure / engine off → switch closed → 0V (warning).
+#        engine running, pressure OK → switch open → ~VBat (high = OK).
+
+connectors:
+  PDM_C12:
+    type: PDM25 V2 connector C (GREEN housing)
+    subtype: female
+    bgcolor_title: GN
+    notes: "I14 OIL.PRESS — digital, pullResistor=1 (internal 10k → VBat)"
+    pinlabels:
+      - C12 / I14
+
+  F1_OLJA:
+    type: F1 oil-pressure switch
+    notes: "Closes signal terminal → body at LOW pressure."
+    pinlabels: [signal terminal, "GND → engine block (thread)"]
+
+cables:
+  W_OIL:
+    category: bundle
+    gauge: 1.0 mm2
+    colors: [BUGN]
+    wirelabels: [PDM.IN.OIL.PRESS]
+
+connections:
+  - - PDM_C12: [1]
+    - W_OIL: [1]
+    - F1_OLJA: [1]
+  # (the body grounds via the thread in the block = GND pin, wire not drawn)

@@ -1,0 +1,36 @@
+# ELTON — Dash PART 1: Raspberry Pi → GX16 rainbow ribbon (2026-06-17)
+# 10-wire ribbon in fixed color order. Onward to the three displays = part 2.
+# CANONICAL GPIO SOURCE: DRIVER-DASH.md §7.
+
+connectors:
+  PI:
+    type: Raspberry Pi 5 (GPIO header)
+    notes: "Canonical pinout: DRIVER-DASH.md §7. SPI0 = displays."
+    pinlabels:
+      - GND
+      - 3.3V
+      - GPIO11 SCLK (hdr23)
+      - GPIO10 MOSI (hdr19)
+      - GPIO26 RST
+      - GPIO23 DC
+      - GPIO12 BLK (PWM)
+      - GPIO18 CS1
+      - GPIO24 CS2
+      - GPIO27 CS3
+  GX16:
+    type: GX16 10-pin (dash connector)
+    notes: "Rainbow ribbon. Onward to 3× ST7789 = PART 2."
+    pinlabels: ["1 GND", "2 3.3V", "3 SCLK", "4 MOSI", "5 RST", "6 DC", "7 BLK", "8 CS1", "9 CS2", "10 CS3"]
+
+cables:
+  RIBBON:
+    category: bundle
+    gauge: 0.25 mm2
+    colors: [BK, WH, GY, VT, BU, GN, YE, OG, RD, BN]
+    wirelabels: [GND, 3V3, SCLK, MOSI, RST, DC, BLK, CS1, CS2, CS3]
+    notes: "Fixed color order (rainbow)"
+
+connections:
+  - - PI: [1,2,3,4,5,6,7,8,9,10]
+    - RIBBON: [1,2,3,4,5,6,7,8,9,10]
+    - GX16: [1,2,3,4,5,6,7,8,9,10]

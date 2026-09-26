@@ -1,0 +1,6 @@
+Id	Description	Qty	Unit	Designators
+1	Connector, N ignition coil, 1 pins	1		N_COIL
+2	Connector, N6 ballast resistor, 2 pins	1		N6
+3	Connector, PDM25 V2 (connector C, GREEN housing), female, 1 pins	1		PDM
+4	Wire, 1.0 mm², WHVT	0	m	W_N6
+5	Wire, 1.5 mm², BKVT	0	m	W_O3

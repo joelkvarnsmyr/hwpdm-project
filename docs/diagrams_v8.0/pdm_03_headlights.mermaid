@@ -1,0 +1,44 @@
+---
+title: "ELTON PDM25 V2 — Strålkastare · källa: Elton_v9.58 + PINMAP v8.0 (2026-06-11)"
+---
+flowchart LR
+    PWR["🔑 Tändning PÅ\n= spänning på C3 (PWR.CTRL)\nPDM vaknar → GF1 PWR_ALIVE"]
+
+    subgraph STALK["Rattstång"]
+        E4["E4 Helljusspak"]
+    end
+
+    subgraph PDM_IN["PDM Inputs"]
+        I2["I2 (pin A6)\nHIBEAM · momentary\nswitch-to-GND"]
+    end
+
+    subgraph PI["Raspberry Pi (CAN 0x500)"]
+        CAN["Elton_Ctrl_Lights\n20 Hz · failsafe 1s\n(show-mode kan ta över)"]
+    end
+
+    subgraph LOW_BEAM["💡 Halvljus — PÅ automatiskt med tändning"]
+        O14["O14 LOWBEAM_L (pin B5)\npeak 28.3 A · PWM-dimbar"]
+        O15["O15 LOWBEAM_R (pin B4)\npeak 24.3 A · PWM-dimbar"]
+    end
+
+    subgraph HIGH_BEAM["💡💡 Helljus — via spak ELLER CAN"]
+        O16["O16 HIBEAM_L (pin D12)\npeak 20.8 A · PWM-dimbar"]
+        O7["O7 HIBEAM_R (pin D6)\npeak 40 A · PWM-dimbar"]
+    end
+
+    PWR --> O14 & O15
+    E4 -->|"1.5mm² ge\nPDM.IN.HIGHBEAM"| I2
+    I2 --> O16 & O7
+    CAN -.->|"CAN-styrning\n(suppress/show)"| O14 & O15 & O16 & O7
+
+    O14 -->|"2.5mm² ge/sw\nkl.56b"| L1_LB["L1 Strålkastare V\nhalvljus"]
+    O15 -->|"2.5mm² ge\nkl.56b"| L2_LB["L2 Strålkastare H\nhalvljus"]
+    O16 -->|"2.5mm² ws/sw\nkl.56a"| L1_HB["L1 Strålkastare V\nhelljus"]
+    O7  -->|"2.5mm² ws\nkl.56a"| L2_HB["L2 Strålkastare H\nhelljus"]
+
+    L1_LB & L2_LB & L1_HB & L2_HB --> GND["⏚ Chassijord p.12"]
+
+    style LOW_BEAM fill:#1a2e1a,stroke:#c9a144,color:#f2ede6
+    style HIGH_BEAM fill:#2e2a1a,stroke:#c9a144,color:#f2ede6
+    style STALK fill:#16213e,stroke:#5c6bc0,color:#f2ede6
+    style PI fill:#2a1a2e,stroke:#ab47bc,color:#f2ede6

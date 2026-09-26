@@ -1,0 +1,4 @@
+Id	Description	Qty	Unit	Designators
+1	Connector, N ignition coil, 1 pins	1		N_COIL
+2	Connector, O distributor (breaker points), 2 pins	1		O_DIST
+3	Wire, 1.0 mm², GN	0	m	W_CD

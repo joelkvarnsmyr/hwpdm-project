@@ -1,0 +1,11 @@
+Id	Description	Qty	Unit	Designators
+1	Connector, 10 kOhm 1% (washer), 2 pins	1		R_SPOL
+2	Connector, 22 kOhm 1% (high), 2 pins	1		R_HOG
+3	Connector, 4.7 kOhm 1% (low), 2 pins	1		R_LAG
+4	Connector, E22 washer switch (momentary), 2 pins	1		E22_SPOLARE
+5	Connector, E22 wiper knob (0/LOW/HIGH), 3 pins	1		E22_TORKARVRED
+6	Connector, I9 node, 3 pins	1		NOD
+7	Wire, 0.5 mm², BKGN	0.05	m	W_UH
+8	Wire, 0.5 mm², BKGY	0.1	m	W_MS, W_MV
+9	Wire, 0.5 mm², GN	0.05	m	W_UL
+10	Wire, 0.5 mm², GNRD	0.05	m	W_US

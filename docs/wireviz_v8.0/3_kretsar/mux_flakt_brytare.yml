@@ -1,0 +1,37 @@
+# ELTON — Blower mux PART 2: knob + resistors (at the dashboard)
+# Cont. from part 1. The node feeds the knob's common pin; the resistors code low/high.
+# Switch-to-ground, resistor → chassis ground (GND pin). Levels: LOW 3.21V (10k) | HIGH 1.41V (2.2k).
+
+connectors:
+  NOD:
+    type: "I1 node"
+    notes: "Fed via 5.6k pull-up from 5V REF and sensed by I1 (see kraft_5v).\nBranches to the knob's common pin."
+    pinlabels: ["pull-up/I1 (see kraft_5v)", knob feed]
+  E9_FLAKTVRED:
+    type: E9 blower knob (OFF/LOW/HIGH)
+    notes: "Rotary. LOW and HIGH mutually exclusive."
+    pinlabels: [feed, output LOW, output HIGH]
+  R_LAG:
+    type: "10 kOhm 1% (low)"
+    image: {src: ../_assets/r_10k.png, width: 140}
+    pinlabels: [from knob, "GND → chassis"]
+  R_HOG:
+    type: "2.2 kOhm 1% (high)"
+    image: {src: ../_assets/r_2k2.png, width: 140}
+    pinlabels: [from knob, "GND → chassis"]
+
+cables:
+  W_MV: {category: bundle, gauge: 0.5 mm2, length: 0.05 m, colors: [BKYE], wirelabels: [knob feed]}
+  W_UL: {category: bundle, gauge: 0.5 mm2, length: 0.05 m, colors: [GN], wirelabels: [output LOW → 10k]}
+  W_UH: {category: bundle, gauge: 0.5 mm2, length: 0.05 m, colors: [RD], wirelabels: [output HIGH → 2.2k]}
+
+connections:
+  - - NOD: [2]
+    - W_MV: [1]
+    - E9_FLAKTVRED: [1]
+  - - E9_FLAKTVRED: [2]
+    - W_UL: [1]
+    - R_LAG: [1]
+  - - E9_FLAKTVRED: [3]
+    - W_UH: [1]
+    - R_HOG: [1]

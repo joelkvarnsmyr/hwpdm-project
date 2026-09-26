@@ -1,0 +1,41 @@
+# ELTON — Alternator PART 1: field excitation O2 → 82Ω → blocking diode → D+ (2026-06-17)
+# The resistor supplies field current so the alternator wakes. The diode stops D+ (~14V) back-feeding the PDM.
+# The charge-status sensing (sense after the diode) = part 2.
+
+connectors:
+  PDM:
+    type: PDM25 V2 (connector C, GREEN housing)
+    subtype: female
+    bgcolor_title: GN
+    notes: "O2 ALT_EXCITE — 12V out."
+    pinlabels: ["O2 / C5 (12V out)"]
+  R_EXCITE:
+    type: "Power resistor 82Ω 5W"
+    image: {src: ../_assets/r_82r.png, width: 150}
+    notes: "Supplies field current."
+    pinlabels: [from O2, to diode]
+  DIODE:
+    type: "Blocking diode"
+    image: {src: ../_assets/diode.png, width: 150}
+    notes: "Anode=resistor, cathode(band)=D+.\nStops D+ back-feeding the PDM."
+    pinlabels: [anode, "cathode → D+"]
+  GEN:
+    type: Alternator D+
+    notes: "Charging → ~14V. Not charging → ~1-2V (grounded via rotor).\nCharge status is tapped here → PART 2."
+    pincount: 1
+
+cables:
+  W_EXC: {category: bundle, gauge: 1.5 mm2, colors: [BU], wirelabels: [PDM.OUT.ALT_EXCITE]}
+  W_RD:  {category: bundle, gauge: 1.5 mm2, length: 0.05 m, colors: [BU], wirelabels: [resistor → diode]}
+  W_DP:  {category: bundle, gauge: 1.5 mm2, colors: [BU], wirelabels: [diode → D+]}
+
+connections:
+  - - PDM: [1]
+    - W_EXC: [1]
+    - R_EXCITE: [1]
+  - - R_EXCITE: [2]
+    - W_RD: [1]
+    - DIODE: [1]
+  - - DIODE: [2]
+    - W_DP: [1]
+    - GEN: [1]

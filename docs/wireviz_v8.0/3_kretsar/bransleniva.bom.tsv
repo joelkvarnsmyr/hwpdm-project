@@ -1,0 +1,6 @@
+Id	Description	Qty	Unit	Designators
+1	Connector, G fuel level sender (tank), 2 pins	1		G_FUEL
+2	Connector, PDM25 V2 (connector C + A), female, 2 pins	1		PDM
+3	Connector, Pull-up 150Ω 0.5W, 2 pins	1		R_PULLUP
+4	Wire, 0.75 mm², RD	0.1	m	W_5V, W_PU
+5	Wire, 1.0 mm², VTBK	0	m	W_FUEL
