@@ -1,8 +1,8 @@
-# PDM ↔ Pi CAN contract — PDM build v10.18
+# PDM ↔ Pi CAN contract — PDM build v10.18 / v10.19
 
 Supersedes `PDM_CAN_KONTRAKT_v10.8.md`. Written 2026-09-29 after a live session on the van: every frame below was captured on `can0` unless marked otherwise.
 
-- DBC for 0x510, 0x511, 0x51F, 0x520: `elton_pdm_telemetry_v10.18.dbc` (this folder).
+- DBC for 0x510, 0x511, 0x51F, 0x520: `elton_pdm_telemetry_v10.19.dbc` (this folder; v10.18 DBC kept for history).
 - DBC for 0x512–0x51E: the dashboard's own `can-bridge/dbc/elton_pdm_perchannel_v10.11.dbc` (PR #148), verified against the van. It is unchanged.
 
 ## 0. Builds since v10.8
@@ -17,7 +17,8 @@ Supersedes `PDM_CAN_KONTRAKT_v10.8.md`. Written 2026-09-29 after a live session 
 | v10.15 | yes | **Blower from the app works.** The PDM's CAN acceptance filter excluded `0x503`, so `BLW_CMD` was 0 since v10.4. |
 | v10.16 | yes | Air horn threshold fixed: 500 ms. It was 50 ms, because logic constants are stored ×10. |
 | v10.17 | yes | Handbrake and doors share C1. **`0x511` is now 8 bytes** (`Door_Open`, `HbDoor_Fault`). |
-| v10.18 | **built, not yet flashed** | Handbrake/door thresholds tuned to measured voltages. Signals and meaning are unchanged. |
+| v10.18 | yes | Handbrake/door thresholds tuned to measured voltages. Signals and meaning are unchanged. |
+| v10.19 | **built — flashed when the tach wiring is fitted** | Tachometer on I7 (A10). **`0x520` bytes 4–7 become `Engine_RPM` and `Engine_Running`** (were an unsupported, always-0 voltage). O19 reverse lights no longer follow I7. |
 
 ---
 
@@ -31,7 +32,7 @@ Supersedes `PDM_CAN_KONTRAKT_v10.8.md`. Written 2026-09-29 after a live session 
 | `0x516–0x517` | PDM_InStatus_1..2 | 10 Hz | u8 status per input, I1–I8, I9–I16 |
 | `0x518–0x51E` | PDM_OutCurrent_1..7 | 5 Hz | u16 mA per output, 4 per frame (O1–O4 … O25) |
 | `0x51F` | PDM_InVolt | 10 Hz | u16 mV: I1 washer · I8 fuel · I10 coolant · I16 handbrake/door |
-| `0x520` | PDM_EngineDiag | 20 Hz | u16 O3 trip count · u16 O5 trip count · u16 · u16 (output volts: **unsupported, always 0**) |
+| `0x520` | PDM_EngineDiag | 20 Hz | u16 O3 trip count · u16 O5 trip count · u16 **Engine_RPM** · u16 **Engine_Running** (v10.19; before that always 0) |
 | `0x1000–0x1032` | stream | — | Only `0x1000–0x1002` carry data. **Ignore the per-channel frames**, they are all zeros. |
 
 Useful offsets: blower O11 status is `0x513` byte 2, blower current is `0x51A` bytes 4–5, ignition coil O3 current is `0x518` bytes 4–5.
@@ -101,7 +102,7 @@ Since v10.14 the PDM retries after 0.1 s, so the engine will probably survive. *
 | `Coolant_In_V` (0x51F) | Raw only. 1.18 V at ~17 °C cold, 0.31 V after ~30 min idle. Shifts about −0.09 V while the alternator charges. | Do not convert to °C on the Pi. The PDM curve will be rebuilt. |
 | `Fuel_Level` | Provisional curve, near empty (14–19 L). | Discard when the battery is below 10 V, and average over ≥ 10 s. |
 | I1 washer / O12 | I1 floats at 1.7–1.9 V and reads 1 (pressed) at rest, so O12 is on. | Ignore I1 and O12 until fixed. |
-| `IgnCoil_Out_V`, `FuelPump_Out_V` | Not supported by the PDM25 V2 hardware. | Ignore. |
+| `Engine_RPM`, `Engine_Running` (v10.19) | 0 until Joel confirms the tach wiring and the threshold is calibrated at idle. | Hide rpm until then. |
 
 ### 2.6 Oil pressure warning — agreed with Joel 2026-09-29
 
@@ -110,7 +111,7 @@ The switch only answers "pressure or no pressure". It cannot tell "engine stoppe
 **Engine running** (do not use oil pressure or battery voltage):
 - O3 IGN_COIL current (`0x518` bytes 4–5) **varies** while the points open and close: spread (max − min) over 2 s > 0.3 A and mean between 1.0 and 3.4 A. Stopped = flat, around 0.6 A (points open) or 3.6–4.2 A (points closed). Seen clearly in the 2026-09-29 logs.
 - GPS speed > 5 km/h always means running.
-- When a tachometer input exists (planned: rpm on CAN), `rpm > 300` replaces the current heuristic.
+- **From v10.19, once the tach is confirmed:** `Engine_Running` (`0x520` bytes 6–7, rpm > 300) replaces the current heuristic. `Engine_RPM` is ignition coil terminal 1 pulses × 30.
 
 | State | Condition | Show | Sound |
 |---|---|---|---|

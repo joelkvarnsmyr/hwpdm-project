@@ -107,6 +107,8 @@ class VarMap:
     # Basformler i det gamla (<=128) schemat.
     def input_status(self, n):   return self._map(557 + 5 * n)
     def input_voltage(self, n):  return self._map(555 + 5 * n)
+    # Per ingång i variables.js (1.3.1): voltage, frequency, status, onTime, offTime
+    def input_frequency(self, n): return self._map(556 + 5 * n)  # Hz, input[n].frequency
     def timer(self, n):          return self._map(639 + n)
     def gf(self, n):             return self._map(729 + n)
     def caninput(self, n):       return self._map(845 + 5 * n)
