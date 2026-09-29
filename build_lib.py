@@ -110,6 +110,12 @@ class VarMap:
     def timer(self, n):          return self._map(639 + n)
     def gf(self, n):             return self._map(729 + n)
     def caninput(self, n):       return self._map(845 + 5 * n)
+    # Utgångsblock, 7 variabler per utgång. Verifierat 2026-09-29 mot appens
+    # egen variables.js för alla 25 utgångar (0 avvikelser).
+    def output_current(self, n): return self._map(70 + 7 * (n - 1))   # A (float) — skicka x1000
+    def output_voltage(self, n): return self._map(71 + 7 * (n - 1))   # V (float)
+    def output_status(self, n):  return self._map(73 + 7 * (n - 1))   # onStatus + faultStatus
+    def output_tripcount(self, n): return self._map(74 + 7 * (n - 1)) # HS.tripCount (variables.js:1757)
 
     @staticmethod
     def const_true():
@@ -136,14 +142,33 @@ class VarMap:
         def nums(fn):
             return {int(v) for v in fn if str(v).lstrip('-').isdigit()}
 
+        removed = []
+
         def want(label, idx, expect, why):
+            """Kontrollera ett landmärke.
+
+            Skiljer på två helt olika fel:
+              - VARIABELKARTAN ÄR FEL → det ANDRA schemats nummer ligger i logiken.
+                Det är allvarligt och avbryter bygget.
+              - TERMEN ÄR BORTTAGEN → varken vårt eller det andra schemats nummer
+                finns. Då har någon redigerat logiken i GUI:t, vilket är helt
+                legitimt. Noteras men avbryter inte.
+            """
             if idx >= len(outs) or outs[idx].get('label') != label:
                 return                      # landmärket saknas i denna build
             got = nums(outs[idx]['function'])
-            missing = {k: v for k, v in expect.items() if v not in got}
             checked.append(f'O{idx+1} {label}')
-            if missing:
-                problems.append(f'O{idx+1} {label}: saknar {missing} i {sorted(got)} — {why}')
+            for name, want_id in expect.items():
+                if want_id in got:
+                    continue
+                # vad hade det andra schemat gett?
+                legacy_id = want_id - 21 if not self.legacy else want_id + 21
+                if legacy_id in got:
+                    problems.append(
+                        f'O{idx+1} {label}: hittade {legacy_id} dar {want_id} vantades '
+                        f'({name}) — variabelkartan ar fel, inte logiken. {why}')
+                else:
+                    removed.append(f'O{idx+1} {label}/{name}')
 
         # BRAKE styrs av bromsljusbrytaren på I4.
         want('BRAKE', 5, {'I4 status': self.input_status(4)},
@@ -193,6 +218,9 @@ class VarMap:
             print(f'  VarMap OK — configVersion {self.version} ({self.version_int}), '
                   f'{"gammalt" if self.legacy else "nytt"} schema (offset {self.offset:+d} '
                   f'för var >= 70), {len(checked)} landmärken: {", ".join(checked)}')
+            if removed:
+                print(f'  (not: villkor borttagna ur logiken sedan tidigare — '
+                      f'{", ".join(removed)}. Inget fel i kartan.)')
         return True
 
 
@@ -202,6 +230,13 @@ def set_field(obj, key, value, *, allow_new=False):
 
     1.3.1 lagrar t.ex. säkringsvärden som strängar ('9') men timervärden som int.
     Skriver man rå typ kan konfiguratorn tolka fältet fel eller tappa det.
+
+    ⚠ UNDANTAG — att AKTIVERA en oanvänd plats (tom timer, tom GF, tom CANInput):
+    den tomma mallen har "tomma" typer som inte är de appen använder när platsen
+    väl är konfigurerad. Konkret: en oanvänd Timer har `enabled: 0` (int) medan
+    T1/T4 har `enabled: true` (bool). set_field skulle troget bevara int:en och
+    skriva 1. Kopiera i det läget typerna från en KONFIGURERAD granne i stället,
+    eller sätt fältet direkt. Gäller bara aktivering — därefter är typerna rätt.
     """
     if key not in obj:
         if not allow_new:
@@ -242,6 +277,28 @@ CRC_CODES = {
     'CANKeypad': 'CK', 'CANInputFilter': 'CF', 'CANInput': 'CI',
     'CANOutput': 'CO', 'CANStream': 'CS', 'LINBus': 'LN',
 }
+
+
+def uncovered_can_inputs(cfg):
+    """Aktiva CAN-ingångar vars ID inget aktivt hårdvarufilter släpper igenom.
+
+    PDM:en har acceptansfilter (`CANInputFilter`, 10 per buss) och slänger ramar
+    utanför dem INNAN CAN-ingångarna ser dem. GUI:t räknar bara om filtren när man
+    trycker "optimera" (configCANInputs.js:247 optimiseCANFilters) — inte vid spara
+    eller flash. Därför kan en script-tillagd CAN-ingång tyst få värdet 0 för alltid.
+    Hände 2026-09-29: BLW_CMD/BLW_DUTY på 0x503, filtret täckte 0x500–0x502 → fläkten
+    gick aldrig att styra från appen. Samma logik som CANInputMatchesFilter (rad 216).
+    """
+    filters = [f for f in cfg.get('CANInputFilter', []) if f.get('enabled')]
+    out = []
+    for n, ci in enumerate(cfg['CANInput'], 1):
+        if not (ci.get('enabled') and ci.get('visibleInDOM')):
+            continue
+        cid, fmt = int(ci['CANID']), int(ci['CANIDType'])
+        if not any(int(f['format']) == fmt and int(f['CANIDStart']) <= cid <= int(f['CANIDEnd'])
+                   for f in filters):
+            out.append((n, ci.get('label'), cid))
+    return out
 
 
 def drop_derived(cfg):
