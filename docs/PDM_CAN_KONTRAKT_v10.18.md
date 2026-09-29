@@ -1,4 +1,4 @@
-# PDM ↔ Pi CAN contract — PDM build v10.18 / v10.19
+# PDM ↔ Pi CAN contract — PDM build v10.18–v10.20
 
 Supersedes `PDM_CAN_KONTRAKT_v10.8.md`. Written 2026-09-29 after a live session on the van: every frame below was captured on `can0` unless marked otherwise.
 
@@ -18,7 +18,8 @@ Supersedes `PDM_CAN_KONTRAKT_v10.8.md`. Written 2026-09-29 after a live session 
 | v10.16 | yes | Air horn threshold fixed: 500 ms. It was 50 ms, because logic constants are stored ×10. |
 | v10.17 | yes | Handbrake and doors share C1. **`0x511` is now 8 bytes** (`Door_Open`, `HbDoor_Fault`). |
 | v10.18 | yes | Handbrake/door thresholds tuned to measured voltages. Signals and meaning are unchanged. |
-| v10.19 | **built — flashed when the tach wiring is fitted** | Tachometer on I7 (A10). **`0x520` bytes 4–7 become `Engine_RPM` and `Engine_Running`** (were an unsupported, always-0 voltage). O19 reverse lights no longer follow I7. |
+| v10.19 | built — contained in v10.20 | Tachometer on I7 (A10). **`0x520` bytes 4–7 become `Engine_RPM` and `Engine_Running`** (were an unsupported, always-0 voltage). O19 reverse lights no longer follow I7. |
+| v10.20 | **built, not yet flashed** | **O2 ALT_EXCITE on**: its current (`0x518` bytes 2–3) is the charge lamp, about 150 mA = not charging. **I13 BRAKE_FAULT on** (C11, `0x517` byte 4, 2 s delay). O19 REVERSE → RESERVE19, off (no reverse lights fitted). O14 now follows `LowBeam_L_Cmd`, not `LowBeam_R_Cmd`. |
 
 ---
 
@@ -35,7 +36,7 @@ Supersedes `PDM_CAN_KONTRAKT_v10.8.md`. Written 2026-09-29 after a live session 
 | `0x520` | PDM_EngineDiag | 20 Hz | u16 O3 trip count · u16 O5 trip count · u16 **Engine_RPM** · u16 **Engine_Running** (v10.19; before that always 0) |
 | `0x1000–0x1032` | stream | — | Only `0x1000–0x1002` carry data. **Ignore the per-channel frames**, they are all zeros. |
 
-Useful offsets: blower O11 status is `0x513` byte 2, blower current is `0x51A` bytes 4–5, ignition coil O3 current is `0x518` bytes 4–5.
+Useful offsets: blower O11 status is `0x513` byte 2, blower current is `0x51A` bytes 4–5, ignition coil O3 current is `0x518` bytes 4–5, **charge lamp O2 current is `0x518` bytes 2–3 (v10.20)**, **brake warning I13 is `0x517` byte 4 (v10.20)**.
 
 ### 1.1 Output status is an enum
 
@@ -133,6 +134,8 @@ Validate the running detector against `/tmp/pdm_stall.log` and `/tmp/pdm_runlog.
 - Pi → PDM `0x500–0x502`: 1 s timeout. `0x503`: 10 s timeout, default 0.
 
 ---
+
+Driving-safety warnings (handbrake/door while moving, coolant, brake, charging): `DASHBOARD_VARNINGAR_2026-09-29.md`.
 
 ## 3. Verify on the van
 
