@@ -1,4 +1,4 @@
-# PDM ↔ Pi CAN contract — PDM build v10.18–v10.20
+# PDM ↔ Pi CAN contract — PDM build v10.18–v10.24
 
 Supersedes `PDM_CAN_KONTRAKT_v10.8.md`. Written 2026-09-29 after a live session on the van: every frame below was captured on `can0` unless marked otherwise.
 
@@ -19,7 +19,8 @@ Supersedes `PDM_CAN_KONTRAKT_v10.8.md`. Written 2026-09-29 after a live session 
 | v10.17 | yes | Handbrake and doors share C1. **`0x511` is now 8 bytes** (`Door_Open`, `HbDoor_Fault`). |
 | v10.18 | yes | Handbrake/door thresholds tuned to measured voltages. Signals and meaning are unchanged. |
 | v10.19 | built — contained in v10.20 | Tachometer on I7 (A10). **`0x520` bytes 4–7 become `Engine_RPM` and `Engine_Running`** (were an unsupported, always-0 voltage). O19 reverse lights no longer follow I7. |
-| v10.20 | **built, not yet flashed** | **O2 ALT_EXCITE on**: its current (`0x518` bytes 2–3) is the charge lamp, about 150 mA = not charging. **I13 BRAKE_FAULT on** (C11, `0x517` byte 4, 2 s delay). O19 REVERSE → RESERVE19, off (no reverse lights fitted). O14 now follows `LowBeam_L_Cmd`, not `LowBeam_R_Cmd`. |
+| v10.20 | yes (inside v10.21–v10.24) | **O2 ALT_EXCITE on**: its current (`0x518` bytes 2–3) is the charge lamp, about 150 mA = not charging. **I13 BRAKE_FAULT on** (C11, `0x517` byte 4, 2 s delay). O19 REVERSE → RESERVE19, off (no reverse lights fitted). O14 now follows `LowBeam_L_Cmd`, not `LowBeam_R_Cmd`. |
+| v10.21–v10.24 | **v10.24 flashed** (Joel's own fuse change in between: `v10.21_flakt_pa_av_fusefix`) | **Blower works fully**, see §2.3. O11: PWM 100 Hz, table ends at 101, no soft start, high 8 A, peak 20 A for 5 s. |
 
 ---
 
@@ -86,9 +87,24 @@ On 2026-09-29 the ignition coil output (O3) tripped on **under-voltage** twice, 
 
 Since v10.14 the PDM retries after 0.1 s, so the engine will probably survive. **Every retry increments `IgnCoil_TripCount`.** Show a warning with a timestamp whenever it increases. The timestamps are what will locate the fault (bumps, rpm, blower on …). There have been no trips since 18:34.
 
-### 2.3 Blower (from v10.15)
+### 2.3 Blower — works fully from v10.24 (verified 2026-09-29)
 
-`0x503` now reaches the PDM, and O11 switches on (status 1). **But it draws only 0.08–0.13 A at 100 % duty**, so the motor is not running. The fault is in the wiring between the PDM and the motor (old switch or resistor pack, a fuse, or the pin) and is being investigated. O11 has no low fuse, so it will not report status 3. Until that is fixed, a `notRunning` verdict based on current is correct.
+Two faults kept the blower dead from v10.4 to v10.23:
+1. The PDM's CAN acceptance filter dropped `0x503` (fixed in v10.15).
+2. **The PWM table's last point equalled the maximum command (100).** A command exactly at the last point falls in no interval, so the PDM kept its previous duty, which was 0 % from standstill. The app sent 100, so the motor never started. Fixed in v10.24 (table `[0,10,…,90,101]`, so 100 ≈ 99 %).
+
+Measured with v10.24 by stepping `elton/control/blower/speed`:
+
+| Command | O11 current |
+|---|---|
+| 0 | 0 A, status 0 |
+| 30 (`BLOWER_MIN_DUTY`) | 1.7 A |
+| 50 | 3.0 A |
+| 70 | 3.4 A |
+| 100 | 4.1–4.3 A |
+
+The blower starts from standstill at any command, with no trip. PWM runs at 100 Hz with no soft start; the peak fuse of 20 A for 5 s covers the start current. High fuse is 8 A.
+**Feedback for the dashboard:** O11 status is `0x513` byte 2 and current is `0x51A` bytes 4–5. `notRunning` = status 1 and current < 0.8 A for > 3 s while the command is ≥ 30, except during cranking (LOAD_OK).
 
 ### 2.4 Lamps
 
