@@ -1,0 +1,28 @@
+VERSION "elton_pdm_telemetry v10.8"
+
+NS_ :
+
+BS_:
+
+BU_: PDM PI
+
+BO_ 1296 PDM_Sensors: 8 PDM
+ SG_ Coolant_Temp : 7|32@0- (0.001,0) [-40|150] "degC" PI
+ SG_ Fuel_Level : 39|32@0- (0.001,0) [0|90] "L" PI
+
+BO_ 1297 PDM_Status: 6 PDM
+ SG_ Battery_Voltage : 7|16@0+ (0.001,0) [0|32] "V" PI
+ SG_ IMU_Impact : 23|8@0+ (1,0) [0|1] "" PI
+ SG_ IMU_Rollover : 31|8@0+ (1,0) [0|1] "" PI
+ SG_ Oil_Pressure_Low : 39|8@0+ (1,0) [0|1] "" PI
+ SG_ Handbrake_On : 47|8@0+ (1,0) [0|1] "" PI
+
+CM_ BO_ 1296 "PDM CANOutput 1. Calibrated sensor values from Sensor Calibration 1/2. 5 Hz. Replaces decoding raw input millivolts from the CAN stream.";
+CM_ SG_ 1296 Coolant_Temp "SC1 output (var 781). INVALID until PDM build v10.9 - SC1 still points at the wrong input (I11) in v10.8. Signed: sub-zero readings in winter.";
+CM_ SG_ 1296 Fuel_Level "SC2 output (var 782), I8 / pin A3. Curve is PROVISIONAL (assumes 10-180 ohm sender, 80 L tank) until calibrated against two real fills.";
+CM_ BO_ 1297 "PDM CANOutput 2. 5 Hz.";
+CM_ SG_ 1297 Battery_Voltage "var 6, PDM supply voltage. Sent x1000 (millivolts on the wire).";
+CM_ SG_ 1297 IMU_Impact "var 82, latching. The PDM takes NO action on this - no crash cutoff exists. IMU reference frame not zeroed yet.";
+CM_ SG_ 1297 IMU_Rollover "var 83, latching. Same caveat as IMU_Impact.";
+CM_ SG_ 1297 Oil_Pressure_Low "I14 status, pin C12. 1 = switch closed = LOW pressure. Expected 1 with engine off. Prefer GF3 OIL_OK semantics (includes 5 s start grace) - see contract doc.";
+CM_ SG_ 1297 Handbrake_On "I16 status, pin C1. 1 = handbrake applied (active-low input, fixed in v10.7). Cable F9->C1 may not be installed yet.";

@@ -1,0 +1,54 @@
+VERSION "elton_pdm_telemetry v10.18"
+
+NS_ :
+
+BS_:
+
+BU_: PDM PI
+
+BO_ 1296 PDM_Sensors: 8 PDM
+ SG_ Coolant_Temp : 7|32@0- (0.001,0) [-40|150] "degC" PI
+ SG_ Fuel_Level : 39|32@0- (0.001,0) [0|64] "L" PI
+
+BO_ 1297 PDM_Status: 8 PDM
+ SG_ Battery_Voltage : 7|16@0+ (0.001,0) [0|32] "V" PI
+ SG_ IMU_Impact : 23|8@0+ (1,0) [0|1] "" PI
+ SG_ IMU_Rollover : 31|8@0+ (1,0) [0|1] "" PI
+ SG_ Oil_Pressure_Low : 39|8@0+ (1,0) [0|1] "" PI
+ SG_ Handbrake_On : 47|8@0+ (1,0) [0|1] "" PI
+ SG_ Door_Open : 55|8@0+ (1,0) [0|1] "" PI
+ SG_ HbDoor_Fault : 63|8@0+ (1,0) [0|1] "" PI
+
+BO_ 1311 PDM_InVolt: 8 PDM
+ SG_ Washer_In_V : 7|16@0+ (0.001,0) [0|32] "V" PI
+ SG_ Fuel_In_V : 23|16@0+ (0.001,0) [0|5] "V" PI
+ SG_ Coolant_In_V : 39|16@0+ (0.001,0) [0|5] "V" PI
+ SG_ HbDoor_In_V : 55|16@0+ (0.001,0) [0|5] "V" PI
+
+BO_ 1312 PDM_EngineDiag: 8 PDM
+ SG_ IgnCoil_TripCount : 7|16@0+ (1,0) [0|65535] "" PI
+ SG_ FuelPump_TripCount : 23|16@0+ (1,0) [0|65535] "" PI
+ SG_ IgnCoil_Out_V : 39|16@0+ (0.001,0) [0|32] "V" PI
+ SG_ FuelPump_Out_V : 55|16@0+ (0.001,0) [0|32] "V" PI
+
+CM_ BO_ 1296 "PDM CANOutput 1. Sensor Calibration outputs. 5 Hz.";
+CM_ SG_ 1296 Coolant_Temp "SC1 output. STILL INVALID in v10.18 - SC1 points at I11 and has a mV x-axis. Use Coolant_In_V (0x51F) only as a raw indicator until the PDM curve is rebuilt.";
+CM_ SG_ 1296 Fuel_Level "SC2 output, I8 / pin A3, 64 L tank, x-axis in volts since v10.10. Curve provisional. Discard when Battery_Voltage < 10 V (PDM power stage off, analog inputs float).";
+CM_ BO_ 1297 "PDM CANOutput 2. 5 Hz. 8 bytes since v10.17 (was 6).";
+CM_ SG_ 1297 Battery_Voltage "var 6, measured behind the PDM's internal power stage. Falls towards 0 V and decays when the key is off even if the PDM keeps transmitting (USB-powered from a laptop). Below 10 V = treat PDM outputs and analog values as off/invalid.";
+CM_ SG_ 1297 IMU_Impact "var 82, latching. PDM takes no action. IMU reference frame not zeroed.";
+CM_ SG_ 1297 IMU_Rollover "var 83, latching. Same caveat as IMU_Impact.";
+CM_ SG_ 1297 Oil_Pressure_Low "I14 status, pin C12. 1 = switch closed = low pressure. Expected 1 with engine off. Oil_Pressure_Low == 0 is the engine-running signal.";
+CM_ SG_ 1297 Handbrake_On "GF10 HANDBRAKE since v10.17 (was I16 status). Decoded from the voltage on C1, shared with the door switches. Same meaning as before.";
+CM_ SG_ 1297 Door_Open "GF13 DOOR_OPEN, new in v10.17. 1 = at least one door open. All door switches are in parallel - the PDM cannot tell which door.";
+CM_ SG_ 1297 HbDoor_Fault "GF14 HB_DOOR_FAULT, new in v10.17. 1 = C1 below 1.0 V = wire to ground or short. Show as a wiring fault.";
+CM_ BO_ 1311 "PDM CANOutput 16, new in v10.13. Raw input voltages (V float x1000 on the wire). 10 Hz.";
+CM_ SG_ 1311 Washer_In_V "I1 / pin A7. Floats at 1.7-1.9 V at rest - the input is miswired or misconfigured (reads 1 = pressed at rest). Diagnostic only.";
+CM_ SG_ 1311 Fuel_In_V "I8 / pin A3, 150 ohm pull-up from 5V REF. ~0.31 V full, ~2.73 V empty (calculated).";
+CM_ SG_ 1311 Coolant_In_V "I10 / pin A2, 2.2 kohm pull-up from 5V REF. Measured 1.18 V at ~17 degC (engine cold), 0.31 V after ~30 min idle. Falls as temperature rises. Shifts about -0.09 V while the alternator charges (engine ground offset). Not a temperature - do not convert on the Pi.";
+CM_ SG_ 1311 HbDoor_In_V "I16 / pin C1. Measured: 4.53 V all closed, 3.07 V door open, 2.44 V handbrake on, 1.93 V both. Thresholds in the PDM (v10.18): 3.8 / 2.8 / 2.2 / 1.0 V.";
+CM_ BO_ 1312 "PDM CANOutput 17, new in v10.14. 20 Hz.";
+CM_ SG_ 1312 IgnCoil_TripCount "O3 IGN_COIL output trip counter. Increments every time the ignition coil output trips (the PDM retries after 0.1 s since v10.14). Any increase is worth a warning. Likely resets when the PDM powers down.";
+CM_ SG_ 1312 FuelPump_TripCount "O5 FUEL output trip counter. Same as IgnCoil_TripCount.";
+CM_ SG_ 1312 IgnCoil_Out_V "Output voltage variable - NOT supported by PDM25 V2, always 0. Ignore.";
+CM_ SG_ 1312 FuelPump_Out_V "Output voltage variable - NOT supported by PDM25 V2, always 0. Ignore.";
