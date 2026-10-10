@@ -1,7 +1,9 @@
 node_modules/
 app.asar.new
 unpacked-app/
-Builds/
+# Byggena är sanningen om vad som sitter i bilen — spåra dem (29 MB).
+# Bara arkivet (v5–v9.18, ~35 filer) hålls utanför.
+Builds/archive/
 *.log
 .DS_Store
 __pycache__/
